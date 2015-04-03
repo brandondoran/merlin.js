@@ -1,0 +1,39 @@
+{
+  "name": "merlin.js",
+  "version": "1.0.0",
+  "description": "A javascript library to interface with the Merlin Search API",
+  "main": "merlin.js",
+  "scripts": {
+    "babel:js": "babel js/merlin.6.js --out-file js/merlin.js",
+    "babel:test": "babel test/test.6.js --out-file test/test.js",
+    "build": "npm run babel:js && npm run babel:test",
+    "test": "mocha test/test.js"
+  },
+  "author": "Davis Kim <davis@blackbird.am>",
+  "license": "Apache License 2.0",
+  "dependencies": {
+    "superagent": "^1.1.0"
+  },
+  "devDependencies": {
+    "babel-core": "^4.7.16",
+    "babel-loader": "^4.3.0",
+    "mocha": "^2.2.1",
+    "should": "^5.2.0",
+    "webpack": "^1.7.3"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/blackbirdtech/merlin.js.git"
+  },
+  "keywords": [
+    "javascript",
+    "es6"
+  ],
+  "bugs": {
+    "url": "https://github.com/blackbirdtech/merlin.js/issues"
+  },
+  "homepage": "https://github.com/blackbirdtech/merlin.js"
+}
