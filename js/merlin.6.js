@@ -168,7 +168,7 @@ class Request {
   }
   static handleFacetsAndFilters(input) {
     if(Array.isArray(input)) {
-      return input.map(this.handleFacetsAndFilters);
+      return input.map(Request.handleFacetsAndFilters);
     }
     if (input) {
       return input.toString();
@@ -222,6 +222,7 @@ let Blackbird = {
   EnumFacet,
   HistFacet,
   RangeFacet,
+  Request,
   Sort
 };
 
