@@ -11,7 +11,11 @@ This is the JavaScript library for Merlin Search.
 
         $ npm run build
 
-# Example
+# Running the tests
+
+        $ npm test
+
+# Example usage (node)
 
         $ cd js
         $ node
