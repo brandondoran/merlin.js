@@ -9,8 +9,7 @@ This is the JavaScript library for Merlin Search.
 
 # Build
 
-        $ cd js
-        $ babel merlin.6.js --out-file merlin.js
+        $ npm run build
 
 # Example
 
