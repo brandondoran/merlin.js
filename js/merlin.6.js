@@ -151,18 +151,22 @@ class Request {
     (this.q = options.q) || delete this.q;
     (this.start = options.start) || delete this.start;
     (this.num = options.num) || delete this.num;
-    (this.fields = this.handleFields(options.fields)) || delete this.fields;
-    (this.facet = this.handleFacetsAndFilters(options.facet)) || delete this.facet;
-    (this.filter = this.handleFacetsAndFilters(options.filter)) || delete this.filter;
-    (this.sort = this.handleSorts(options.sort)) || delete this.sort;
+    (this.fields = Request.handleFields(options.fields)) || delete this.fields;
+    (this.facet = Request.handleFacetsAndFilters(options.facet)) || delete this.facet;
+    (this.filter = Request.handleFacetsAndFilters(options.filter)) || delete this.filter;
+    (this.sort = Request.handleSorts(options.sort)) || delete this.sort;
+
+    if (!this.q) {
+      throw new Error(`The 'q' parameter is required.`);
+    }
   }
-  handleFields(input) {
+  static handleFields(input) {
     if(Array.isArray(input)) {
       return input.join(',');
     }
     return input;
   }
-  handleFacetsAndFilters(input) {
+  static handleFacetsAndFilters(input) {
     if(Array.isArray(input)) {
       return input.map(this.handleFacetsAndFilters);
     }
@@ -170,7 +174,7 @@ class Request {
       return input.toString();
     }
   }
-  handleSorts(input) {
+  static handleSorts(input) {
     if(Array.isArray(input)) {
       return input.map((sort) => sort.toString()).join(',');
     }
@@ -184,6 +188,16 @@ class Engine {
     this.company = options.company;
     this.environment = options.environment;
     this.instance = options.instance;
+
+    if (!this.company) {
+      throw new Error(`The 'company' parameter is required.`);
+    }
+    if (!this.environment) {
+      throw new Error(`The 'environment' parameter is required.`);
+    }
+    if (!this.instance) {
+      throw new Error(`The 'instance' parameter is required.`);
+    }
   }
   get fq() {
     return `${this.company}.${this.environment}.${this.instance}`;
