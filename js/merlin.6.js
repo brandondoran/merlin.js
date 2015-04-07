@@ -59,7 +59,10 @@ class Filter {
     return this;
   }
   get tagString() {
-    return `/tag=${this._tag}`;
+    if (this._tag) {
+      return `/tag=${this._tag}`;
+    }
+    return '';
   }
   toString() {
     let expressions = this.expressions.reduce((result, expression) => {
