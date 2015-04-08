@@ -2,11 +2,24 @@
 
 import request from 'superagent';
 
+function checkConstructor(input, ...constructors) {
+  return constructors.reduce((result, constructor) => {
+    return result ? true : input.constructor === constructor;
+  }, false);
+}
+
 class Expression {
   constructor(options) {
-    this.field = options.field;
-    this.operator = options.operator;
-    this.value = options.value;
+    let {field, operator, value} = options;
+    if (!checkConstructor(field, String)) {
+      throw new Error('Expression#field must be a string.');
+    }
+    if (!checkConstructor(value, String, Number)) {
+      throw new Error('Expression#value must be a string or a number.');
+    }
+    this.field = field;
+    this.operator = operator;
+    this.value = value;
   }
   toString() {
     let rhs, op = this.operator, val = this.value;
@@ -17,7 +30,7 @@ class Expression {
       case '>': rhs = `(${val}:)`; break;
       case '<=': rhs = `(:${val}]`; break;
       case '>=': rhs = `[${val}:)`; break;
-      default: throw new Error('Invalid operator');
+      default: throw new Error('Expression#operator must be one of the following: =, !=, <, >, <=, or >=.');
     }
     return `${this.field}:${rhs}`;
   }
