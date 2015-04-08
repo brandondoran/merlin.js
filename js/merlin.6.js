@@ -73,6 +73,9 @@ class Filter {
     return this;
   }
   tag(input) {
+    if (!checkConstructor(input, String)) {
+      throw new Error('Filter tags must be strings.');
+    }
     if (!RE1.test(input)) {
       throw new Error('Filter tags can only contain a-z, 0-9, and underscores, and must start with a lowercase letter.');
     }
@@ -114,7 +117,14 @@ class DnfFilter extends Filter {
 
 class Facet {
   constructor(options) {
-    this.field = options.field;
+    let {field} = options;
+    if (!checkConstructor(field, String)) {
+      throw new Error('Facet#field must be a string.');
+    }
+    if (!RE1.test(field)) {
+      throw new Error('Facet#field can only contain a-z, 0-9, and underscores, and must start with a lowercase letter.');
+    }
+    this.field = field;
   }
   toString() {
     return `field=${this.field}`;
@@ -157,11 +167,17 @@ class RangeFacet extends Facet {
 
 class Sort {
   constructor(options) {
-    this.field = options.field;
-    switch (options.ordering) {
+    let {field, ordering} = options;
+    if (!checkConstructor(field, String)) {
+      throw new Error('Sort#field must be a string.');
+    }
+    if (!RE1.test(field)) {
+      throw new Error('Sort#field can only contain a-z, 0-9, and underscores, and must start with a lowercase letter.');
+    }
+    switch (ordering) {
       case 'asc':
-      case 'desc': this.ordering = options.ordering; break;
-      default: throw new Error('Invalid sort ordering');
+      case 'desc': this.ordering = ordering; break;
+      default: throw new Error('Sort#ordering must be one of the following: asc, desc');
     }
   }
   toString() {
@@ -173,8 +189,8 @@ class Request {
   constructor(options) {
     // todo: clean this up
     (this.q = options.q) || delete this.q;
-    (this.start = options.start) || delete this.start;
-    (this.num = options.num) || delete this.num;
+    (this.start = Number(options.start)) || delete this.start;
+    (this.num = Number(options.num)) || delete this.num;
     (this.fields = Request.handleFields(options.fields)) || delete this.fields;
     (this.facet = Request.handleFacetsAndFilters(options.facet)) || delete this.facet;
     (this.filter = Request.handleFacetsAndFilters(options.filter)) || delete this.filter;
@@ -182,6 +198,9 @@ class Request {
 
     if (!this.q) {
       throw new Error(`The 'q' parameter is required.`);
+    }
+    if (!checkConstructor(this.q, String)) {
+      throw new Error('Request#q must be a string.');
     }
   }
   static handleFields(input) {
