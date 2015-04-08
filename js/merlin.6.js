@@ -2,6 +2,8 @@
 
 import request from 'superagent';
 
+const RE1 = /^_?[a-z][0-9a-z_]{0,63}$/;
+
 function checkConstructor(input, ...constructors) {
   return constructors.reduce((result, constructor) => {
     return result || input.constructor === constructor;
@@ -13,6 +15,9 @@ class Expression {
     let {field, operator, value} = options;
     if (!checkConstructor(field, String)) {
       throw new Error('Expression#field must be a string.');
+    }
+    if (!RE1.test(field)) {
+      throw new Error('Expression#field can only contain a-z, 0-9, and underscores, and must start with a lowercase letter.');
     }
     if (!checkConstructor(value, String, Number)) {
       throw new Error('Expression#value must be a string or a number.');
@@ -68,6 +73,9 @@ class Filter {
     return this;
   }
   tag(input) {
+    if (!RE1.test(input)) {
+      throw new Error('Filter tags can only contain a-z, 0-9, and underscores, and must start with a lowercase letter.');
+    }
     this._tag = input;
     return this;
   }
