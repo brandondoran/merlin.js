@@ -4,7 +4,7 @@ import request from 'superagent';
 
 function checkConstructor(input, ...constructors) {
   return constructors.reduce((result, constructor) => {
-    return result ? true : input.constructor === constructor;
+    return result || input.constructor === constructor;
   }, false);
 }
 
