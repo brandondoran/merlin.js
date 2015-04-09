@@ -167,21 +167,29 @@ class RangeFacet extends Facet {
 
 class Sort {
   constructor(options) {
-    let {field, ordering} = options;
+    let {field} = options;
     if (!checkConstructor(field, String)) {
       throw new Error('Sort#field must be a string.');
     }
     if (!RE1.test(field)) {
       throw new Error('Sort#field can only contain a-z, 0-9, and underscores, and must start with a lowercase letter.');
     }
-    switch (ordering) {
-      case 'asc':
-      case 'desc': this.ordering = ordering; break;
-      default: throw new Error('Sort#ordering must be one of the following: asc, desc');
-    }
+    this.field = field;
   }
+  toString(ordering) {
+    return `${this.field}:${ordering}`;
+  }
+}
+
+class AscSort extends Sort {
   toString() {
-    return `${this.field}:${this.ordering}`;
+    return super.toString('asc');
+  }
+}
+
+class DescSort extends Sort {
+  toString() {
+    return super.toString('desc');
   }
 }
 
@@ -266,7 +274,8 @@ let Blackbird = {
   HistFacet,
   RangeFacet,
   Request,
-  Sort
+  AscSort,
+  DescSort
 };
 
 export default Blackbird;
