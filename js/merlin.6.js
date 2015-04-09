@@ -168,6 +168,9 @@ class RangeFacet extends Facet {
 class Sort {
   constructor(options) {
     let {field} = options;
+    if (!field) {
+      throw new Error('Sort#field is required.');
+    }
     if (!checkConstructor(field, String)) {
       throw new Error('Sort#field must be a string.');
     }
