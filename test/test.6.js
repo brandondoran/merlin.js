@@ -4,6 +4,42 @@ import should from 'should';
 import Blackbird from '../js/merlin.js';
 
 describe('Blackbird', () => {
+  // Blackbird.Filter
+  describe('Filter', () => {
+    it('should throw when not given a field', () => {
+      let instantiateFilterWithoutField = () => new Blackbird.CnfFilter({});
+      instantiateFilterWithoutField.should.throw();
+    });
+    it('should throw when field is not a string', () => {
+      let instantiateFilter = () => {
+        new Blackbird.CnfFilter({
+          field: {},
+          operator: '<',
+          value: 100
+        });
+      };
+      instantiateFilter.should.throw();
+    });
+    it('should throw when not given an operator');
+    it('should throw when given an invalid operator');
+    it('should throw when field is invalid');
+    it('should throw when value is not a string or number');
+    it('should allow OR chaining');
+    it('should allow AND chaining');
+    it('should allow tagging');
+  });
+
+  // Blackbird.Facet
+  describe('Facet', () => {
+    it('should throw an error when not given a field');
+    it('should throw an error when field name is invalid');
+    it('EnumFacet.toString() should return the correct string');
+    it('EnumFacet should require a num');
+    it('HistFacet.toString() should return the correct string');
+    it('HistFacet should take a start, stop, and gap');
+    it('RangeFacet.toString() should return the correct string');
+  });
+
   // Blackbird.Sort
   describe('Sort', () => {
     it('should throw when not given a field', () => {
@@ -19,6 +55,7 @@ describe('Blackbird', () => {
       descSort.toString().should.equal('price:desc');
     });
   });
+
   // Blackbird.Request
   describe('Request', () => {
     it('should throw an error when being instantiated without a q', () => {
