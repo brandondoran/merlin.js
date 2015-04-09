@@ -13,6 +13,15 @@ function checkConstructor(input, ...constructors) {
 class Expression {
   constructor(options) {
     let {field, operator, value} = options;
+    if (!field) {
+      throw new Error('Expression#field is required.');
+    }
+    if (!operator) {
+      throw new Error('Expression#operator is required.');
+    }
+    if (!value) {
+      throw new Error('Expression#value is required.');
+    }
     if (!checkConstructor(field, String)) {
       throw new Error('Expression#field must be a string.');
     }
