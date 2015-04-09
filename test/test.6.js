@@ -4,6 +4,21 @@ import should from 'should';
 import Blackbird from '../js/merlin.js';
 
 describe('Blackbird', () => {
+  // Blackbird.Sort
+  describe('Sort', () => {
+    it('should throw when not given a field', () => {
+      let instantiateEmptySort = () => new Blackbird.AscSort({});
+      instantiateEmptySort.should.throw();
+    });
+    it('AscSort.toString() should return the correct string', () => {
+      let ascSort = new Blackbird.AscSort({ field: 'price' });
+      ascSort.toString().should.equal('price:asc');
+    });
+    it('DescSort.toString() should return the correct string', () => {
+      let descSort = new Blackbird.DescSort({ field: 'price' });
+      descSort.toString().should.equal('price:desc');
+    });
+  });
   // Blackbird.Request
   describe('Request', () => {
     it('should throw an error when being instantiated without a q', () => {
