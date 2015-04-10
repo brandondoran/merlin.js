@@ -10,6 +10,23 @@ function checkConstructor(input, ...constructors) {
   }, false);
 }
 
+// borrowed from superagent
+function isObject(obj) {
+  return obj === Object(obj);
+}
+
+function serialize(obj) {
+  if (!isObject(obj)) return obj;
+  var pairs = [];
+  for (var key in obj) {
+    if (null != obj[key]) {
+      pairs.push(encodeURIComponent(key)
+        + '=' + encodeURIComponent(obj[key]));
+    }
+  }
+  return pairs.join('//');
+}
+
 class Expression {
   constructor(options) {
     let {field, operator, value} = options;
@@ -269,12 +286,25 @@ class Engine {
     return `search-${this.environment}`;
   }
   get target() {
-    return `${this.protocol}://${this.cluster}.search.blackbird.am/${this.fq}/search`;
+    return `${this.protocol}://${this.cluster}.search.blackbird.am/${this.fq}`;
   }
   search(req) {
+    if (checkConstructor(req, Array)) {
+      return this.msearch(req);
+    }
     return request
-    .get(this.target)
+    .get(`${this.target}/search`)
     .query(new Request(req));
+  }
+  msearch(reqs) {
+    if (reqs.length >= 6) {
+      throw new Error('A multi-search only supports up to 6 queries.');
+    }
+    return request
+    .get(`${this.target}/msearch`)
+    .query({
+      qc: reqs.map((req) => serialize(new Request(req)))
+    });
   }
 }
 
@@ -291,5 +321,3 @@ let Blackbird = {
 };
 
 export default Blackbird;
-
-// todo: make this library browser compatible
