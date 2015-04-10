@@ -4,8 +4,8 @@
   "description": "A javascript library to interface with the Merlin Search API",
   "main": "merlin.js",
   "scripts": {
-    "babel:js": "babel js/merlin.6.js --out-file js/merlin.js",
-    "babel:test": "babel test/test.6.js --out-file test/test.js",
+    "babel:js": "babel js/merlin.6.js --modules umd --out-file js/merlin.js",
+    "babel:test": "babel test/test.6.js --modules umd --out-file test/test.js",
     "build": "npm run babel:js && npm run babel:test",
     "test": "mocha test/test.js"
   },
