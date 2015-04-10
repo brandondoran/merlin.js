@@ -163,6 +163,17 @@ describe('Blackbird', () => {
           done(err, res);
         });
       });
+      it('should msearch given just 2 qs', (done) => {
+        engine.search([
+          { q: 'dress', fields: '[all]' },
+          { q: 'shoes', sort: new Blackbird.AscSort({ field: 'price' }) }
+        ])
+        .end((err, res) => {
+          should.not.exist(err);
+          should.exist(res);
+          done(err, res);
+        });
+      });
     });
   });
 });
