@@ -1,7 +1,7 @@
 'use strict';
 
 import should from 'should';
-import Blackbird from '../js/merlin.js';
+import Blackbird from '../es5';
 
 describe('Blackbird', () => {
   // Blackbird.Filter
