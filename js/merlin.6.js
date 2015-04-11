@@ -15,7 +15,7 @@ function isObject(obj) {
   return obj === Object(obj);
 }
 
-function serialize(obj) {
+function mSearchSerialize(obj) {
   if (!isObject(obj)) return obj;
   var pairs = [];
   for (var key in obj) {
@@ -225,14 +225,25 @@ class DescSort extends Sort {
 class Request {
   constructor(options) {
     // todo: clean this up
-    (this.q = options.q) || delete this.q;
     (this.start = Number(options.start)) || delete this.start;
     (this.num = Number(options.num)) || delete this.num;
-    (this.fields = Request.handleFields(options.fields)) || delete this.fields;
-    (this.facet = Request.handleFacetsAndFilters(options.facet)) || delete this.facet;
-    (this.filter = Request.handleFacetsAndFilters(options.filter)) || delete this.filter;
     (this.sort = Request.handleSorts(options.sort)) || delete this.sort;
+  }
+  static handleSorts(input) {
+    if(Array.isArray(input)) {
+      return input.map((sort) => sort.toString()).join(',');
+    }
+    return input;
+  }
+}
 
+class SearchRequest extends Request {
+  constructor(options) {
+    super(options);
+    (this.q = options.q) || delete this.q;
+    (this.fields = SearchRequest.handleFields(options.fields)) || delete this.fields;
+    (this.facet = SearchRequest.handleFacetsAndFilters(options.facet)) || delete this.facet;
+    (this.filter = SearchRequest.handleFacetsAndFilters(options.filter)) || delete this.filter;
     if (!this.q) {
       throw new Error(`The 'q' parameter is required.`);
     }
@@ -248,20 +259,34 @@ class Request {
   }
   static handleFacetsAndFilters(input) {
     if(Array.isArray(input)) {
-      return input.map(Request.handleFacetsAndFilters);
+      return input.map(SearchRequest.handleFacetsAndFilters);
     }
     if (input) {
       return input.toString();
     }
   }
-  static handleSorts(input) {
-    if(Array.isArray(input)) {
-      return input.map((sort) => sort.toString()).join(',');
-    }
-    return input;
+}
+
+class QueryComponent {
+  constructor(options) {
+    (this.q = options.q) || delete this.q;
+    (this.filter = SearchRequest.handleFacetsAndFilters(options.filter)) || delete this.filter;
   }
 }
 
+class MultiSearchRequest extends Request {
+  constructor(options) {
+    super(options);
+    let {qc} = options;
+    if (qc.length >= 6) {
+      throw new Error('A multi-search only supports up to 6 queries.');
+    }
+    (this.qc = MultiSearchRequest.handleQc(qc)) || delete this.qc;
+  }
+  static handleQc(qcs) {
+    return qcs.map((qc) => mSearchSerialize(new QueryComponent(qc)));
+  }
+}
 class Engine {
   constructor(options) {
     this.protocol = options.protocol || 'https';
@@ -289,22 +314,14 @@ class Engine {
     return `${this.protocol}://${this.cluster}.search.blackbird.am/${this.fq}`;
   }
   search(req) {
-    if (checkConstructor(req, Array)) {
-      return this.msearch(req);
-    }
     return request
     .get(`${this.target}/search`)
-    .query(new Request(req));
+    .query(new SearchRequest(req));
   }
-  msearch(reqs) {
-    if (reqs.length >= 6) {
-      throw new Error('A multi-search only supports up to 6 queries.');
-    }
+  msearch(req) {
     return request
     .get(`${this.target}/msearch`)
-    .query({
-      qc: reqs.map((req) => serialize(new Request(req)))
-    });
+    .query(new MultiSearchRequest(req));
   }
 }
 
@@ -315,7 +332,8 @@ let Blackbird = {
   EnumFacet,
   HistFacet,
   RangeFacet,
-  Request,
+  SearchRequest,
+  MultiSearchRequest,
   AscSort,
   DescSort
 };
