@@ -56,20 +56,20 @@ describe('Blackbird', () => {
     });
   });
 
-  // Blackbird.Request
-  describe('Request', () => {
+  // Blackbird.SearchRequest
+  describe('SearchRequest', () => {
     it('should throw an error when being instantiated without a q', () => {
-      let instantiateEmptyRequest = () => new Blackbird.Request({});
+      let instantiateEmptyRequest = () => new Blackbird.SearchRequest({});
       instantiateEmptyRequest.should.throw();
     });
     describe('handleFields', () => {
       it('should return the input when the input is a string', () => {
-        Blackbird.Request.handleFields('test').should.not.equal('nottest');
-        Blackbird.Request.handleFields('test').should.equal('test');
+        Blackbird.SearchRequest.handleFields('test').should.not.equal('nottest');
+        Blackbird.SearchRequest.handleFields('test').should.equal('test');
       });
       it('should return the join the input when the input is an array of strings', () => {
-        Blackbird.Request.handleFields(['a']).should.equal('a');
-        Blackbird.Request.handleFields(['a', 'b']).should.equal('a,b');
+        Blackbird.SearchRequest.handleFields(['a']).should.equal('a');
+        Blackbird.SearchRequest.handleFields(['a', 'b']).should.equal('a,b');
       });
     });
     describe('handleFacetsAndFilters', () => {
@@ -93,21 +93,21 @@ describe('Blackbird', () => {
         field: 'price'
       });
       it('should return the string form of a Filter when passed a Filter as input', () => {
-        Blackbird.Request.handleFacetsAndFilters(filter1).should.equal('exp=color:black/type=cnf');
+        Blackbird.SearchRequest.handleFacetsAndFilters(filter1).should.equal('exp=color:black/type=cnf');
       });
       it('should return an array of the string forms of Filters when passed an array of Filters', () => {
         let filters = [filter1, filter2];
-        let handled = Blackbird.Request.handleFacetsAndFilters(filters);
+        let handled = Blackbird.SearchRequest.handleFacetsAndFilters(filters);
         handled.should.be.an.Array;
         handled[0].should.equal('exp=color:black/type=cnf');
         handled[1].should.equal('exp=price:(:100.00)/type=cnf');
       });
       it('should return the string form of a Facet when passed a Facet as input', () => {
-        Blackbird.Request.handleFacetsAndFilters(facet1).should.equal('field=brand/type=enum/num=5');
+        Blackbird.SearchRequest.handleFacetsAndFilters(facet1).should.equal('field=brand/type=enum/num=5');
       });
       it('should return an array of the string forms of Facets when passed an array of Facets', () => {
         let facets = [facet1, facet2];
-        let handled = Blackbird.Request.handleFacetsAndFilters(facets);
+        let handled = Blackbird.SearchRequest.handleFacetsAndFilters(facets);
         handled.should.be.an.Array;
         handled[0].should.equal('field=brand/type=enum/num=5');
         handled[1].should.equal('field=price/type=range');
@@ -163,11 +163,20 @@ describe('Blackbird', () => {
           done(err, res);
         });
       });
+    });
+    describe('msearch', () => {
+      const engine = new Blackbird.Engine({
+        company: 'thredup',
+        environment: 'prod',
+        instance: 'thredup'
+      });
       it('should msearch given just 2 qs', (done) => {
-        engine.search([
-          { q: 'dress', fields: '[all]' },
-          { q: 'shoes', sort: new Blackbird.AscSort({ field: 'price' }) }
-        ])
+        engine.msearch({
+          qc: [
+            { q: 'dress', fields: '[all]' },
+            { q: 'shoes', sort: new Blackbird.AscSort({ field: 'price' }) }
+          ]
+        })
         .end((err, res) => {
           should.not.exist(err);
           should.exist(res);
