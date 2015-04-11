@@ -2,6 +2,8 @@
 
 import request from 'superagent';
 
+import {SearchRequest, MultiSearchRequest} from './request';
+
 export default class Engine {
   constructor(options) {
     this.protocol = options.protocol || 'https';

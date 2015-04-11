@@ -1,6 +1,6 @@
 'use strict';
 
-import {mSearchSerialize} from './helpers';
+import {checkConstructor, mSearchSerialize} from './helpers';
 
 class Request {
   constructor(options) {

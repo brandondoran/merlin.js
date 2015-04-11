@@ -1,6 +1,6 @@
 'use strict';
 
-import {RE1} from './helpers';
+import {checkConstructor, RE1} from './helpers';
 
 class Facet {
   constructor(options) {
