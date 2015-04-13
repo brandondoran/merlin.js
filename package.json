@@ -2,12 +2,13 @@
   "name": "merlin.js",
   "version": "1.0.0",
   "description": "A javascript library to interface with the Merlin Search API",
-  "main": "merlin.js",
+  "main": "./lib/node/index.js",
   "scripts": {
-    "babel:js": "babel es6 --out-dir es5",
-    "babel:test": "babel test/test.6.js --out-file test/test.js",
-    "build": "npm run babel:js && npm run babel:test",
-    "test": "mocha test/test.js"
+    "babel": "babel es6 --out-dir es5",
+    "webpack": "webpack es5 merlin.js",
+    "build": "npm run babel && npm run webpack",
+    "test": "mocha es5/test.js",
+    "clean": "rm -rf es5 && rm -f merlin.js"
   },
   "author": "Davis Kim <davis@blackbird.am>",
   "license": "Apache License 2.0",
@@ -15,6 +16,7 @@
     "superagent": "^1.1.0"
   },
   "devDependencies": {
+    "babel": "^5.1.5",
     "babel-core": "^4.7.16",
     "babel-loader": "^4.3.0",
     "mocha": "^2.2.1",
