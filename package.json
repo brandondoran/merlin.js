@@ -16,7 +16,6 @@
     "superagent": "^1.1.0"
   },
   "devDependencies": {
-    "babel": "^5.1.5",
     "babel-core": "^4.7.16",
     "babel-loader": "^4.3.0",
     "mocha": "^2.2.1",
