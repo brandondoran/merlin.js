@@ -33,5 +33,8 @@ var Blackbird = {
   Engine: _Engine2['default']
 };
 
+var globalScope = new Function('return this')();
+globalScope.Blackbird = Blackbird;
+
 exports['default'] = Blackbird;
 module.exports = exports['default'];
