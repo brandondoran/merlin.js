@@ -21,7 +21,7 @@ This is the JavaScript library for Merlin Search.
         $ node
         > var Blackbird = require('./es5')
         > var engine = new Blackbird.Engine({company: 'thredup', environment: 'prod',  instance: 'thredup'})
-        > engine.search({q: 'dress'}).end(function (e,r) { console.log(r)} )
+        > engine.search({q: 'dress'}).end(function (e, r) { console.log(r.body.results.numfound) })
 
 ## Documentation
 
