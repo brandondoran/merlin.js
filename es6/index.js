@@ -23,4 +23,3 @@ let globalScope = (new Function('return this'))();
 globalScope.Blackbird = Blackbird;
 
 export default Blackbird;
-
