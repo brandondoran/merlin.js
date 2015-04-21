@@ -2,17 +2,18 @@
 
 import should from 'should';
 import Blackbird from '../es5';
+import {SearchRequest} from '../es5/request';
 
 describe('Blackbird', () => {
   // Blackbird.Filter
   describe('Filter', () => {
     it('should throw when not given a field', () => {
-      let instantiateFilterWithoutField = () => new Blackbird.CnfFilter({});
+      let instantiateFilterWithoutField = () => Blackbird.cnfFilter({});
       instantiateFilterWithoutField.should.throw();
     });
     it('should throw when field is not a string', () => {
       let instantiateFilter = () => {
-        new Blackbird.CnfFilter({
+        Blackbird.cnfFilter({
           field: {},
           operator: '<',
           value: 100
@@ -43,33 +44,33 @@ describe('Blackbird', () => {
   // Blackbird.Sort
   describe('Sort', () => {
     it('should throw when not given a field', () => {
-      let instantiateEmptySort = () => new Blackbird.AscSort({});
+      let instantiateEmptySort = () => Blackbird.ascSort({});
       instantiateEmptySort.should.throw();
     });
     it('AscSort.toString() should return the correct string', () => {
-      let ascSort = new Blackbird.AscSort({ field: 'price' });
+      let ascSort = Blackbird.ascSort({ field: 'price' });
       ascSort.toString().should.equal('price:asc');
     });
     it('DescSort.toString() should return the correct string', () => {
-      let descSort = new Blackbird.DescSort({ field: 'price' });
+      let descSort = Blackbird.descSort({ field: 'price' });
       descSort.toString().should.equal('price:desc');
     });
   });
 
-  // Blackbird.SearchRequest
+  // SearchRequest
   describe('SearchRequest', () => {
     it('should throw an error when being instantiated without a q', () => {
-      let instantiateEmptyRequest = () => new Blackbird.SearchRequest({});
+      let instantiateEmptyRequest = () => Blackbird.searchRequest({});
       instantiateEmptyRequest.should.throw();
     });
     describe('handleFields', () => {
       it('should return the input when the input is a string', () => {
-        Blackbird.SearchRequest.handleFields('test').should.not.equal('nottest');
-        Blackbird.SearchRequest.handleFields('test').should.equal('test');
+        SearchRequest.handleFields('test').should.not.equal('nottest');
+        SearchRequest.handleFields('test').should.equal('test');
       });
       it('should return the join the input when the input is an array of strings', () => {
-        Blackbird.SearchRequest.handleFields(['a']).should.equal('a');
-        Blackbird.SearchRequest.handleFields(['a', 'b']).should.equal('a,b');
+        SearchRequest.handleFields(['a']).should.equal('a');
+        SearchRequest.handleFields(['a', 'b']).should.equal('a,b');
       });
     });
     describe('handleFacetsAndFilters', () => {
@@ -83,31 +84,31 @@ describe('Blackbird', () => {
         operator: '<',
         value: '100.00'
       };
-      let filter1 = new Blackbird.CnfFilter(options1);
-      let filter2 = new Blackbird.CnfFilter(options2);
-      let facet1 = new Blackbird.EnumFacet({
+      let filter1 = Blackbird.cnfFilter(options1);
+      let filter2 = Blackbird.cnfFilter(options2);
+      let facet1 = Blackbird.enumFacet({
         field: 'brand',
         num: 5
       });
-      let facet2 = new Blackbird.RangeFacet({
+      let facet2 = Blackbird.rangeFacet({
         field: 'price'
       });
       it('should return the string form of a Filter when passed a Filter as input', () => {
-        Blackbird.SearchRequest.handleFacetsAndFilters(filter1).should.equal('exp=color:black/type=cnf');
+        SearchRequest.handleFacetsAndFilters(filter1).should.equal('exp=color:black/type=cnf');
       });
       it('should return an array of the string forms of Filters when passed an array of Filters', () => {
         let filters = [filter1, filter2];
-        let handled = Blackbird.SearchRequest.handleFacetsAndFilters(filters);
+        let handled = SearchRequest.handleFacetsAndFilters(filters);
         handled.should.be.an.Array;
         handled[0].should.equal('exp=color:black/type=cnf');
         handled[1].should.equal('exp=price:(:100.00)/type=cnf');
       });
       it('should return the string form of a Facet when passed a Facet as input', () => {
-        Blackbird.SearchRequest.handleFacetsAndFilters(facet1).should.equal('field=brand/type=enum/num=5');
+        SearchRequest.handleFacetsAndFilters(facet1).should.equal('field=brand/type=enum/num=5');
       });
       it('should return an array of the string forms of Facets when passed an array of Facets', () => {
         let facets = [facet1, facet2];
-        let handled = Blackbird.SearchRequest.handleFacetsAndFilters(facets);
+        let handled = SearchRequest.handleFacetsAndFilters(facets);
         handled.should.be.an.Array;
         handled[0].should.equal('field=brand/type=enum/num=5');
         handled[1].should.equal('field=price/type=range');
@@ -118,11 +119,11 @@ describe('Blackbird', () => {
   //Blackbird.Engine
   describe('Engine', () => {
     it('should exist', () => {
-      should.exist(Blackbird.Engine);
+      should.exist(Blackbird.engine);
     });
     it('should throw an error when missing a company', () => {
       let instantiateEngineWithoutCompany = () => {
-        new Blackbird.Engine({
+        Blackbird.engine({
           environment: 'prod',
           instance: 'thredup'
         });
@@ -131,7 +132,7 @@ describe('Blackbird', () => {
     });
     it('should throw an error when missing a environment', () => {
       let instantiateEngineWithoutEnvironment = () => {
-        new Blackbird.Engine({
+        Blackbird.engine({
           company: 'thredup',
           instance: 'thredup'
         });
@@ -140,7 +141,7 @@ describe('Blackbird', () => {
     });
     it('should throw an error when missing an instance', () => {
       let instantiateEngineWithoutInstance = () => {
-        new Blackbird.Engine({
+        Blackbird.engine({
           company: 'thredup',
           environment: 'prod'
         });
@@ -150,7 +151,7 @@ describe('Blackbird', () => {
 
     // Blackbird.Engine.search
     describe('search', () => {
-      const engine = new Blackbird.Engine({
+      const engine = Blackbird.engine({
         company: 'thredup',
         environment: 'prod',
         instance: 'thredup'
@@ -165,7 +166,7 @@ describe('Blackbird', () => {
       });
     });
     describe('msearch', () => {
-      const engine = new Blackbird.Engine({
+      const engine = Blackbird.engine({
         company: 'thredup',
         environment: 'prod',
         instance: 'thredup'
@@ -174,7 +175,7 @@ describe('Blackbird', () => {
         engine.msearch({
           qc: [
             { q: 'dress', fields: '[all]' },
-            { q: 'shoes', sort: new Blackbird.AscSort({ field: 'price' }) }
+            { q: 'shoes', sort: Blackbird.ascSort({ field: 'price' }) }
           ]
         })
         .end((err, res) => {

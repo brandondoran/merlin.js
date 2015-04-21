@@ -11,6 +11,8 @@ var _createClass = (function () { function defineProperties(target, props) { for
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
+exports.ascSort = ascSort;
+exports.descSort = descSort;
 
 var _checkConstructor$RE1 = require('./helpers');
 
@@ -65,8 +67,6 @@ var AscSort = (function (_Sort) {
   return AscSort;
 })(Sort);
 
-exports.AscSort = AscSort;
-
 var DescSort = (function (_Sort2) {
   function DescSort() {
     _classCallCheck(this, DescSort);
@@ -88,4 +88,10 @@ var DescSort = (function (_Sort2) {
   return DescSort;
 })(Sort);
 
-exports.DescSort = DescSort;
+function ascSort(options) {
+  return new AscSort(options);
+}
+
+function descSort(options) {
+  return new DescSort(options);
+}

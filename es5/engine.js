@@ -9,12 +9,13 @@ var _createClass = (function () { function defineProperties(target, props) { for
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
+exports['default'] = engine;
 
 var _request = require('superagent');
 
 var _request2 = _interopRequireWildcard(_request);
 
-var _SearchRequest$MultiSearchRequest = require('./request');
+var _searchRequest$multiSearchRequest = require('./request');
 
 'use strict';
 
@@ -56,17 +57,20 @@ var Engine = (function () {
   }, {
     key: 'search',
     value: function search(req) {
-      return _request2['default'].get('' + this.target + '/search').query(new _SearchRequest$MultiSearchRequest.SearchRequest(req));
+      return _request2['default'].get('' + this.target + '/search').query(_searchRequest$multiSearchRequest.searchRequest(req));
     }
   }, {
     key: 'msearch',
     value: function msearch(req) {
-      return _request2['default'].get('' + this.target + '/msearch').query(new _SearchRequest$MultiSearchRequest.MultiSearchRequest(req));
+      return _request2['default'].get('' + this.target + '/msearch').query(_searchRequest$multiSearchRequest.multiSearchRequest(req));
     }
   }]);
 
   return Engine;
 })();
 
-exports['default'] = Engine;
+function engine(options) {
+  return new Engine(options);
+}
+
 module.exports = exports['default'];

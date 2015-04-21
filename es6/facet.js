@@ -18,7 +18,7 @@ class Facet {
   }
 }
 
-export class EnumFacet extends Facet {
+class EnumFacet extends Facet {
   constructor(options) {
     super(options);
     this.num = Number(options.num) || 0;
@@ -28,7 +28,7 @@ export class EnumFacet extends Facet {
   }
 }
 
-export class HistFacet extends Facet {
+class HistFacet extends Facet {
   constructor(options) {
     super(options);
     this.start = Number(options.start) || 0;
@@ -43,11 +43,23 @@ export class HistFacet extends Facet {
   }
 }
 
-export class RangeFacet extends Facet {
+class RangeFacet extends Facet {
   constructor(options) {
     super(options);
   }
   toString() {
     return `${super.toString()}/type=range`;
   }
+}
+
+export function enumFacet(options) {
+  return new EnumFacet(options);
+}
+
+export function histFacet(options) {
+  return new HistFacet(options);
+}
+
+export function rangeFacet(options) {
+  return new RangeFacet(options);
 }

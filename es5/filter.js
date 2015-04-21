@@ -11,127 +11,33 @@ var _createClass = (function () { function defineProperties(target, props) { for
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
+exports.cnfFilter = cnfFilter;
+exports.dnfFilter = dnfFilter;
 
 var _checkConstructor$RE1 = require('./helpers');
 
+var _expression$andExpression$orExpression = require('./expression');
+
 'use strict';
-
-var Expression = (function () {
-  function Expression(options) {
-    _classCallCheck(this, Expression);
-
-    var field = options.field;
-    var operator = options.operator;
-    var value = options.value;
-
-    if (!field) {
-      throw new Error('Expression#field is required.');
-    }
-    if (!operator) {
-      throw new Error('Expression#operator is required.');
-    }
-    if (!value) {
-      throw new Error('Expression#value is required.');
-    }
-    if (!_checkConstructor$RE1.checkConstructor(field, String)) {
-      throw new Error('Expression#field must be a string.');
-    }
-    if (!_checkConstructor$RE1.RE1.test(field)) {
-      throw new Error('Expression#field can only contain a-z, 0-9, and underscores, and must start with a lowercase letter.');
-    }
-    if (!_checkConstructor$RE1.checkConstructor(value, String, Number)) {
-      throw new Error('Expression#value must be a string or a number.');
-    }
-    this.field = field;
-    this.operator = operator;
-    this.value = value;
-  }
-
-  _createClass(Expression, [{
-    key: 'toString',
-    value: function toString() {
-      var rhs = undefined,
-          op = this.operator,
-          val = this.value;
-      switch (op) {
-        case '=':
-          rhs = '' + val;break;
-        case '!=':
-          rhs = '!' + val;break;
-        case '<':
-          rhs = '(:' + val + ')';break;
-        case '>':
-          rhs = '(' + val + ':)';break;
-        case '<=':
-          rhs = '(:' + val + ']';break;
-        case '>=':
-          rhs = '[' + val + ':)';break;
-        default:
-          throw new Error('Expression#operator must be one of the following: =, !=, <, >, <=, or >=.');
-      }
-      return '' + this.field + ':' + rhs;
-    }
-  }]);
-
-  return Expression;
-})();
-
-var AndExpression = (function (_Expression) {
-  function AndExpression(options) {
-    _classCallCheck(this, AndExpression);
-
-    _get(Object.getPrototypeOf(AndExpression.prototype), 'constructor', this).call(this, options);
-  }
-
-  _inherits(AndExpression, _Expression);
-
-  _createClass(AndExpression, [{
-    key: 'toString',
-    value: function toString() {
-      return ',' + _get(Object.getPrototypeOf(AndExpression.prototype), 'toString', this).call(this);
-    }
-  }]);
-
-  return AndExpression;
-})(Expression);
-
-var OrExpression = (function (_Expression2) {
-  function OrExpression(options) {
-    _classCallCheck(this, OrExpression);
-
-    _get(Object.getPrototypeOf(OrExpression.prototype), 'constructor', this).call(this, options);
-  }
-
-  _inherits(OrExpression, _Expression2);
-
-  _createClass(OrExpression, [{
-    key: 'toString',
-    value: function toString() {
-      return '|' + _get(Object.getPrototypeOf(OrExpression.prototype), 'toString', this).call(this);
-    }
-  }]);
-
-  return OrExpression;
-})(Expression);
 
 var Filter = (function () {
   function Filter(options) {
     _classCallCheck(this, Filter);
 
     this.expressions = [];
-    this.expressions.push(new Expression(options));
+    this.expressions.push(_expression$andExpression$orExpression.expression(options));
   }
 
   _createClass(Filter, [{
     key: 'and',
     value: function and(options) {
-      this.expressions.push(new AndExpression(options));
+      this.expressions.push(_expression$andExpression$orExpression.andExpression(options));
       return this;
     }
   }, {
     key: 'or',
     value: function or(options) {
-      this.expressions.push(new OrExpression(options));
+      this.expressions.push(_expression$andExpression$orExpression.orExpression(options));
       return this;
     }
   }, {
@@ -157,8 +63,8 @@ var Filter = (function () {
   }, {
     key: 'toString',
     value: function toString() {
-      var expressions = this.expressions.reduce(function (result, expression) {
-        return result + expression.toString();
+      var expressions = this.expressions.reduce(function (result, exp) {
+        return result + exp.toString();
       }, '');
 
       return 'exp=' + expressions + '' + this.tagString;
@@ -187,8 +93,6 @@ var CnfFilter = (function (_Filter) {
   return CnfFilter;
 })(Filter);
 
-exports.CnfFilter = CnfFilter;
-
 var DnfFilter = (function (_Filter2) {
   function DnfFilter(options) {
     _classCallCheck(this, DnfFilter);
@@ -208,4 +112,10 @@ var DnfFilter = (function (_Filter2) {
   return DnfFilter;
 })(Filter);
 
-exports.DnfFilter = DnfFilter;
+function cnfFilter(options) {
+  return new CnfFilter(options);
+}
+
+function dnfFilter(options) {
+  return new DnfFilter(options);
+}

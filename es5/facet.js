@@ -11,6 +11,9 @@ var _createClass = (function () { function defineProperties(target, props) { for
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
+exports.enumFacet = enumFacet;
+exports.histFacet = histFacet;
+exports.rangeFacet = rangeFacet;
 
 var _checkConstructor$RE1 = require('./helpers');
 
@@ -61,8 +64,6 @@ var EnumFacet = (function (_Facet) {
   return EnumFacet;
 })(Facet);
 
-exports.EnumFacet = EnumFacet;
-
 var HistFacet = (function (_Facet2) {
   function HistFacet(options) {
     _classCallCheck(this, HistFacet);
@@ -90,8 +91,6 @@ var HistFacet = (function (_Facet2) {
   return HistFacet;
 })(Facet);
 
-exports.HistFacet = HistFacet;
-
 var RangeFacet = (function (_Facet3) {
   function RangeFacet(options) {
     _classCallCheck(this, RangeFacet);
@@ -111,4 +110,14 @@ var RangeFacet = (function (_Facet3) {
   return RangeFacet;
 })(Facet);
 
-exports.RangeFacet = RangeFacet;
+function enumFacet(options) {
+  return new EnumFacet(options);
+}
+
+function histFacet(options) {
+  return new HistFacet(options);
+}
+
+function rangeFacet(options) {
+  return new RangeFacet(options);
+}

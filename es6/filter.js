@@ -1,76 +1,19 @@
 'use strict';
 
 import {checkConstructor, RE1} from './helpers';
-
-class Expression {
-  constructor(options) {
-    let {field, operator, value} = options;
-    if (!field) {
-      throw new Error('Expression#field is required.');
-    }
-    if (!operator) {
-      throw new Error('Expression#operator is required.');
-    }
-    if (!value) {
-      throw new Error('Expression#value is required.');
-    }
-    if (!checkConstructor(field, String)) {
-      throw new Error('Expression#field must be a string.');
-    }
-    if (!RE1.test(field)) {
-      throw new Error('Expression#field can only contain a-z, 0-9, and underscores, and must start with a lowercase letter.');
-    }
-    if (!checkConstructor(value, String, Number)) {
-      throw new Error('Expression#value must be a string or a number.');
-    }
-    this.field = field;
-    this.operator = operator;
-    this.value = value;
-  }
-  toString() {
-    let rhs, op = this.operator, val = this.value;
-    switch (op) {
-      case '=': rhs = `${val}`; break;
-      case '!=': rhs = `!${val}`; break;
-      case '<': rhs = `(:${val})`; break;
-      case '>': rhs = `(${val}:)`; break;
-      case '<=': rhs = `(:${val}]`; break;
-      case '>=': rhs = `[${val}:)`; break;
-      default: throw new Error('Expression#operator must be one of the following: =, !=, <, >, <=, or >=.');
-    }
-    return `${this.field}:${rhs}`;
-  }
-}
-
-class AndExpression extends Expression {
-  constructor(options) {
-    super(options);
-  }
-  toString() {
-    return `,${super.toString()}`;
-  }
-}
-
-class OrExpression extends Expression {
-  constructor(options) {
-    super(options);
-  }
-  toString() {
-    return `|${super.toString()}`;
-  }
-}
+import {expression, andExpression, orExpression} from './expression';
 
 class Filter {
   constructor(options) {
     this.expressions = [];
-    this.expressions.push(new Expression(options));
+    this.expressions.push(expression(options));
   }
   and(options) {
-    this.expressions.push(new AndExpression(options));
+    this.expressions.push(andExpression(options));
     return this;
   }
   or(options) {
-    this.expressions.push(new OrExpression(options));
+    this.expressions.push(orExpression(options));
     return this;
   }
   tag(input) {
@@ -90,15 +33,15 @@ class Filter {
     return '';
   }
   toString() {
-    let expressions = this.expressions.reduce((result, expression) => {
-      return result + expression.toString();
+    let expressions = this.expressions.reduce((result, exp) => {
+      return result + exp.toString();
     }, '');
 
     return `exp=${expressions}${this.tagString}`;
   }
 }
 
-export class CnfFilter extends Filter {
+class CnfFilter extends Filter {
   constructor(options) {
     super(options);
   }
@@ -107,11 +50,19 @@ export class CnfFilter extends Filter {
   }
 }
 
-export class DnfFilter extends Filter {
+class DnfFilter extends Filter {
   constructor(options) {
     super(options);
   }
   toString() {
     return `${super.toString()}/type=dnf`;
   }
+}
+
+export function cnfFilter(options) {
+  return new CnfFilter(options);
+}
+
+export function dnfFilter(options) {
+  return new DnfFilter(options);
 }

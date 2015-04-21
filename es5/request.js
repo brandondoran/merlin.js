@@ -11,6 +11,8 @@ var _createClass = (function () { function defineProperties(target, props) { for
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
+exports.searchRequest = searchRequest;
+exports.multiSearchRequest = multiSearchRequest;
 
 var _checkConstructor$mSearchSerialize = require('./helpers');
 
@@ -40,6 +42,8 @@ var Request = (function () {
 
   return Request;
 })();
+
+exports.Request = Request;
 
 var SearchRequest = (function (_Request) {
   function SearchRequest(options) {
@@ -120,3 +124,11 @@ var MultiSearchRequest = (function (_Request2) {
 })(Request);
 
 exports.MultiSearchRequest = MultiSearchRequest;
+
+function searchRequest(options) {
+  return new SearchRequest(options);
+}
+
+function multiSearchRequest(options) {
+  return new MultiSearchRequest(options);
+}

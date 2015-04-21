@@ -1,22 +1,22 @@
 'use strict';
 
-import {CnfFilter, DnfFilter} from './filter';
-import {EnumFacet, HistFacet, RangeFacet} from './facet';
-import {AscSort, DescSort} from './sort';
-import {SearchRequest, MultiSearchRequest} from './request';
-import Engine from './engine';
+import {cnfFilter, dnfFilter} from './filter';
+import {enumFacet, histFacet, rangeFacet} from './facet';
+import {ascSort, descSort} from './sort';
+import {searchRequest, multiSearchRequest} from './request';
+import engine from './engine';
 
 let Blackbird = {
-  CnfFilter,
-  DnfFilter,
-  EnumFacet,
-  HistFacet,
-  RangeFacet,
-  AscSort,
-  DescSort,
-  SearchRequest,
-  MultiSearchRequest,
-  Engine
+  cnfFilter,
+  dnfFilter,
+  enumFacet,
+  histFacet,
+  rangeFacet,
+  ascSort,
+  descSort,
+  searchRequest,
+  multiSearchRequest,
+  engine
 };
 
 let globalScope = (new Function('return this'))();

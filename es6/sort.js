@@ -21,14 +21,22 @@ class Sort {
   }
 }
 
-export class AscSort extends Sort {
+class AscSort extends Sort {
   toString() {
     return super.toString('asc');
   }
 }
 
-export class DescSort extends Sort {
+class DescSort extends Sort {
   toString() {
     return super.toString('desc');
   }
+}
+
+export function ascSort(options) {
+  return new AscSort(options);
+}
+
+export function descSort(options) {
+  return new DescSort(options);
 }

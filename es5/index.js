@@ -6,31 +6,31 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _CnfFilter$DnfFilter = require('./filter');
+var _cnfFilter$dnfFilter = require('./filter');
 
-var _EnumFacet$HistFacet$RangeFacet = require('./facet');
+var _enumFacet$histFacet$rangeFacet = require('./facet');
 
-var _AscSort$DescSort = require('./sort');
+var _ascSort$descSort = require('./sort');
 
-var _SearchRequest$MultiSearchRequest = require('./request');
+var _searchRequest$multiSearchRequest = require('./request');
 
-var _Engine = require('./engine');
+var _engine = require('./engine');
 
-var _Engine2 = _interopRequireWildcard(_Engine);
+var _engine2 = _interopRequireWildcard(_engine);
 
 'use strict';
 
 var Blackbird = {
-  CnfFilter: _CnfFilter$DnfFilter.CnfFilter,
-  DnfFilter: _CnfFilter$DnfFilter.DnfFilter,
-  EnumFacet: _EnumFacet$HistFacet$RangeFacet.EnumFacet,
-  HistFacet: _EnumFacet$HistFacet$RangeFacet.HistFacet,
-  RangeFacet: _EnumFacet$HistFacet$RangeFacet.RangeFacet,
-  AscSort: _AscSort$DescSort.AscSort,
-  DescSort: _AscSort$DescSort.DescSort,
-  SearchRequest: _SearchRequest$MultiSearchRequest.SearchRequest,
-  MultiSearchRequest: _SearchRequest$MultiSearchRequest.MultiSearchRequest,
-  Engine: _Engine2['default']
+  cnfFilter: _cnfFilter$dnfFilter.cnfFilter,
+  dnfFilter: _cnfFilter$dnfFilter.dnfFilter,
+  enumFacet: _enumFacet$histFacet$rangeFacet.enumFacet,
+  histFacet: _enumFacet$histFacet$rangeFacet.histFacet,
+  rangeFacet: _enumFacet$histFacet$rangeFacet.rangeFacet,
+  ascSort: _ascSort$descSort.ascSort,
+  descSort: _ascSort$descSort.descSort,
+  searchRequest: _searchRequest$multiSearchRequest.searchRequest,
+  multiSearchRequest: _searchRequest$multiSearchRequest.multiSearchRequest,
+  engine: _engine2['default']
 };
 
 var globalScope = new Function('return this')();

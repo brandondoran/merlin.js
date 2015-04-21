@@ -52,31 +52,31 @@
 	  value: true
 	});
 
-	var _CnfFilter$DnfFilter = __webpack_require__(1);
+	var _cnfFilter$dnfFilter = __webpack_require__(1);
 
-	var _EnumFacet$HistFacet$RangeFacet = __webpack_require__(2);
+	var _enumFacet$histFacet$rangeFacet = __webpack_require__(2);
 
-	var _AscSort$DescSort = __webpack_require__(3);
+	var _ascSort$descSort = __webpack_require__(3);
 
-	var _SearchRequest$MultiSearchRequest = __webpack_require__(4);
+	var _searchRequest$multiSearchRequest = __webpack_require__(4);
 
-	var _Engine = __webpack_require__(5);
+	var _engine = __webpack_require__(5);
 
-	var _Engine2 = _interopRequireWildcard(_Engine);
+	var _engine2 = _interopRequireWildcard(_engine);
 
 	'use strict';
 
 	var Blackbird = {
-	  CnfFilter: _CnfFilter$DnfFilter.CnfFilter,
-	  DnfFilter: _CnfFilter$DnfFilter.DnfFilter,
-	  EnumFacet: _EnumFacet$HistFacet$RangeFacet.EnumFacet,
-	  HistFacet: _EnumFacet$HistFacet$RangeFacet.HistFacet,
-	  RangeFacet: _EnumFacet$HistFacet$RangeFacet.RangeFacet,
-	  AscSort: _AscSort$DescSort.AscSort,
-	  DescSort: _AscSort$DescSort.DescSort,
-	  SearchRequest: _SearchRequest$MultiSearchRequest.SearchRequest,
-	  MultiSearchRequest: _SearchRequest$MultiSearchRequest.MultiSearchRequest,
-	  Engine: _Engine2['default']
+	  cnfFilter: _cnfFilter$dnfFilter.cnfFilter,
+	  dnfFilter: _cnfFilter$dnfFilter.dnfFilter,
+	  enumFacet: _enumFacet$histFacet$rangeFacet.enumFacet,
+	  histFacet: _enumFacet$histFacet$rangeFacet.histFacet,
+	  rangeFacet: _enumFacet$histFacet$rangeFacet.rangeFacet,
+	  ascSort: _ascSort$descSort.ascSort,
+	  descSort: _ascSort$descSort.descSort,
+	  searchRequest: _searchRequest$multiSearchRequest.searchRequest,
+	  multiSearchRequest: _searchRequest$multiSearchRequest.multiSearchRequest,
+	  engine: _engine2['default']
 	};
 
 	var globalScope = new Function('return this')();
@@ -102,6 +102,630 @@
 	Object.defineProperty(exports, '__esModule', {
 	  value: true
 	});
+	exports.cnfFilter = cnfFilter;
+	exports.dnfFilter = dnfFilter;
+
+	var _checkConstructor$RE1 = __webpack_require__(6);
+
+	var _expression$andExpression$orExpression = __webpack_require__(7);
+
+	'use strict';
+
+	var Filter = (function () {
+	  function Filter(options) {
+	    _classCallCheck(this, Filter);
+
+	    this.expressions = [];
+	    this.expressions.push(_expression$andExpression$orExpression.expression(options));
+	  }
+
+	  _createClass(Filter, [{
+	    key: 'and',
+	    value: function and(options) {
+	      this.expressions.push(_expression$andExpression$orExpression.andExpression(options));
+	      return this;
+	    }
+	  }, {
+	    key: 'or',
+	    value: function or(options) {
+	      this.expressions.push(_expression$andExpression$orExpression.orExpression(options));
+	      return this;
+	    }
+	  }, {
+	    key: 'tag',
+	    value: function tag(input) {
+	      if (!_checkConstructor$RE1.checkConstructor(input, String)) {
+	        throw new Error('Filter tags must be strings.');
+	      }
+	      if (!_checkConstructor$RE1.RE1.test(input)) {
+	        throw new Error('Filter tags can only contain a-z, 0-9, and underscores, and must start with a lowercase letter.');
+	      }
+	      this._tag = input;
+	      return this;
+	    }
+	  }, {
+	    key: 'tagString',
+	    get: function () {
+	      if (this._tag) {
+	        return '/tag=' + this._tag;
+	      }
+	      return '';
+	    }
+	  }, {
+	    key: 'toString',
+	    value: function toString() {
+	      var expressions = this.expressions.reduce(function (result, exp) {
+	        return result + exp.toString();
+	      }, '');
+
+	      return 'exp=' + expressions + '' + this.tagString;
+	    }
+	  }]);
+
+	  return Filter;
+	})();
+
+	var CnfFilter = (function (_Filter) {
+	  function CnfFilter(options) {
+	    _classCallCheck(this, CnfFilter);
+
+	    _get(Object.getPrototypeOf(CnfFilter.prototype), 'constructor', this).call(this, options);
+	  }
+
+	  _inherits(CnfFilter, _Filter);
+
+	  _createClass(CnfFilter, [{
+	    key: 'toString',
+	    value: function toString() {
+	      return '' + _get(Object.getPrototypeOf(CnfFilter.prototype), 'toString', this).call(this) + '/type=cnf';
+	    }
+	  }]);
+
+	  return CnfFilter;
+	})(Filter);
+
+	var DnfFilter = (function (_Filter2) {
+	  function DnfFilter(options) {
+	    _classCallCheck(this, DnfFilter);
+
+	    _get(Object.getPrototypeOf(DnfFilter.prototype), 'constructor', this).call(this, options);
+	  }
+
+	  _inherits(DnfFilter, _Filter2);
+
+	  _createClass(DnfFilter, [{
+	    key: 'toString',
+	    value: function toString() {
+	      return '' + _get(Object.getPrototypeOf(DnfFilter.prototype), 'toString', this).call(this) + '/type=dnf';
+	    }
+	  }]);
+
+	  return DnfFilter;
+	})(Filter);
+
+	function cnfFilter(options) {
+	  return new CnfFilter(options);
+	}
+
+	function dnfFilter(options) {
+	  return new DnfFilter(options);
+	}
+
+/***/ },
+/* 2 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	exports.enumFacet = enumFacet;
+	exports.histFacet = histFacet;
+	exports.rangeFacet = rangeFacet;
+
+	var _checkConstructor$RE1 = __webpack_require__(6);
+
+	'use strict';
+
+	var Facet = (function () {
+	  function Facet(options) {
+	    _classCallCheck(this, Facet);
+
+	    var field = options.field;
+
+	    if (!_checkConstructor$RE1.checkConstructor(field, String)) {
+	      throw new Error('Facet#field must be a string.');
+	    }
+	    if (!_checkConstructor$RE1.RE1.test(field)) {
+	      throw new Error('Facet#field can only contain a-z, 0-9, and underscores, and must start with a lowercase letter.');
+	    }
+	    this.field = field;
+	  }
+
+	  _createClass(Facet, [{
+	    key: 'toString',
+	    value: function toString() {
+	      return 'field=' + this.field;
+	    }
+	  }]);
+
+	  return Facet;
+	})();
+
+	var EnumFacet = (function (_Facet) {
+	  function EnumFacet(options) {
+	    _classCallCheck(this, EnumFacet);
+
+	    _get(Object.getPrototypeOf(EnumFacet.prototype), 'constructor', this).call(this, options);
+	    this.num = Number(options.num) || 0;
+	  }
+
+	  _inherits(EnumFacet, _Facet);
+
+	  _createClass(EnumFacet, [{
+	    key: 'toString',
+	    value: function toString() {
+	      return '' + _get(Object.getPrototypeOf(EnumFacet.prototype), 'toString', this).call(this) + '/type=enum/num=' + this.num;
+	    }
+	  }]);
+
+	  return EnumFacet;
+	})(Facet);
+
+	var HistFacet = (function (_Facet2) {
+	  function HistFacet(options) {
+	    _classCallCheck(this, HistFacet);
+
+	    _get(Object.getPrototypeOf(HistFacet.prototype), 'constructor', this).call(this, options);
+	    this.start = Number(options.start) || 0;
+	    this.end = Number(options.end) || 0;
+	    this.gap = Number(options.gap) || 0;
+	  }
+
+	  _inherits(HistFacet, _Facet2);
+
+	  _createClass(HistFacet, [{
+	    key: 'range',
+	    get: function () {
+	      return '[' + this.start + ':' + this.end + ':' + this.gap + ']';
+	    }
+	  }, {
+	    key: 'toString',
+	    value: function toString() {
+	      return '' + _get(Object.getPrototypeOf(HistFacet.prototype), 'toString', this).call(this) + '/type=hist/range=' + this.range();
+	    }
+	  }]);
+
+	  return HistFacet;
+	})(Facet);
+
+	var RangeFacet = (function (_Facet3) {
+	  function RangeFacet(options) {
+	    _classCallCheck(this, RangeFacet);
+
+	    _get(Object.getPrototypeOf(RangeFacet.prototype), 'constructor', this).call(this, options);
+	  }
+
+	  _inherits(RangeFacet, _Facet3);
+
+	  _createClass(RangeFacet, [{
+	    key: 'toString',
+	    value: function toString() {
+	      return '' + _get(Object.getPrototypeOf(RangeFacet.prototype), 'toString', this).call(this) + '/type=range';
+	    }
+	  }]);
+
+	  return RangeFacet;
+	})(Facet);
+
+	function enumFacet(options) {
+	  return new EnumFacet(options);
+	}
+
+	function histFacet(options) {
+	  return new HistFacet(options);
+	}
+
+	function rangeFacet(options) {
+	  return new RangeFacet(options);
+	}
+
+/***/ },
+/* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	exports.ascSort = ascSort;
+	exports.descSort = descSort;
+
+	var _checkConstructor$RE1 = __webpack_require__(6);
+
+	'use strict';
+
+	var Sort = (function () {
+	  function Sort(options) {
+	    _classCallCheck(this, Sort);
+
+	    var field = options.field;
+
+	    if (!field) {
+	      throw new Error('Sort#field is required.');
+	    }
+	    if (!_checkConstructor$RE1.checkConstructor(field, String)) {
+	      throw new Error('Sort#field must be a string.');
+	    }
+	    if (!_checkConstructor$RE1.RE1.test(field)) {
+	      throw new Error('Sort#field can only contain a-z, 0-9, and underscores, and must start with a lowercase letter.');
+	    }
+	    this.field = field;
+	  }
+
+	  _createClass(Sort, [{
+	    key: 'toString',
+	    value: function toString(ordering) {
+	      return '' + this.field + ':' + ordering;
+	    }
+	  }]);
+
+	  return Sort;
+	})();
+
+	var AscSort = (function (_Sort) {
+	  function AscSort() {
+	    _classCallCheck(this, AscSort);
+
+	    if (_Sort != null) {
+	      _Sort.apply(this, arguments);
+	    }
+	  }
+
+	  _inherits(AscSort, _Sort);
+
+	  _createClass(AscSort, [{
+	    key: 'toString',
+	    value: function toString() {
+	      return _get(Object.getPrototypeOf(AscSort.prototype), 'toString', this).call(this, 'asc');
+	    }
+	  }]);
+
+	  return AscSort;
+	})(Sort);
+
+	var DescSort = (function (_Sort2) {
+	  function DescSort() {
+	    _classCallCheck(this, DescSort);
+
+	    if (_Sort2 != null) {
+	      _Sort2.apply(this, arguments);
+	    }
+	  }
+
+	  _inherits(DescSort, _Sort2);
+
+	  _createClass(DescSort, [{
+	    key: 'toString',
+	    value: function toString() {
+	      return _get(Object.getPrototypeOf(DescSort.prototype), 'toString', this).call(this, 'desc');
+	    }
+	  }]);
+
+	  return DescSort;
+	})(Sort);
+
+	function ascSort(options) {
+	  return new AscSort(options);
+	}
+
+	function descSort(options) {
+	  return new DescSort(options);
+	}
+
+/***/ },
+/* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	exports.searchRequest = searchRequest;
+	exports.multiSearchRequest = multiSearchRequest;
+
+	var _checkConstructor$mSearchSerialize = __webpack_require__(6);
+
+	'use strict';
+
+	var Request = (function () {
+	  function Request(options) {
+	    _classCallCheck(this, Request);
+
+	    // todo: clean this up
+	    (this.start = Number(options.start)) || delete this.start;
+	    (this.num = Number(options.num)) || delete this.num;
+	    (this.sort = Request.handleSorts(options.sort)) || delete this.sort;
+	  }
+
+	  _createClass(Request, null, [{
+	    key: 'handleSorts',
+	    value: function handleSorts(input) {
+	      if (Array.isArray(input)) {
+	        return input.map(function (sort) {
+	          return sort.toString();
+	        }).join(',');
+	      }
+	      return input;
+	    }
+	  }]);
+
+	  return Request;
+	})();
+
+	exports.Request = Request;
+
+	var SearchRequest = (function (_Request) {
+	  function SearchRequest(options) {
+	    _classCallCheck(this, SearchRequest);
+
+	    _get(Object.getPrototypeOf(SearchRequest.prototype), 'constructor', this).call(this, options);
+	    (this.q = options.q) || delete this.q;
+	    (this.fields = SearchRequest.handleFields(options.fields)) || delete this.fields;
+	    (this.facet = SearchRequest.handleFacetsAndFilters(options.facet)) || delete this.facet;
+	    (this.filter = SearchRequest.handleFacetsAndFilters(options.filter)) || delete this.filter;
+	    if (!this.q) {
+	      throw new Error('The \'q\' parameter is required.');
+	    }
+	    if (!_checkConstructor$mSearchSerialize.checkConstructor(this.q, String)) {
+	      throw new Error('Request#q must be a string.');
+	    }
+	  }
+
+	  _inherits(SearchRequest, _Request);
+
+	  _createClass(SearchRequest, null, [{
+	    key: 'handleFields',
+	    value: function handleFields(input) {
+	      if (Array.isArray(input)) {
+	        return input.join(',');
+	      }
+	      return input;
+	    }
+	  }, {
+	    key: 'handleFacetsAndFilters',
+	    value: function handleFacetsAndFilters(input) {
+	      if (Array.isArray(input)) {
+	        return input.map(SearchRequest.handleFacetsAndFilters);
+	      }
+	      if (input) {
+	        return input.toString();
+	      }
+	    }
+	  }]);
+
+	  return SearchRequest;
+	})(Request);
+
+	exports.SearchRequest = SearchRequest;
+
+	var QueryComponent = function QueryComponent(options) {
+	  _classCallCheck(this, QueryComponent);
+
+	  (this.q = options.q) || delete this.q;
+	  (this.filter = SearchRequest.handleFacetsAndFilters(options.filter)) || delete this.filter;
+	};
+
+	var MultiSearchRequest = (function (_Request2) {
+	  function MultiSearchRequest(options) {
+	    _classCallCheck(this, MultiSearchRequest);
+
+	    _get(Object.getPrototypeOf(MultiSearchRequest.prototype), 'constructor', this).call(this, options);
+	    var qc = options.qc;
+
+	    if (qc.length >= 6) {
+	      throw new Error('A multi-search only supports up to 6 queries.');
+	    }
+	    (this.qc = MultiSearchRequest.handleQc(qc)) || delete this.qc;
+	  }
+
+	  _inherits(MultiSearchRequest, _Request2);
+
+	  _createClass(MultiSearchRequest, null, [{
+	    key: 'handleQc',
+	    value: function handleQc(qcs) {
+	      return qcs.map(function (qc) {
+	        return _checkConstructor$mSearchSerialize.mSearchSerialize(new QueryComponent(qc));
+	      });
+	    }
+	  }]);
+
+	  return MultiSearchRequest;
+	})(Request);
+
+	exports.MultiSearchRequest = MultiSearchRequest;
+
+	function searchRequest(options) {
+	  return new SearchRequest(options);
+	}
+
+	function multiSearchRequest(options) {
+	  return new MultiSearchRequest(options);
+	}
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
+
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	exports['default'] = engine;
+
+	var _request = __webpack_require__(8);
+
+	var _request2 = _interopRequireWildcard(_request);
+
+	var _searchRequest$multiSearchRequest = __webpack_require__(4);
+
+	'use strict';
+
+	var Engine = (function () {
+	  function Engine(options) {
+	    _classCallCheck(this, Engine);
+
+	    this.protocol = options.protocol || 'https';
+	    this.company = options.company;
+	    this.environment = options.environment;
+	    this.instance = options.instance;
+
+	    if (!this.company) {
+	      throw new Error('The \'company\' parameter is required.');
+	    }
+	    if (!this.environment) {
+	      throw new Error('The \'environment\' parameter is required.');
+	    }
+	    if (!this.instance) {
+	      throw new Error('The \'instance\' parameter is required.');
+	    }
+	  }
+
+	  _createClass(Engine, [{
+	    key: 'fq',
+	    get: function () {
+	      return '' + this.company + '.' + this.environment + '.' + this.instance;
+	    }
+	  }, {
+	    key: 'cluster',
+	    get: function () {
+	      return 'search-' + this.environment;
+	    }
+	  }, {
+	    key: 'target',
+	    get: function () {
+	      return '' + this.protocol + '://' + this.cluster + '.search.blackbird.am/' + this.fq;
+	    }
+	  }, {
+	    key: 'search',
+	    value: function search(req) {
+	      return _request2['default'].get('' + this.target + '/search').query(_searchRequest$multiSearchRequest.searchRequest(req));
+	    }
+	  }, {
+	    key: 'msearch',
+	    value: function msearch(req) {
+	      return _request2['default'].get('' + this.target + '/msearch').query(_searchRequest$multiSearchRequest.multiSearchRequest(req));
+	    }
+	  }]);
+
+	  return Engine;
+	})();
+
+	function engine(options) {
+	  return new Engine(options);
+	}
+
+	module.exports = exports['default'];
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	exports.checkConstructor = checkConstructor;
+	exports.mSearchSerialize = mSearchSerialize;
+	'use strict';
+
+	var RE1 = /^_?[a-z][0-9a-z_]{0,63}$/;
+
+	exports.RE1 = RE1;
+
+	function checkConstructor(input) {
+	  for (var _len = arguments.length, constructors = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+	    constructors[_key - 1] = arguments[_key];
+	  }
+
+	  return constructors.reduce(function (result, constructor) {
+	    return result || input.constructor === constructor;
+	  }, false);
+	}
+
+	// borrowed from superagent
+	function isObject(obj) {
+	  return obj === Object(obj);
+	}
+
+	function mSearchSerialize(obj) {
+	  if (!isObject(obj)) {
+	    return obj;
+	  }
+	  var pairs = [];
+	  for (var key in obj) {
+	    if (obj[key] != null) {
+	      pairs.push(encodeURIComponent(key) + '=' + encodeURIComponent(obj[key]));
+	    }
+	  }
+	  return pairs.join('//');
+	}
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	exports.expression = expression;
+	exports.andExpression = andExpression;
+	exports.orExpression = orExpression;
 
 	var _checkConstructor$RE1 = __webpack_require__(6);
 
@@ -205,576 +829,28 @@
 	  return OrExpression;
 	})(Expression);
 
-	var Filter = (function () {
-	  function Filter(options) {
-	    _classCallCheck(this, Filter);
-
-	    this.expressions = [];
-	    this.expressions.push(new Expression(options));
-	  }
-
-	  _createClass(Filter, [{
-	    key: 'and',
-	    value: function and(options) {
-	      this.expressions.push(new AndExpression(options));
-	      return this;
-	    }
-	  }, {
-	    key: 'or',
-	    value: function or(options) {
-	      this.expressions.push(new OrExpression(options));
-	      return this;
-	    }
-	  }, {
-	    key: 'tag',
-	    value: function tag(input) {
-	      if (!_checkConstructor$RE1.checkConstructor(input, String)) {
-	        throw new Error('Filter tags must be strings.');
-	      }
-	      if (!_checkConstructor$RE1.RE1.test(input)) {
-	        throw new Error('Filter tags can only contain a-z, 0-9, and underscores, and must start with a lowercase letter.');
-	      }
-	      this._tag = input;
-	      return this;
-	    }
-	  }, {
-	    key: 'tagString',
-	    get: function () {
-	      if (this._tag) {
-	        return '/tag=' + this._tag;
-	      }
-	      return '';
-	    }
-	  }, {
-	    key: 'toString',
-	    value: function toString() {
-	      var expressions = this.expressions.reduce(function (result, expression) {
-	        return result + expression.toString();
-	      }, '');
-
-	      return 'exp=' + expressions + '' + this.tagString;
-	    }
-	  }]);
-
-	  return Filter;
-	})();
-
-	var CnfFilter = (function (_Filter) {
-	  function CnfFilter(options) {
-	    _classCallCheck(this, CnfFilter);
-
-	    _get(Object.getPrototypeOf(CnfFilter.prototype), 'constructor', this).call(this, options);
-	  }
-
-	  _inherits(CnfFilter, _Filter);
-
-	  _createClass(CnfFilter, [{
-	    key: 'toString',
-	    value: function toString() {
-	      return '' + _get(Object.getPrototypeOf(CnfFilter.prototype), 'toString', this).call(this) + '/type=cnf';
-	    }
-	  }]);
-
-	  return CnfFilter;
-	})(Filter);
-
-	exports.CnfFilter = CnfFilter;
-
-	var DnfFilter = (function (_Filter2) {
-	  function DnfFilter(options) {
-	    _classCallCheck(this, DnfFilter);
-
-	    _get(Object.getPrototypeOf(DnfFilter.prototype), 'constructor', this).call(this, options);
-	  }
-
-	  _inherits(DnfFilter, _Filter2);
-
-	  _createClass(DnfFilter, [{
-	    key: 'toString',
-	    value: function toString() {
-	      return '' + _get(Object.getPrototypeOf(DnfFilter.prototype), 'toString', this).call(this) + '/type=dnf';
-	    }
-	  }]);
-
-	  return DnfFilter;
-	})(Filter);
-
-	exports.DnfFilter = DnfFilter;
-
-/***/ },
-/* 2 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-
-	var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
-
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-
-	var _checkConstructor$RE1 = __webpack_require__(6);
-
-	'use strict';
-
-	var Facet = (function () {
-	  function Facet(options) {
-	    _classCallCheck(this, Facet);
-
-	    var field = options.field;
-
-	    if (!_checkConstructor$RE1.checkConstructor(field, String)) {
-	      throw new Error('Facet#field must be a string.');
-	    }
-	    if (!_checkConstructor$RE1.RE1.test(field)) {
-	      throw new Error('Facet#field can only contain a-z, 0-9, and underscores, and must start with a lowercase letter.');
-	    }
-	    this.field = field;
-	  }
-
-	  _createClass(Facet, [{
-	    key: 'toString',
-	    value: function toString() {
-	      return 'field=' + this.field;
-	    }
-	  }]);
-
-	  return Facet;
-	})();
-
-	var EnumFacet = (function (_Facet) {
-	  function EnumFacet(options) {
-	    _classCallCheck(this, EnumFacet);
-
-	    _get(Object.getPrototypeOf(EnumFacet.prototype), 'constructor', this).call(this, options);
-	    this.num = Number(options.num) || 0;
-	  }
-
-	  _inherits(EnumFacet, _Facet);
-
-	  _createClass(EnumFacet, [{
-	    key: 'toString',
-	    value: function toString() {
-	      return '' + _get(Object.getPrototypeOf(EnumFacet.prototype), 'toString', this).call(this) + '/type=enum/num=' + this.num;
-	    }
-	  }]);
-
-	  return EnumFacet;
-	})(Facet);
-
-	exports.EnumFacet = EnumFacet;
-
-	var HistFacet = (function (_Facet2) {
-	  function HistFacet(options) {
-	    _classCallCheck(this, HistFacet);
-
-	    _get(Object.getPrototypeOf(HistFacet.prototype), 'constructor', this).call(this, options);
-	    this.start = Number(options.start) || 0;
-	    this.end = Number(options.end) || 0;
-	    this.gap = Number(options.gap) || 0;
-	  }
-
-	  _inherits(HistFacet, _Facet2);
-
-	  _createClass(HistFacet, [{
-	    key: 'range',
-	    get: function () {
-	      return '[' + this.start + ':' + this.end + ':' + this.gap + ']';
-	    }
-	  }, {
-	    key: 'toString',
-	    value: function toString() {
-	      return '' + _get(Object.getPrototypeOf(HistFacet.prototype), 'toString', this).call(this) + '/type=hist/range=' + this.range();
-	    }
-	  }]);
-
-	  return HistFacet;
-	})(Facet);
-
-	exports.HistFacet = HistFacet;
-
-	var RangeFacet = (function (_Facet3) {
-	  function RangeFacet(options) {
-	    _classCallCheck(this, RangeFacet);
-
-	    _get(Object.getPrototypeOf(RangeFacet.prototype), 'constructor', this).call(this, options);
-	  }
-
-	  _inherits(RangeFacet, _Facet3);
-
-	  _createClass(RangeFacet, [{
-	    key: 'toString',
-	    value: function toString() {
-	      return '' + _get(Object.getPrototypeOf(RangeFacet.prototype), 'toString', this).call(this) + '/type=range';
-	    }
-	  }]);
-
-	  return RangeFacet;
-	})(Facet);
-
-	exports.RangeFacet = RangeFacet;
-
-/***/ },
-/* 3 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-
-	var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
-
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-
-	var _checkConstructor$RE1 = __webpack_require__(6);
-
-	'use strict';
-
-	var Sort = (function () {
-	  function Sort(options) {
-	    _classCallCheck(this, Sort);
-
-	    var field = options.field;
-
-	    if (!field) {
-	      throw new Error('Sort#field is required.');
-	    }
-	    if (!_checkConstructor$RE1.checkConstructor(field, String)) {
-	      throw new Error('Sort#field must be a string.');
-	    }
-	    if (!_checkConstructor$RE1.RE1.test(field)) {
-	      throw new Error('Sort#field can only contain a-z, 0-9, and underscores, and must start with a lowercase letter.');
-	    }
-	    this.field = field;
-	  }
-
-	  _createClass(Sort, [{
-	    key: 'toString',
-	    value: function toString(ordering) {
-	      return '' + this.field + ':' + ordering;
-	    }
-	  }]);
-
-	  return Sort;
-	})();
-
-	var AscSort = (function (_Sort) {
-	  function AscSort() {
-	    _classCallCheck(this, AscSort);
-
-	    if (_Sort != null) {
-	      _Sort.apply(this, arguments);
-	    }
-	  }
-
-	  _inherits(AscSort, _Sort);
-
-	  _createClass(AscSort, [{
-	    key: 'toString',
-	    value: function toString() {
-	      return _get(Object.getPrototypeOf(AscSort.prototype), 'toString', this).call(this, 'asc');
-	    }
-	  }]);
-
-	  return AscSort;
-	})(Sort);
-
-	exports.AscSort = AscSort;
-
-	var DescSort = (function (_Sort2) {
-	  function DescSort() {
-	    _classCallCheck(this, DescSort);
-
-	    if (_Sort2 != null) {
-	      _Sort2.apply(this, arguments);
-	    }
-	  }
-
-	  _inherits(DescSort, _Sort2);
-
-	  _createClass(DescSort, [{
-	    key: 'toString',
-	    value: function toString() {
-	      return _get(Object.getPrototypeOf(DescSort.prototype), 'toString', this).call(this, 'desc');
-	    }
-	  }]);
-
-	  return DescSort;
-	})(Sort);
-
-	exports.DescSort = DescSort;
-
-/***/ },
-/* 4 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-
-	var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
-
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-
-	var _checkConstructor$mSearchSerialize = __webpack_require__(6);
-
-	'use strict';
-
-	var Request = (function () {
-	  function Request(options) {
-	    _classCallCheck(this, Request);
-
-	    // todo: clean this up
-	    (this.start = Number(options.start)) || delete this.start;
-	    (this.num = Number(options.num)) || delete this.num;
-	    (this.sort = Request.handleSorts(options.sort)) || delete this.sort;
-	  }
-
-	  _createClass(Request, null, [{
-	    key: 'handleSorts',
-	    value: function handleSorts(input) {
-	      if (Array.isArray(input)) {
-	        return input.map(function (sort) {
-	          return sort.toString();
-	        }).join(',');
-	      }
-	      return input;
-	    }
-	  }]);
-
-	  return Request;
-	})();
-
-	var SearchRequest = (function (_Request) {
-	  function SearchRequest(options) {
-	    _classCallCheck(this, SearchRequest);
-
-	    _get(Object.getPrototypeOf(SearchRequest.prototype), 'constructor', this).call(this, options);
-	    (this.q = options.q) || delete this.q;
-	    (this.fields = SearchRequest.handleFields(options.fields)) || delete this.fields;
-	    (this.facet = SearchRequest.handleFacetsAndFilters(options.facet)) || delete this.facet;
-	    (this.filter = SearchRequest.handleFacetsAndFilters(options.filter)) || delete this.filter;
-	    if (!this.q) {
-	      throw new Error('The \'q\' parameter is required.');
-	    }
-	    if (!_checkConstructor$mSearchSerialize.checkConstructor(this.q, String)) {
-	      throw new Error('Request#q must be a string.');
-	    }
-	  }
-
-	  _inherits(SearchRequest, _Request);
-
-	  _createClass(SearchRequest, null, [{
-	    key: 'handleFields',
-	    value: function handleFields(input) {
-	      if (Array.isArray(input)) {
-	        return input.join(',');
-	      }
-	      return input;
-	    }
-	  }, {
-	    key: 'handleFacetsAndFilters',
-	    value: function handleFacetsAndFilters(input) {
-	      if (Array.isArray(input)) {
-	        return input.map(SearchRequest.handleFacetsAndFilters);
-	      }
-	      if (input) {
-	        return input.toString();
-	      }
-	    }
-	  }]);
-
-	  return SearchRequest;
-	})(Request);
-
-	exports.SearchRequest = SearchRequest;
-
-	var QueryComponent = function QueryComponent(options) {
-	  _classCallCheck(this, QueryComponent);
-
-	  (this.q = options.q) || delete this.q;
-	  (this.filter = SearchRequest.handleFacetsAndFilters(options.filter)) || delete this.filter;
-	};
-
-	var MultiSearchRequest = (function (_Request2) {
-	  function MultiSearchRequest(options) {
-	    _classCallCheck(this, MultiSearchRequest);
-
-	    _get(Object.getPrototypeOf(MultiSearchRequest.prototype), 'constructor', this).call(this, options);
-	    var qc = options.qc;
-
-	    if (qc.length >= 6) {
-	      throw new Error('A multi-search only supports up to 6 queries.');
-	    }
-	    (this.qc = MultiSearchRequest.handleQc(qc)) || delete this.qc;
-	  }
-
-	  _inherits(MultiSearchRequest, _Request2);
-
-	  _createClass(MultiSearchRequest, null, [{
-	    key: 'handleQc',
-	    value: function handleQc(qcs) {
-	      return qcs.map(function (qc) {
-	        return _checkConstructor$mSearchSerialize.mSearchSerialize(new QueryComponent(qc));
-	      });
-	    }
-	  }]);
-
-	  return MultiSearchRequest;
-	})(Request);
-
-	exports.MultiSearchRequest = MultiSearchRequest;
-
-/***/ },
-/* 5 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
-
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-
-	var _request = __webpack_require__(7);
-
-	var _request2 = _interopRequireWildcard(_request);
-
-	var _SearchRequest$MultiSearchRequest = __webpack_require__(4);
-
-	'use strict';
-
-	var Engine = (function () {
-	  function Engine(options) {
-	    _classCallCheck(this, Engine);
-
-	    this.protocol = options.protocol || 'https';
-	    this.company = options.company;
-	    this.environment = options.environment;
-	    this.instance = options.instance;
-
-	    if (!this.company) {
-	      throw new Error('The \'company\' parameter is required.');
-	    }
-	    if (!this.environment) {
-	      throw new Error('The \'environment\' parameter is required.');
-	    }
-	    if (!this.instance) {
-	      throw new Error('The \'instance\' parameter is required.');
-	    }
-	  }
-
-	  _createClass(Engine, [{
-	    key: 'fq',
-	    get: function () {
-	      return '' + this.company + '.' + this.environment + '.' + this.instance;
-	    }
-	  }, {
-	    key: 'cluster',
-	    get: function () {
-	      return 'search-' + this.environment;
-	    }
-	  }, {
-	    key: 'target',
-	    get: function () {
-	      return '' + this.protocol + '://' + this.cluster + '.search.blackbird.am/' + this.fq;
-	    }
-	  }, {
-	    key: 'search',
-	    value: function search(req) {
-	      return _request2['default'].get('' + this.target + '/search').query(new _SearchRequest$MultiSearchRequest.SearchRequest(req));
-	    }
-	  }, {
-	    key: 'msearch',
-	    value: function msearch(req) {
-	      return _request2['default'].get('' + this.target + '/msearch').query(new _SearchRequest$MultiSearchRequest.MultiSearchRequest(req));
-	    }
-	  }]);
-
-	  return Engine;
-	})();
-
-	exports['default'] = Engine;
-	module.exports = exports['default'];
-
-/***/ },
-/* 6 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-	exports.checkConstructor = checkConstructor;
-	exports.mSearchSerialize = mSearchSerialize;
-	'use strict';
-
-	var RE1 = /^_?[a-z][0-9a-z_]{0,63}$/;
-
-	exports.RE1 = RE1;
-
-	function checkConstructor(input) {
-	  for (var _len = arguments.length, constructors = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-	    constructors[_key - 1] = arguments[_key];
-	  }
-
-	  return constructors.reduce(function (result, constructor) {
-	    return result || input.constructor === constructor;
-	  }, false);
+	function expression(options) {
+	  return new Expression(options);
 	}
 
-	// borrowed from superagent
-	function isObject(obj) {
-	  return obj === Object(obj);
+	function andExpression(options) {
+	  return new AndExpression(options);
 	}
 
-	function mSearchSerialize(obj) {
-	  if (!isObject(obj)) {
-	    return obj;
-	  }
-	  var pairs = [];
-	  for (var key in obj) {
-	    if (obj[key] != null) {
-	      pairs.push(encodeURIComponent(key) + '=' + encodeURIComponent(obj[key]));
-	    }
-	  }
-	  return pairs.join('//');
+	function orExpression(options) {
+	  return new OrExpression(options);
 	}
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Module dependencies.
 	 */
 
-	var Emitter = __webpack_require__(8);
-	var reduce = __webpack_require__(9);
+	var Emitter = __webpack_require__(9);
+	var reduce = __webpack_require__(10);
 
 	/**
 	 * Root reference for iframes.
@@ -1883,7 +1959,7 @@
 
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -2053,7 +2129,7 @@
 
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	

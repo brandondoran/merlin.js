@@ -2,9 +2,9 @@
 
 import request from 'superagent';
 
-import {SearchRequest, MultiSearchRequest} from './request';
+import {searchRequest, multiSearchRequest} from './request';
 
-export default class Engine {
+class Engine {
   constructor(options) {
     this.protocol = options.protocol || 'https';
     this.company = options.company;
@@ -33,11 +33,15 @@ export default class Engine {
   search(req) {
     return request
     .get(`${this.target}/search`)
-    .query(new SearchRequest(req));
+    .query(searchRequest(req));
   }
   msearch(req) {
     return request
     .get(`${this.target}/msearch`)
-    .query(new MultiSearchRequest(req));
+    .query(multiSearchRequest(req));
   }
+}
+
+export default function engine(options) {
+  return new Engine(options);
 }

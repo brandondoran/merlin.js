@@ -2,7 +2,7 @@
 
 import {checkConstructor, mSearchSerialize} from './helpers';
 
-class Request {
+export class Request {
   constructor(options) {
     // todo: clean this up
     (this.start = Number(options.start)) || delete this.start;
@@ -66,4 +66,12 @@ export class MultiSearchRequest extends Request {
   static handleQc(qcs) {
     return qcs.map((qc) => mSearchSerialize(new QueryComponent(qc)));
   }
+}
+
+export function searchRequest(options) {
+  return new SearchRequest(options);
+}
+
+export function multiSearchRequest(options) {
+  return new MultiSearchRequest(options);
 }
