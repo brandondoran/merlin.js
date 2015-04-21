@@ -8,8 +8,10 @@ exports.mSearchSerialize = mSearchSerialize;
 'use strict';
 
 var RE1 = /^_?[a-z][0-9a-z_]{0,63}$/;
-
 exports.RE1 = RE1;
+var RE2 = /(\w+)\.(prod|staging|dev)\.(\w+)/;
+
+exports.RE2 = RE2;
 
 function checkConstructor(input) {
   for (var _len = arguments.length, constructors = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {

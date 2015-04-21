@@ -2,6 +2,7 @@
 
 import request from 'superagent';
 
+import {RE2} from './helpers';
 import {searchRequest, multiSearchRequest} from './request';
 
 class Engine {
@@ -10,6 +11,7 @@ class Engine {
     this.company = options.company;
     this.environment = options.environment;
     this.instance = options.instance;
+    this.fq = options.fq;
 
     if (!this.company) {
       throw new Error(`The 'company' parameter is required.`);
@@ -23,6 +25,15 @@ class Engine {
   }
   get fq() {
     return `${this.company}.${this.environment}.${this.instance}`;
+  }
+  set fq(val) {
+    let groups = RE2.exec(val);
+    if (groups) {
+      let [, company, environment, instance] = groups;
+      this.company = company;
+      this.environment = environment;
+      this.instance = instance;
+    }
   }
   get cluster() {
     return `search-${this.environment}`;

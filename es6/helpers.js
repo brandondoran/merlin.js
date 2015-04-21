@@ -1,6 +1,7 @@
 'use strict';
 
 export const RE1 = /^_?[a-z][0-9a-z_]{0,63}$/;
+export const RE2 = /(\w+)\.(prod|staging|dev)\.(\w+)/;
 
 export function checkConstructor(input, ...constructors) {
   return constructors.reduce((result, constructor) => {
