@@ -2,7 +2,7 @@
   "name": "merlin.js",
   "version": "1.0.0",
   "description": "A javascript library to interface with the Merlin Search API",
-  "main": "./lib/node/index.js",
+  "main": "./es5/index.js",
   "scripts": {
     "babel": "babel es6 --out-dir es5",
     "webpack": "webpack es5 merlin.js",
@@ -16,6 +16,7 @@
     "superagent": "^1.1.0"
   },
   "devDependencies": {
+    "babel": "^5.1.11",
     "babel-core": "^4.7.16",
     "babel-loader": "^4.3.0",
     "mocha": "^2.2.1",
