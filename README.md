@@ -1,28 +1,65 @@
-## Merlin JavaScript Library
+# Merlin JavaScript Library
 
 This is the JavaScript library for Merlin Search.
 
-## Dependencies
+# Installation
 
-        npm install
-        npm install -g babel
-        npm install -g webpack
+## node (also browserify/webpack compatible)
+
+```sh
+npm install merlin.js
+```
+
+```javascript
+var Blackbird = require('merlin.js');
+```
+
+
+## Browser
+```html
+<script src="merlin.js"></script>
+```
+
+# Usage
+
+For usage examples, see the [Search API documentation](http://blackbird.am/docs?javascript#search-api).
+
+```javascript
+var engine = Blackbird.engine({
+    company: 'thredup',
+    environment: 'staging', 
+    instance: 'thredup'
+});
+
+engine.search({ q: 'dress' })
+.end(function (e, r) { 
+    console.log(r.body.results.numfound);
+});
+```
+
+# Development
+
+Clone the repo, then run the following:
+
+```sh
+cd merlin.js
+npm install
+```
 
 ## Build
 
-        $ npm run build
+Building compiles the es5 JavaScript and the webpacked merlin.js
 
-## Running the tests
-
-        $ npm test
-
-## Example usage (node)
 ```sh
-$ node
-> var Blackbird = require('./es5')
-> var engine = Blackbird.engine({company: 'thredup', environment: 'staging',  instance: 'wrangler'})
-> engine.search({q: 'dress'}).end(function (e, r) { console.log(r.body.results.numfound) })
+npm run build
 ```
+
+## Running the tests (mocha)
+
+```sh
+npm test
+```
+
 ## Documentation
 
 - [search-api](http://blackbird.am/docs?javascript#search-api)
