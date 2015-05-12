@@ -68,6 +68,19 @@ export class MultiSearchRequest extends Request {
   }
 }
 
+export class TypeaheadRequest {
+  constructor(options) {
+    (this.q = options.q) || delete this.q;
+    if (!this.q) {
+      throw new Error('TypeaheadRequest#q is required.');
+    }
+  }
+}
+
+export function typeaheadRequest(options) {
+  return new TypeaheadRequest(options);
+}
+
 export function searchRequest(options) {
   return new SearchRequest(options);
 }

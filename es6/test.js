@@ -124,8 +124,8 @@ describe('Blackbird', () => {
     it('should throw an error when missing a company', () => {
       let instantiateEngineWithoutCompany = () => {
         Blackbird.engine({
-          environment: 'prod',
-          instance: 'thredup'
+          environment: 'staging',
+          instance: 'wrangler'
         });
       };
       instantiateEngineWithoutCompany.should.throw();
@@ -134,7 +134,7 @@ describe('Blackbird', () => {
       let instantiateEngineWithoutEnvironment = () => {
         Blackbird.engine({
           company: 'thredup',
-          instance: 'thredup'
+          instance: 'wrangler'
         });
       };
       instantiateEngineWithoutEnvironment.should.throw();
@@ -143,7 +143,7 @@ describe('Blackbird', () => {
       let instantiateEngineWithoutInstance = () => {
         Blackbird.engine({
           company: 'thredup',
-          environment: 'prod'
+          environment: 'staging'
         });
       };
       instantiateEngineWithoutInstance.should.throw();
@@ -153,8 +153,8 @@ describe('Blackbird', () => {
     describe('search', () => {
       const engine = Blackbird.engine({
         company: 'thredup',
-        environment: 'prod',
-        instance: 'thredup'
+        environment: 'staging',
+        instance: 'wrangler'
       });
       it('should search given just a q', (done) => {
         engine.search({ q: 'dress' })
@@ -168,8 +168,8 @@ describe('Blackbird', () => {
     describe('msearch', () => {
       const engine = Blackbird.engine({
         company: 'thredup',
-        environment: 'prod',
-        instance: 'thredup'
+        environment: 'staging',
+        instance: 'wrangler'
       });
       it('should msearch given just 2 qs', (done) => {
         engine.msearch({
@@ -183,6 +183,23 @@ describe('Blackbird', () => {
           should.exist(res);
           done(err, res);
         });
+      });
+    });
+  });
+  describe('typeahead', () => {
+    const engine = Blackbird.engine({
+      company: 'thredup',
+      environment: 'staging',
+      instance: 'wrangler'
+    });
+    it('should typeahead given a q', (done) => {
+      engine.typeahead({
+        q: 'dres'
+      })
+      .end((err, res) => {
+        should.not.exist(err);
+        should.exist(res);
+        done(err, res);
       });
     });
   });

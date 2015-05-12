@@ -3,7 +3,7 @@
 import request from 'superagent';
 
 import {RE2} from './helpers';
-import {searchRequest, multiSearchRequest} from './request';
+import {searchRequest, multiSearchRequest, typeaheadRequest} from './request';
 
 class Engine {
   constructor(options) {
@@ -12,6 +12,7 @@ class Engine {
     this.environment = options.environment;
     this.instance = options.instance;
     this.fq = options.fq;
+    this.typeaheadRateLimit = options.typeaheadRateLimit || 20;
 
     if (!this.company) {
       throw new Error(`The 'company' parameter is required.`);
@@ -50,6 +51,11 @@ class Engine {
     return request
     .get(`${this.target}/msearch`)
     .query(multiSearchRequest(req));
+  }
+  typeahead(req) {
+    return request
+    .get(`${this.target}/typeahead`)
+    .query(typeaheadRequest(req));
   }
 }
 

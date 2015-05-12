@@ -11,6 +11,7 @@ var _createClass = (function () { function defineProperties(target, props) { for
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
+exports.typeaheadRequest = typeaheadRequest;
 exports.searchRequest = searchRequest;
 exports.multiSearchRequest = multiSearchRequest;
 
@@ -124,6 +125,21 @@ var MultiSearchRequest = (function (_Request2) {
 })(Request);
 
 exports.MultiSearchRequest = MultiSearchRequest;
+
+var TypeaheadRequest = function TypeaheadRequest(options) {
+  _classCallCheck(this, TypeaheadRequest);
+
+  (this.q = options.q) || delete this.q;
+  if (!this.q) {
+    throw new Error('TypeaheadRequest#q is required.');
+  }
+};
+
+exports.TypeaheadRequest = TypeaheadRequest;
+
+function typeaheadRequest(options) {
+  return new TypeaheadRequest(options);
+}
 
 function searchRequest(options) {
   return new SearchRequest(options);

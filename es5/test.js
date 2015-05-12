@@ -138,8 +138,8 @@ describe('Blackbird', function () {
     it('should throw an error when missing a company', function () {
       var instantiateEngineWithoutCompany = function instantiateEngineWithoutCompany() {
         _Blackbird2['default'].engine({
-          environment: 'prod',
-          instance: 'thredup'
+          environment: 'staging',
+          instance: 'wrangler'
         });
       };
       instantiateEngineWithoutCompany.should['throw']();
@@ -148,7 +148,7 @@ describe('Blackbird', function () {
       var instantiateEngineWithoutEnvironment = function instantiateEngineWithoutEnvironment() {
         _Blackbird2['default'].engine({
           company: 'thredup',
-          instance: 'thredup'
+          instance: 'wrangler'
         });
       };
       instantiateEngineWithoutEnvironment.should['throw']();
@@ -157,7 +157,7 @@ describe('Blackbird', function () {
       var instantiateEngineWithoutInstance = function instantiateEngineWithoutInstance() {
         _Blackbird2['default'].engine({
           company: 'thredup',
-          environment: 'prod'
+          environment: 'staging'
         });
       };
       instantiateEngineWithoutInstance.should['throw']();
@@ -167,8 +167,8 @@ describe('Blackbird', function () {
     describe('search', function () {
       var engine = _Blackbird2['default'].engine({
         company: 'thredup',
-        environment: 'prod',
-        instance: 'thredup'
+        environment: 'staging',
+        instance: 'wrangler'
       });
       it('should search given just a q', function (done) {
         engine.search({ q: 'dress' }).end(function (err, res) {
@@ -181,8 +181,8 @@ describe('Blackbird', function () {
     describe('msearch', function () {
       var engine = _Blackbird2['default'].engine({
         company: 'thredup',
-        environment: 'prod',
-        instance: 'thredup'
+        environment: 'staging',
+        instance: 'wrangler'
       });
       it('should msearch given just 2 qs', function (done) {
         engine.msearch({
@@ -192,6 +192,22 @@ describe('Blackbird', function () {
           _should2['default'].exist(res);
           done(err, res);
         });
+      });
+    });
+  });
+  describe('typeahead', function () {
+    var engine = _Blackbird2['default'].engine({
+      company: 'thredup',
+      environment: 'staging',
+      instance: 'wrangler'
+    });
+    it('should typeahead given a q', function (done) {
+      engine.typeahead({
+        q: 'dres'
+      }).end(function (err, res) {
+        _should2['default'].not.exist(err);
+        _should2['default'].exist(res);
+        done(err, res);
       });
     });
   });

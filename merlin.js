@@ -458,6 +458,7 @@
 	Object.defineProperty(exports, '__esModule', {
 	  value: true
 	});
+	exports.typeaheadRequest = typeaheadRequest;
 	exports.searchRequest = searchRequest;
 	exports.multiSearchRequest = multiSearchRequest;
 
@@ -572,6 +573,21 @@
 
 	exports.MultiSearchRequest = MultiSearchRequest;
 
+	var TypeaheadRequest = function TypeaheadRequest(options) {
+	  _classCallCheck(this, TypeaheadRequest);
+
+	  (this.q = options.q) || delete this.q;
+	  if (!this.q) {
+	    throw new Error('TypeaheadRequest#q is required.');
+	  }
+	};
+
+	exports.TypeaheadRequest = TypeaheadRequest;
+
+	function typeaheadRequest(options) {
+	  return new TypeaheadRequest(options);
+	}
+
 	function searchRequest(options) {
 	  return new SearchRequest(options);
 	}
@@ -605,7 +621,7 @@
 
 	var _RE2 = __webpack_require__(6);
 
-	var _searchRequest$multiSearchRequest = __webpack_require__(4);
+	var _searchRequest$multiSearchRequest$typeaheadRequest = __webpack_require__(4);
 
 	'use strict';
 
@@ -618,6 +634,7 @@
 	    this.environment = options.environment;
 	    this.instance = options.instance;
 	    this.fq = options.fq;
+	    this.typeaheadRateLimit = options.typeaheadRateLimit || 20;
 
 	    if (!this.company) {
 	      throw new Error('The \'company\' parameter is required.');
@@ -662,12 +679,17 @@
 	  }, {
 	    key: 'search',
 	    value: function search(req) {
-	      return _request2['default'].get('' + this.target + '/search').query(_searchRequest$multiSearchRequest.searchRequest(req));
+	      return _request2['default'].get('' + this.target + '/search').query(_searchRequest$multiSearchRequest$typeaheadRequest.searchRequest(req));
 	    }
 	  }, {
 	    key: 'msearch',
 	    value: function msearch(req) {
-	      return _request2['default'].get('' + this.target + '/msearch').query(_searchRequest$multiSearchRequest.multiSearchRequest(req));
+	      return _request2['default'].get('' + this.target + '/msearch').query(_searchRequest$multiSearchRequest$typeaheadRequest.multiSearchRequest(req));
+	    }
+	  }, {
+	    key: 'typeahead',
+	    value: function typeahead(req) {
+	      return _request2['default'].get('' + this.target + '/typeahead').query(_searchRequest$multiSearchRequest$typeaheadRequest.typeaheadRequest(req));
 	    }
 	  }]);
 
@@ -870,8 +892,8 @@
 	 * Module dependencies.
 	 */
 
-	var Emitter = __webpack_require__(10);
-	var reduce = __webpack_require__(9);
+	var Emitter = __webpack_require__(9);
+	var reduce = __webpack_require__(10);
 
 	/**
 	 * Root reference for iframes.
@@ -1985,35 +2007,6 @@
 
 	
 	/**
-	 * Reduce `arr` with `fn`.
-	 *
-	 * @param {Array} arr
-	 * @param {Function} fn
-	 * @param {Mixed} initial
-	 *
-	 * TODO: combatible error handling?
-	 */
-
-	module.exports = function(arr, fn, initial){  
-	  var idx = 0;
-	  var len = arr.length;
-	  var curr = arguments.length == 3
-	    ? initial
-	    : arr[idx++];
-
-	  while (idx < len) {
-	    curr = fn.call(null, curr, arr[idx], ++idx, arr);
-	  }
-	  
-	  return curr;
-	};
-
-/***/ },
-/* 10 */
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	/**
 	 * Expose `Emitter`.
 	 */
 
@@ -2177,6 +2170,35 @@
 	  return !! this.listeners(event).length;
 	};
 
+
+/***/ },
+/* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	/**
+	 * Reduce `arr` with `fn`.
+	 *
+	 * @param {Array} arr
+	 * @param {Function} fn
+	 * @param {Mixed} initial
+	 *
+	 * TODO: combatible error handling?
+	 */
+
+	module.exports = function(arr, fn, initial){  
+	  var idx = 0;
+	  var len = arr.length;
+	  var curr = arguments.length == 3
+	    ? initial
+	    : arr[idx++];
+
+	  while (idx < len) {
+	    curr = fn.call(null, curr, arr[idx], ++idx, arr);
+	  }
+	  
+	  return curr;
+	};
 
 /***/ }
 /******/ ]);

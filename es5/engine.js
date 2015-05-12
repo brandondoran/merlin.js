@@ -19,7 +19,7 @@ var _request2 = _interopRequireWildcard(_request);
 
 var _RE2 = require('./helpers');
 
-var _searchRequest$multiSearchRequest = require('./request');
+var _searchRequest$multiSearchRequest$typeaheadRequest = require('./request');
 
 'use strict';
 
@@ -32,6 +32,7 @@ var Engine = (function () {
     this.environment = options.environment;
     this.instance = options.instance;
     this.fq = options.fq;
+    this.typeaheadRateLimit = options.typeaheadRateLimit || 20;
 
     if (!this.company) {
       throw new Error('The \'company\' parameter is required.');
@@ -76,12 +77,17 @@ var Engine = (function () {
   }, {
     key: 'search',
     value: function search(req) {
-      return _request2['default'].get('' + this.target + '/search').query(_searchRequest$multiSearchRequest.searchRequest(req));
+      return _request2['default'].get('' + this.target + '/search').query(_searchRequest$multiSearchRequest$typeaheadRequest.searchRequest(req));
     }
   }, {
     key: 'msearch',
     value: function msearch(req) {
-      return _request2['default'].get('' + this.target + '/msearch').query(_searchRequest$multiSearchRequest.multiSearchRequest(req));
+      return _request2['default'].get('' + this.target + '/msearch').query(_searchRequest$multiSearchRequest$typeaheadRequest.multiSearchRequest(req));
+    }
+  }, {
+    key: 'typeahead',
+    value: function typeahead(req) {
+      return _request2['default'].get('' + this.target + '/typeahead').query(_searchRequest$multiSearchRequest$typeaheadRequest.typeaheadRequest(req));
     }
   }]);
 
