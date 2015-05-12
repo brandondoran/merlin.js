@@ -26,9 +26,9 @@ For usage examples, see the [Search API documentation](http://blackbird.am/docs?
 
 ```javascript
 var engine = Blackbird.engine({
-    company: 'thredup',
-    environment: 'staging', 
-    instance: 'thredup'
+    company: 'company_name',
+    environment: 'environment_name', 
+    instance: 'instance_name'
 });
 
 engine.search({ q: 'dress' })
@@ -64,3 +64,4 @@ npm test
 
 - [search-api](http://blackbird.am/docs?javascript#search-api)
 - [multisearch-api](http://blackbird.am/docs?javascript#multi-search-api)
+- [typeahead-api](http://blackbird.am/docs?javascript#typeahead-api)
