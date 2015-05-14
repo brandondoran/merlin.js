@@ -1,3 +1,6 @@
+# 0.4.0
+* Added support for tracking endpoint
+
 # 0.3.0
 * Added support for typeahead requests
 
