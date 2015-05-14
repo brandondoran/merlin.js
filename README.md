@@ -32,8 +32,9 @@ var engine = Blackbird.engine({
 });
 
 engine.search({ q: 'dress' })
-.end(function (e, r) { 
-    console.log(r.body.results.numfound);
+.then(function (res) { 
+    // log the number of documents on the instance
+    console.log(res.body.results.numfound);
 });
 ```
 
