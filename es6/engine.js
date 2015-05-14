@@ -57,6 +57,12 @@ class Engine {
     .get(`${this.target}/typeahead`)
     .query(typeaheadRequest(req));
   }
+  track(req) {
+    let treq = trackRequest(req);
+    return request
+    .get(`${this.target}/track/${treq.type}`)
+    .query(treq.query);
+  }
 }
 
 export default function engine(options) {

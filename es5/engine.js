@@ -89,6 +89,12 @@ var Engine = (function () {
     value: function typeahead(req) {
       return _request2['default'].get('' + this.target + '/typeahead').query(_searchRequest$multiSearchRequest$typeaheadRequest.typeaheadRequest(req));
     }
+  }, {
+    key: 'track',
+    value: function track(req) {
+      var treq = trackRequest(req);
+      return _request2['default'].get('' + this.target + '/track/' + treq.type).query(treq.query);
+    }
   }]);
 
   return Engine;
