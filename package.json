@@ -10,10 +10,12 @@
     "test": "mocha es5/test.js",
     "clean": "rm -rf es5 && rm -f merlin.js"
   },
-  "author": "Davis Kim <davis@blackbird.am>",
+  "author": "davis <davis@blackbird.am>",
   "license": "Apache License 2.0",
   "dependencies": {
-    "superagent": "^1.1.0"
+    "bluebird": "^2.9.25",
+    "superagent": "^1.2.0",
+    "superagent-bluebird-promise": "^2.0.2"
   },
   "devDependencies": {
     "babel": "^5.1.11",

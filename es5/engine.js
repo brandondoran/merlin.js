@@ -13,7 +13,7 @@ Object.defineProperty(exports, '__esModule', {
 });
 exports['default'] = engine;
 
-var _request = require('superagent');
+var _request = require('superagent-bluebird-promise');
 
 var _request2 = _interopRequireWildcard(_request);
 

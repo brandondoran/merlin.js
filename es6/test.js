@@ -158,10 +158,10 @@ describe('Blackbird', () => {
       });
       it('should search given just a q', (done) => {
         engine.search({ q: 'dress' })
-        .end((err, res) => {
-          should.not.exist(err);
+        .then(res => {
+          // should.not.exist(err);
           should.exist(res);
-          done(err, res);
+          done();
         });
       });
     });
@@ -178,10 +178,10 @@ describe('Blackbird', () => {
             { q: 'shoes', sort: Blackbird.ascSort({ field: 'price' }) }
           ]
         })
-        .end((err, res) => {
-          should.not.exist(err);
+        .then(res => {
+          // should.not.exist(err);
           should.exist(res);
-          done(err, res);
+          done();
         });
       });
     });
@@ -196,10 +196,10 @@ describe('Blackbird', () => {
       engine.typeahead({
         q: 'dres'
       })
-      .end((err, res) => {
-        should.not.exist(err);
+      .then(res => {
+        // should.not.exist(err);
         should.exist(res);
-        done(err, res);
+        done();
       });
     });
   });

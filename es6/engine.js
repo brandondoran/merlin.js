@@ -1,6 +1,6 @@
 'use strict';
 
-import request from 'superagent';
+import request from 'superagent-bluebird-promise';
 
 import {RE2} from './helpers';
 import {searchRequest, multiSearchRequest, typeaheadRequest} from './request';

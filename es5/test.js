@@ -171,10 +171,10 @@ describe('Blackbird', function () {
         instance: 'wrangler'
       });
       it('should search given just a q', function (done) {
-        engine.search({ q: 'dress' }).end(function (err, res) {
-          _should2['default'].not.exist(err);
+        engine.search({ q: 'dress' }).then(function (res) {
+          // should.not.exist(err);
           _should2['default'].exist(res);
-          done(err, res);
+          done();
         });
       });
     });
@@ -187,10 +187,10 @@ describe('Blackbird', function () {
       it('should msearch given just 2 qs', function (done) {
         engine.msearch({
           qc: [{ q: 'dress', fields: '[all]' }, { q: 'shoes', sort: _Blackbird2['default'].ascSort({ field: 'price' }) }]
-        }).end(function (err, res) {
-          _should2['default'].not.exist(err);
+        }).then(function (res) {
+          // should.not.exist(err);
           _should2['default'].exist(res);
-          done(err, res);
+          done();
         });
       });
     });
@@ -204,10 +204,10 @@ describe('Blackbird', function () {
     it('should typeahead given a q', function (done) {
       engine.typeahead({
         q: 'dres'
-      }).end(function (err, res) {
-        _should2['default'].not.exist(err);
+      }).then(function (res) {
+        // should.not.exist(err);
         _should2['default'].exist(res);
-        done(err, res);
+        done();
       });
     });
   });
