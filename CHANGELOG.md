@@ -1,3 +1,6 @@
+# 0.4.1
+* Search, multisearch, and typeahead requests now allow blank/unset q parameters
+
 # 0.4.0
 * Added support for tracking endpoint
 
