@@ -498,13 +498,10 @@
 	    _classCallCheck(this, SearchRequest);
 
 	    _get(Object.getPrototypeOf(SearchRequest.prototype), 'constructor', this).call(this, options);
-	    (this.q = options.q) || delete this.q;
+	    this.q = options.q || '';
 	    (this.fields = SearchRequest.handleFields(options.fields)) || delete this.fields;
 	    (this.facet = SearchRequest.handleFacetsAndFilters(options.facet)) || delete this.facet;
 	    (this.filter = SearchRequest.handleFacetsAndFilters(options.filter)) || delete this.filter;
-	    if (!this.q) {
-	      throw new Error('The \'q\' parameter is required.');
-	    }
 	    if (!_checkConstructor$mSearchSerialize.checkConstructor(this.q, String)) {
 	      throw new Error('Request#q must be a string.');
 	    }
@@ -540,8 +537,11 @@
 	var QueryComponent = function QueryComponent(options) {
 	  _classCallCheck(this, QueryComponent);
 
-	  (this.q = options.q) || delete this.q;
+	  this.q = options.q || '';
 	  (this.filter = SearchRequest.handleFacetsAndFilters(options.filter)) || delete this.filter;
+	  if (!_checkConstructor$mSearchSerialize.checkConstructor(this.q, String)) {
+	    throw new Error('QueryComponent#q must be a string.');
+	  }
 	};
 
 	var MultiSearchRequest = (function (_Request2) {
@@ -576,9 +576,9 @@
 	var TypeaheadRequest = function TypeaheadRequest(options) {
 	  _classCallCheck(this, TypeaheadRequest);
 
-	  (this.q = options.q) || delete this.q;
-	  if (!this.q) {
-	    throw new Error('TypeaheadRequest#q is required.');
+	  this.q = options.q || '';
+	  if (!_checkConstructor$mSearchSerialize.checkConstructor(this.q, String)) {
+	    throw new Error('TypeaheadRequest#q must be a string.');
 	  }
 	};
 
@@ -906,7 +906,7 @@
 	 */
 
 	var root = 'undefined' == typeof window
-	  ? this
+	  ? (this || self)
 	  : window;
 
 	/**
@@ -945,7 +945,8 @@
 
 	request.getXHR = function () {
 	  if (root.XMLHttpRequest
-	    && ('file:' != root.location.protocol || !root.ActiveXObject)) {
+	      && (!root.location || 'file:' != root.location.protocol
+	          || !root.ActiveXObject)) {
 	    return new XMLHttpRequest;
 	  } else {
 	    try { return new ActiveXObject('Microsoft.XMLHTTP'); } catch(e) {}
@@ -1281,6 +1282,11 @@
 	 */
 
 	Response.prototype.setStatusProperties = function(status){
+	  // handle IE9 bug: http://stackoverflow.com/questions/10046972/msie-returns-status-code-of-1223-for-ajax-request
+	  if (status === 1223) {
+	    status = 204;
+	  }
+
 	  var type = status / 100 | 0;
 
 	  // status / class
@@ -1298,7 +1304,7 @@
 
 	  // sugar
 	  this.accepted = 202 == status;
-	  this.noContent = 204 == status || 1223 == status;
+	  this.noContent = 204 == status;
 	  this.badRequest = 400 == status;
 	  this.unauthorized = 401 == status;
 	  this.notAcceptable = 406 == status;
@@ -1806,12 +1812,18 @@
 	  };
 
 	  // progress
+	  var handleProgress = function(e){
+	    if (e.total > 0) {
+	      e.percent = e.loaded / e.total * 100;
+	    }
+	    self.emit('progress', e);
+	  };
+	  if (this.hasListeners('progress')) {
+	    xhr.onprogress = handleProgress;
+	  }
 	  try {
 	    if (xhr.upload && this.hasListeners('progress')) {
-	      xhr.upload.onprogress = function(e){
-	        e.percent = e.loaded / e.total * 100;
-	        self.emit('progress', e);
-	      };
+	      xhr.upload.onprogress = handleProgress;
 	    }
 	  } catch(e) {
 	    // Accessing xhr.upload fails in IE from a web worker, so just pretend it doesn't exist.

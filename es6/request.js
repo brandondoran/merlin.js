@@ -20,13 +20,10 @@ export class Request {
 export class SearchRequest extends Request {
   constructor(options) {
     super(options);
-    (this.q = options.q) || delete this.q;
+    this.q = options.q || '';
     (this.fields = SearchRequest.handleFields(options.fields)) || delete this.fields;
     (this.facet = SearchRequest.handleFacetsAndFilters(options.facet)) || delete this.facet;
     (this.filter = SearchRequest.handleFacetsAndFilters(options.filter)) || delete this.filter;
-    if (!this.q) {
-      throw new Error(`The 'q' parameter is required.`);
-    }
     if (!checkConstructor(this.q, String)) {
       throw new Error('Request#q must be a string.');
     }
@@ -49,8 +46,11 @@ export class SearchRequest extends Request {
 
 class QueryComponent {
   constructor(options) {
-    (this.q = options.q) || delete this.q;
+    this.q = options.q || '';
     (this.filter = SearchRequest.handleFacetsAndFilters(options.filter)) || delete this.filter;
+    if (!checkConstructor(this.q, String)) {
+      throw new Error('QueryComponent#q must be a string.');
+    }
   }
 }
 
@@ -70,9 +70,9 @@ export class MultiSearchRequest extends Request {
 
 export class TypeaheadRequest {
   constructor(options) {
-    (this.q = options.q) || delete this.q;
-    if (!this.q) {
-      throw new Error('TypeaheadRequest#q is required.');
+    this.q = options.q || '';
+    if (!checkConstructor(this.q, String)) {
+      throw new Error('TypeaheadRequest#q must be a string.');
     }
   }
 }
