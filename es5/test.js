@@ -71,11 +71,12 @@ describe('Blackbird', function () {
 
   // SearchRequest
   describe('SearchRequest', function () {
-    it('should throw an error when being instantiated without a q', function () {
+    it('should not throw an error when being instantiated without a q', function () {
       var instantiateEmptyRequest = function instantiateEmptyRequest() {
         return _Blackbird2['default'].searchRequest({});
       };
-      instantiateEmptyRequest.should['throw']();
+      instantiateEmptyRequest().q.should.equal('');
+      instantiateEmptyRequest.should.not['throw']();
     });
     describe('handleFields', function () {
       it('should return the input when the input is a string', function () {

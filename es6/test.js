@@ -59,9 +59,10 @@ describe('Blackbird', () => {
 
   // SearchRequest
   describe('SearchRequest', () => {
-    it('should throw an error when being instantiated without a q', () => {
+    it('should not throw an error when being instantiated without a q', () => {
       let instantiateEmptyRequest = () => Blackbird.searchRequest({});
-      instantiateEmptyRequest.should.throw();
+      instantiateEmptyRequest().q.should.equal('');
+      instantiateEmptyRequest.should.not.throw();
     });
     describe('handleFields', () => {
       it('should return the input when the input is a string', () => {
