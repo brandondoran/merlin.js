@@ -5,8 +5,22 @@ Object.defineProperty(exports, '__esModule', {
 });
 exports.checkConstructor = checkConstructor;
 exports.mSearchSerialize = mSearchSerialize;
+exports.set = set;
 'use strict';
 
+var _ = {
+  isUndefined: function isUndefined(val) {
+    return val === undefined;
+  },
+  isNull: function isNull(val) {
+    return val === null;
+  },
+  isNaN: function isNaN(val) {
+    return Number.isNaN(val);
+  }
+};
+
+exports._ = _;
 var RE1 = /^_?[a-z][0-9a-z_]{0,63}$/;
 exports.RE1 = RE1;
 var RE2 = /(\w+)\.(prod|staging|dev)\.(\w+)/;
@@ -39,4 +53,14 @@ function mSearchSerialize(obj) {
     }
   }
   return pairs.join('//');
+}
+
+function set(obj, k, v) {
+  var isundef = _.isUndefined(v);
+  var isnull = _.isNull(v);
+  var isnan = _.isNaN(v);
+  if (!isundef && !isnull && !isnan) {
+    obj[k] = v;
+  }
+  return obj[k];
 }

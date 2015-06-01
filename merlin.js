@@ -462,7 +462,7 @@
 	exports.searchRequest = searchRequest;
 	exports.multiSearchRequest = multiSearchRequest;
 
-	var _checkConstructor$mSearchSerialize = __webpack_require__(6);
+	var _checkConstructor$mSearchSerialize$set = __webpack_require__(6);
 
 	'use strict';
 
@@ -471,9 +471,9 @@
 	    _classCallCheck(this, Request);
 
 	    // todo: clean this up
-	    (this.start = Number(options.start)) || delete this.start;
-	    (this.num = Number(options.num)) || delete this.num;
-	    (this.sort = Request.handleSorts(options.sort)) || delete this.sort;
+	    _checkConstructor$mSearchSerialize$set.set(this, 'start', Number(options.start));
+	    _checkConstructor$mSearchSerialize$set.set(this, 'num', Number(options.num));
+	    _checkConstructor$mSearchSerialize$set.set(this, 'sort', Request.handleSorts(options.sort));
 	  }
 
 	  _createClass(Request, null, [{
@@ -499,10 +499,10 @@
 
 	    _get(Object.getPrototypeOf(SearchRequest.prototype), 'constructor', this).call(this, options);
 	    this.q = options.q || '';
-	    (this.fields = SearchRequest.handleFields(options.fields)) || delete this.fields;
-	    (this.facet = SearchRequest.handleFacetsAndFilters(options.facet)) || delete this.facet;
-	    (this.filter = SearchRequest.handleFacetsAndFilters(options.filter)) || delete this.filter;
-	    if (!_checkConstructor$mSearchSerialize.checkConstructor(this.q, String)) {
+	    _checkConstructor$mSearchSerialize$set.set(this, 'fields', SearchRequest.handleFields(options.fields));
+	    _checkConstructor$mSearchSerialize$set.set(this, 'facet', SearchRequest.handleFacetsAndFilters(options.facet));
+	    _checkConstructor$mSearchSerialize$set.set(this, 'filter', SearchRequest.handleFacetsAndFilters(options.filter));
+	    if (!_checkConstructor$mSearchSerialize$set.checkConstructor(this.q, String)) {
 	      throw new Error('Request#q must be a string.');
 	    }
 	  }
@@ -538,8 +538,8 @@
 	  _classCallCheck(this, QueryComponent);
 
 	  this.q = options.q || '';
-	  (this.filter = SearchRequest.handleFacetsAndFilters(options.filter)) || delete this.filter;
-	  if (!_checkConstructor$mSearchSerialize.checkConstructor(this.q, String)) {
+	  _checkConstructor$mSearchSerialize$set.set(this, 'filter', SearchRequest.handleFacetsAndFilters(options.filter));
+	  if (!_checkConstructor$mSearchSerialize$set.checkConstructor(this.q, String)) {
 	    throw new Error('QueryComponent#q must be a string.');
 	  }
 	};
@@ -550,11 +550,10 @@
 
 	    _get(Object.getPrototypeOf(MultiSearchRequest.prototype), 'constructor', this).call(this, options);
 	    var qc = options.qc;
-
 	    if (qc.length >= 6) {
 	      throw new Error('A multi-search only supports up to 6 queries.');
 	    }
-	    (this.qc = MultiSearchRequest.handleQc(qc)) || delete this.qc;
+	    _checkConstructor$mSearchSerialize$set.set(this, 'qc', MultiSearchRequest.handleQc(qc));
 	  }
 
 	  _inherits(MultiSearchRequest, _Request2);
@@ -563,7 +562,7 @@
 	    key: 'handleQc',
 	    value: function handleQc(qcs) {
 	      return qcs.map(function (qc) {
-	        return _checkConstructor$mSearchSerialize.mSearchSerialize(new QueryComponent(qc));
+	        return _checkConstructor$mSearchSerialize$set.mSearchSerialize(new QueryComponent(qc));
 	      });
 	    }
 	  }]);
@@ -577,7 +576,7 @@
 	  _classCallCheck(this, TypeaheadRequest);
 
 	  this.q = options.q || '';
-	  if (!_checkConstructor$mSearchSerialize.checkConstructor(this.q, String)) {
+	  if (!_checkConstructor$mSearchSerialize$set.checkConstructor(this.q, String)) {
 	    throw new Error('TypeaheadRequest#q must be a string.');
 	  }
 	};
@@ -719,8 +718,22 @@
 	});
 	exports.checkConstructor = checkConstructor;
 	exports.mSearchSerialize = mSearchSerialize;
+	exports.set = set;
 	'use strict';
 
+	var _ = {
+	  isUndefined: function isUndefined(val) {
+	    return val === undefined;
+	  },
+	  isNull: function isNull(val) {
+	    return val === null;
+	  },
+	  isNaN: function isNaN(val) {
+	    return Number.isNaN(val);
+	  }
+	};
+
+	exports._ = _;
 	var RE1 = /^_?[a-z][0-9a-z_]{0,63}$/;
 	exports.RE1 = RE1;
 	var RE2 = /(\w+)\.(prod|staging|dev)\.(\w+)/;
@@ -753,6 +766,16 @@
 	    }
 	  }
 	  return pairs.join('//');
+	}
+
+	function set(obj, k, v) {
+	  var isundef = _.isUndefined(v);
+	  var isnull = _.isNull(v);
+	  var isnan = _.isNaN(v);
+	  if (!isundef && !isnull && !isnan) {
+	    obj[k] = v;
+	  }
+	  return obj[k];
 	}
 
 /***/ },

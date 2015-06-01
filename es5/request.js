@@ -15,7 +15,7 @@ exports.typeaheadRequest = typeaheadRequest;
 exports.searchRequest = searchRequest;
 exports.multiSearchRequest = multiSearchRequest;
 
-var _checkConstructor$mSearchSerialize = require('./helpers');
+var _checkConstructor$mSearchSerialize$set = require('./helpers');
 
 'use strict';
 
@@ -24,9 +24,9 @@ var Request = (function () {
     _classCallCheck(this, Request);
 
     // todo: clean this up
-    (this.start = Number(options.start)) || delete this.start;
-    (this.num = Number(options.num)) || delete this.num;
-    (this.sort = Request.handleSorts(options.sort)) || delete this.sort;
+    _checkConstructor$mSearchSerialize$set.set(this, 'start', Number(options.start));
+    _checkConstructor$mSearchSerialize$set.set(this, 'num', Number(options.num));
+    _checkConstructor$mSearchSerialize$set.set(this, 'sort', Request.handleSorts(options.sort));
   }
 
   _createClass(Request, null, [{
@@ -52,10 +52,10 @@ var SearchRequest = (function (_Request) {
 
     _get(Object.getPrototypeOf(SearchRequest.prototype), 'constructor', this).call(this, options);
     this.q = options.q || '';
-    (this.fields = SearchRequest.handleFields(options.fields)) || delete this.fields;
-    (this.facet = SearchRequest.handleFacetsAndFilters(options.facet)) || delete this.facet;
-    (this.filter = SearchRequest.handleFacetsAndFilters(options.filter)) || delete this.filter;
-    if (!_checkConstructor$mSearchSerialize.checkConstructor(this.q, String)) {
+    _checkConstructor$mSearchSerialize$set.set(this, 'fields', SearchRequest.handleFields(options.fields));
+    _checkConstructor$mSearchSerialize$set.set(this, 'facet', SearchRequest.handleFacetsAndFilters(options.facet));
+    _checkConstructor$mSearchSerialize$set.set(this, 'filter', SearchRequest.handleFacetsAndFilters(options.filter));
+    if (!_checkConstructor$mSearchSerialize$set.checkConstructor(this.q, String)) {
       throw new Error('Request#q must be a string.');
     }
   }
@@ -91,8 +91,8 @@ var QueryComponent = function QueryComponent(options) {
   _classCallCheck(this, QueryComponent);
 
   this.q = options.q || '';
-  (this.filter = SearchRequest.handleFacetsAndFilters(options.filter)) || delete this.filter;
-  if (!_checkConstructor$mSearchSerialize.checkConstructor(this.q, String)) {
+  _checkConstructor$mSearchSerialize$set.set(this, 'filter', SearchRequest.handleFacetsAndFilters(options.filter));
+  if (!_checkConstructor$mSearchSerialize$set.checkConstructor(this.q, String)) {
     throw new Error('QueryComponent#q must be a string.');
   }
 };
@@ -103,11 +103,10 @@ var MultiSearchRequest = (function (_Request2) {
 
     _get(Object.getPrototypeOf(MultiSearchRequest.prototype), 'constructor', this).call(this, options);
     var qc = options.qc;
-
     if (qc.length >= 6) {
       throw new Error('A multi-search only supports up to 6 queries.');
     }
-    (this.qc = MultiSearchRequest.handleQc(qc)) || delete this.qc;
+    _checkConstructor$mSearchSerialize$set.set(this, 'qc', MultiSearchRequest.handleQc(qc));
   }
 
   _inherits(MultiSearchRequest, _Request2);
@@ -116,7 +115,7 @@ var MultiSearchRequest = (function (_Request2) {
     key: 'handleQc',
     value: function handleQc(qcs) {
       return qcs.map(function (qc) {
-        return _checkConstructor$mSearchSerialize.mSearchSerialize(new QueryComponent(qc));
+        return _checkConstructor$mSearchSerialize$set.mSearchSerialize(new QueryComponent(qc));
       });
     }
   }]);
@@ -130,7 +129,7 @@ var TypeaheadRequest = function TypeaheadRequest(options) {
   _classCallCheck(this, TypeaheadRequest);
 
   this.q = options.q || '';
-  if (!_checkConstructor$mSearchSerialize.checkConstructor(this.q, String)) {
+  if (!_checkConstructor$mSearchSerialize$set.checkConstructor(this.q, String)) {
     throw new Error('TypeaheadRequest#q must be a string.');
   }
 };
