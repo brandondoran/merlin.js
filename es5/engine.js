@@ -19,7 +19,7 @@ var _request2 = _interopRequireWildcard(_request);
 
 var _RE2 = require('./helpers');
 
-var _searchRequest$multiSearchRequest$typeaheadRequest = require('./request');
+var _searchRequest$multiSearchRequest$typeaheadRequest$similarRequest = require('./request');
 
 'use strict';
 
@@ -77,17 +77,22 @@ var Engine = (function () {
   }, {
     key: 'search',
     value: function search(req) {
-      return _request2['default'].get('' + this.target + '/search').query(_searchRequest$multiSearchRequest$typeaheadRequest.searchRequest(req));
+      return _request2['default'].get('' + this.target + '/search').query(_searchRequest$multiSearchRequest$typeaheadRequest$similarRequest.searchRequest(req));
     }
   }, {
     key: 'msearch',
     value: function msearch(req) {
-      return _request2['default'].get('' + this.target + '/msearch').query(_searchRequest$multiSearchRequest$typeaheadRequest.multiSearchRequest(req));
+      return _request2['default'].get('' + this.target + '/msearch').query(_searchRequest$multiSearchRequest$typeaheadRequest$similarRequest.multiSearchRequest(req));
     }
   }, {
     key: 'typeahead',
     value: function typeahead(req) {
-      return _request2['default'].get('' + this.target + '/typeahead').query(_searchRequest$multiSearchRequest$typeaheadRequest.typeaheadRequest(req));
+      return _request2['default'].get('' + this.target + '/typeahead').query(_searchRequest$multiSearchRequest$typeaheadRequest$similarRequest.typeaheadRequest(req));
+    }
+  }, {
+    key: 'similar',
+    value: function similar(req) {
+      return _request2['default'].get('' + this.target + '/similar').query(_searchRequest$multiSearchRequest$typeaheadRequest$similarRequest.similarRequest(req));
     }
   }, {
     key: 'track',

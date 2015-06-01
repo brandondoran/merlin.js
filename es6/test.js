@@ -204,4 +204,21 @@ describe('Blackbird', () => {
       });
     });
   });
+  describe('similar', () => {
+    const engine = Blackbird.engine({
+      company: 'thredup',
+      environment: 'staging',
+      instance: 'wrangler'
+    });
+    it('should similar given an id', (done) => {
+      engine.similar({
+        id: 4511609
+      })
+      .end((err, res) => {
+        should.not.exist(err);
+        should.exist(res);
+        done(err, res);
+      });
+    });
+  });
 });

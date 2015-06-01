@@ -212,4 +212,20 @@ describe('Blackbird', function () {
       });
     });
   });
+  describe('similar', function () {
+    var engine = _Blackbird2['default'].engine({
+      company: 'thredup',
+      environment: 'staging',
+      instance: 'wrangler'
+    });
+    it('should similar given an id', function (done) {
+      engine.similar({
+        id: 4511609
+      }).end(function (err, res) {
+        _should2['default'].not.exist(err);
+        _should2['default'].exist(res);
+        done(err, res);
+      });
+    });
+  });
 });

@@ -3,7 +3,7 @@
 import request from 'superagent';
 
 import {RE2} from './helpers';
-import {searchRequest, multiSearchRequest, typeaheadRequest} from './request';
+import {searchRequest, multiSearchRequest, typeaheadRequest, similarRequest} from './request';
 
 class Engine {
   constructor(options) {
@@ -56,6 +56,11 @@ class Engine {
     return request
     .get(`${this.target}/typeahead`)
     .query(typeaheadRequest(req));
+  }
+  similar(req) {
+    return request
+    .get(`${this.target}/similar`)
+    .query(similarRequest(req));
   }
   track(req) {
     let treq = trackRequest(req);

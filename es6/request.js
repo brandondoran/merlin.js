@@ -77,6 +77,18 @@ export class TypeaheadRequest {
   }
 }
 
+export class SimilarRequest {
+  constructor(options) {
+    this.id = options.id;
+    set(this, 'num', options.num);
+    set(this, 'filter', SearchRequest.handleFacetsAndFilters(options.filter));
+  }
+}
+
+export function similarRequest(options) {
+  return new SimilarRequest(options);
+}
+
 export function typeaheadRequest(options) {
   return new TypeaheadRequest(options);
 }

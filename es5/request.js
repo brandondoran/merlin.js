@@ -11,6 +11,7 @@ var _createClass = (function () { function defineProperties(target, props) { for
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
+exports.similarRequest = similarRequest;
 exports.typeaheadRequest = typeaheadRequest;
 exports.searchRequest = searchRequest;
 exports.multiSearchRequest = multiSearchRequest;
@@ -135,6 +136,20 @@ var TypeaheadRequest = function TypeaheadRequest(options) {
 };
 
 exports.TypeaheadRequest = TypeaheadRequest;
+
+var SimilarRequest = function SimilarRequest(options) {
+  _classCallCheck(this, SimilarRequest);
+
+  this.id = options.id;
+  _checkConstructor$mSearchSerialize$set.set(this, 'num', options.num);
+  _checkConstructor$mSearchSerialize$set.set(this, 'filter', SearchRequest.handleFacetsAndFilters(options.filter));
+};
+
+exports.SimilarRequest = SimilarRequest;
+
+function similarRequest(options) {
+  return new SimilarRequest(options);
+}
 
 function typeaheadRequest(options) {
   return new TypeaheadRequest(options);
