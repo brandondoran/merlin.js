@@ -165,6 +165,32 @@ describe('Blackbird', () => {
           done(err, res);
         });
       });
+      it('should search given multiple facets', (done) => {
+        const facet = [
+          Blackbird.enumFacet({
+            field: 'brand_id',
+            num: 2000
+          }),
+          Blackbird.enumFacet({
+            field: 'category_id',
+            num: 100
+          }),
+          Blackbird.enumFacet({
+            field: 'sizing_id',
+            num: 100
+          })
+        ];
+        engine.search({
+          q: 'dress',
+          facet
+        })
+        .end((err, res) => {
+          should.not.exist(err);
+          should.exist(res);
+          console.log(res)
+          done(err, res);
+        });
+      });
     });
     describe('msearch', () => {
       const engine = Blackbird.engine({

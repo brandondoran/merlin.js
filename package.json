@@ -13,7 +13,7 @@
   "author": "Davis Kim <davis@blackbird.am>",
   "license": "Apache License 2.0",
   "dependencies": {
-    "superagent": "^1.1.0"
+    "superagent": "davis/superagent#handle-arrays-better"
   },
   "devDependencies": {
     "babel": "^5.1.11",
