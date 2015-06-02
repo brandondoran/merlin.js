@@ -1,5 +1,5 @@
 # 0.4.2
-* Added support for similar search endpoint
+* Added support for visual recommendation endpoint
 
 # 0.4.1
 * Search, multisearch, and typeahead requests now allow blank/unset q parameters
