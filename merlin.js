@@ -46,36 +46,34 @@
 
 	'use strict';
 
-	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
-
 	Object.defineProperty(exports, '__esModule', {
 	  value: true
 	});
 
-	var _cnfFilter$dnfFilter = __webpack_require__(1);
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _enumFacet$histFacet$rangeFacet = __webpack_require__(2);
+	var _filter = __webpack_require__(1);
 
-	var _ascSort$descSort = __webpack_require__(3);
+	var _facet = __webpack_require__(4);
 
-	var _searchRequest$multiSearchRequest = __webpack_require__(4);
+	var _sort = __webpack_require__(5);
 
-	var _engine = __webpack_require__(5);
+	var _request = __webpack_require__(6);
 
-	var _engine2 = _interopRequireWildcard(_engine);
+	var _engine = __webpack_require__(7);
 
-	'use strict';
+	var _engine2 = _interopRequireDefault(_engine);
 
 	var Blackbird = {
-	  cnfFilter: _cnfFilter$dnfFilter.cnfFilter,
-	  dnfFilter: _cnfFilter$dnfFilter.dnfFilter,
-	  enumFacet: _enumFacet$histFacet$rangeFacet.enumFacet,
-	  histFacet: _enumFacet$histFacet$rangeFacet.histFacet,
-	  rangeFacet: _enumFacet$histFacet$rangeFacet.rangeFacet,
-	  ascSort: _ascSort$descSort.ascSort,
-	  descSort: _ascSort$descSort.descSort,
-	  searchRequest: _searchRequest$multiSearchRequest.searchRequest,
-	  multiSearchRequest: _searchRequest$multiSearchRequest.multiSearchRequest,
+	  cnfFilter: _filter.cnfFilter,
+	  dnfFilter: _filter.dnfFilter,
+	  enumFacet: _facet.enumFacet,
+	  histFacet: _facet.histFacet,
+	  rangeFacet: _facet.rangeFacet,
+	  ascSort: _sort.ascSort,
+	  descSort: _sort.descSort,
+	  searchRequest: _request.searchRequest,
+	  multiSearchRequest: _request.multiSearchRequest,
 	  engine: _engine2['default']
 	};
 
@@ -91,53 +89,52 @@
 
 	'use strict';
 
-	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-
-	var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
-
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
 	Object.defineProperty(exports, '__esModule', {
 	  value: true
 	});
+
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
 	exports.cnfFilter = cnfFilter;
 	exports.dnfFilter = dnfFilter;
 
-	var _checkConstructor$RE1 = __webpack_require__(6);
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
-	var _expression$andExpression$orExpression = __webpack_require__(7);
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-	'use strict';
+	var _helpers = __webpack_require__(2);
+
+	var _expression = __webpack_require__(3);
 
 	var Filter = (function () {
 	  function Filter(options) {
 	    _classCallCheck(this, Filter);
 
 	    this.expressions = [];
-	    this.expressions.push(_expression$andExpression$orExpression.expression(options));
+	    this.expressions.push((0, _expression.expression)(options));
 	  }
 
 	  _createClass(Filter, [{
 	    key: 'and',
 	    value: function and(options) {
-	      this.expressions.push(_expression$andExpression$orExpression.andExpression(options));
+	      this.expressions.push((0, _expression.andExpression)(options));
 	      return this;
 	    }
 	  }, {
 	    key: 'or',
 	    value: function or(options) {
-	      this.expressions.push(_expression$andExpression$orExpression.orExpression(options));
+	      this.expressions.push((0, _expression.orExpression)(options));
 	      return this;
 	    }
 	  }, {
 	    key: 'tag',
 	    value: function tag(input) {
-	      if (!_checkConstructor$RE1.checkConstructor(input, String)) {
+	      if (!(0, _helpers.checkConstructor)(input, String)) {
 	        throw new Error('Filter tags must be strings.');
 	      }
-	      if (!_checkConstructor$RE1.RE1.test(input)) {
+	      if (!_helpers.RE1.test(input)) {
 	        throw new Error('Filter tags can only contain a-z, 0-9, and underscores, and must start with a lowercase letter.');
 	      }
 	      this._tag = input;
@@ -217,24 +214,226 @@
 
 	'use strict';
 
-	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	exports.checkConstructor = checkConstructor;
+	exports.mSearchSerialize = mSearchSerialize;
+	exports.set = set;
+	var _ = {
+	  isUndefined: function isUndefined(val) {
+	    return val === undefined;
+	  },
+	  isNull: function isNull(val) {
+	    return val === null;
+	  },
+	  isNaN: function isNaN(val) {
+	    return Number.isNaN(val);
+	  }
+	};
 
-	var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	exports._ = _;
+	var RE1 = /^_?[a-z][0-9a-z_]{0,63}$/;
+	exports.RE1 = RE1;
+	var RE2 = /(\w+)\.(prod|staging|dev)\.(\w+)/;
 
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
+	exports.RE2 = RE2;
 
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	function checkConstructor(input) {
+	  for (var _len = arguments.length, constructors = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+	    constructors[_key - 1] = arguments[_key];
+	  }
+
+	  return constructors.reduce(function (result, constructor) {
+	    return result || input.constructor === constructor;
+	  }, false);
+	}
+
+	// borrowed from superagent
+	function isObject(obj) {
+	  return obj === Object(obj);
+	}
+
+	function mSearchSerialize(obj) {
+	  if (!isObject(obj)) {
+	    return obj;
+	  }
+	  var pairs = [];
+	  for (var key in obj) {
+	    if (obj[key] != null) {
+	      pairs.push(encodeURIComponent(key) + '=' + encodeURIComponent(obj[key]));
+	    }
+	  }
+	  return pairs.join('//');
+	}
+
+	function set(obj, k, v) {
+	  var isundef = _.isUndefined(v);
+	  var isnull = _.isNull(v);
+	  var isnan = _.isNaN(v);
+	  if (!isundef && !isnull && !isnan) {
+	    obj[k] = v;
+	  }
+	  return obj[k];
+	}
+
+/***/ },
+/* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 
 	Object.defineProperty(exports, '__esModule', {
 	  value: true
 	});
+
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	exports.expression = expression;
+	exports.andExpression = andExpression;
+	exports.orExpression = orExpression;
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+	var _helpers = __webpack_require__(2);
+
+	var Expression = (function () {
+	  function Expression(options) {
+	    _classCallCheck(this, Expression);
+
+	    var field = options.field;
+	    var operator = options.operator;
+	    var value = options.value;
+
+	    if (!field) {
+	      throw new Error('Expression#field is required.');
+	    }
+	    if (!operator) {
+	      throw new Error('Expression#operator is required.');
+	    }
+	    if (!value) {
+	      throw new Error('Expression#value is required.');
+	    }
+	    if (!(0, _helpers.checkConstructor)(field, String)) {
+	      throw new Error('Expression#field must be a string.');
+	    }
+	    if (!_helpers.RE1.test(field)) {
+	      throw new Error('Expression#field can only contain a-z, 0-9, and underscores, and must start with a lowercase letter.');
+	    }
+	    if (!(0, _helpers.checkConstructor)(value, String, Number)) {
+	      throw new Error('Expression#value must be a string or a number.');
+	    }
+	    this.field = field;
+	    this.operator = operator;
+	    this.value = value;
+	  }
+
+	  _createClass(Expression, [{
+	    key: 'toString',
+	    value: function toString() {
+	      var rhs = undefined,
+	          op = this.operator,
+	          val = this.value;
+	      switch (op) {
+	        case '=':
+	          rhs = '' + val;break;
+	        case '!=':
+	          rhs = '!' + val;break;
+	        case '<':
+	          rhs = '(:' + val + ')';break;
+	        case '>':
+	          rhs = '(' + val + ':)';break;
+	        case '<=':
+	          rhs = '(:' + val + ']';break;
+	        case '>=':
+	          rhs = '[' + val + ':)';break;
+	        default:
+	          throw new Error('Expression#operator must be one of the following: =, !=, <, >, <=, or >=.');
+	      }
+	      return '' + this.field + ':' + rhs;
+	    }
+	  }]);
+
+	  return Expression;
+	})();
+
+	var AndExpression = (function (_Expression) {
+	  function AndExpression(options) {
+	    _classCallCheck(this, AndExpression);
+
+	    _get(Object.getPrototypeOf(AndExpression.prototype), 'constructor', this).call(this, options);
+	  }
+
+	  _inherits(AndExpression, _Expression);
+
+	  _createClass(AndExpression, [{
+	    key: 'toString',
+	    value: function toString() {
+	      return ',' + _get(Object.getPrototypeOf(AndExpression.prototype), 'toString', this).call(this);
+	    }
+	  }]);
+
+	  return AndExpression;
+	})(Expression);
+
+	var OrExpression = (function (_Expression2) {
+	  function OrExpression(options) {
+	    _classCallCheck(this, OrExpression);
+
+	    _get(Object.getPrototypeOf(OrExpression.prototype), 'constructor', this).call(this, options);
+	  }
+
+	  _inherits(OrExpression, _Expression2);
+
+	  _createClass(OrExpression, [{
+	    key: 'toString',
+	    value: function toString() {
+	      return '|' + _get(Object.getPrototypeOf(OrExpression.prototype), 'toString', this).call(this);
+	    }
+	  }]);
+
+	  return OrExpression;
+	})(Expression);
+
+	function expression(options) {
+	  return new Expression(options);
+	}
+
+	function andExpression(options) {
+	  return new AndExpression(options);
+	}
+
+	function orExpression(options) {
+	  return new OrExpression(options);
+	}
+
+/***/ },
+/* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
 	exports.enumFacet = enumFacet;
 	exports.histFacet = histFacet;
 	exports.rangeFacet = rangeFacet;
 
-	var _checkConstructor$RE1 = __webpack_require__(6);
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
-	'use strict';
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+	var _helpers = __webpack_require__(2);
 
 	var Facet = (function () {
 	  function Facet(options) {
@@ -242,10 +441,10 @@
 
 	    var field = options.field;
 
-	    if (!_checkConstructor$RE1.checkConstructor(field, String)) {
+	    if (!(0, _helpers.checkConstructor)(field, String)) {
 	      throw new Error('Facet#field must be a string.');
 	    }
-	    if (!_checkConstructor$RE1.RE1.test(field)) {
+	    if (!_helpers.RE1.test(field)) {
 	      throw new Error('Facet#field can only contain a-z, 0-9, and underscores, and must start with a lowercase letter.');
 	    }
 	    this.field = field;
@@ -340,28 +539,27 @@
 	}
 
 /***/ },
-/* 3 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-
-	var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
-
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
 	Object.defineProperty(exports, '__esModule', {
 	  value: true
 	});
+
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
 	exports.ascSort = ascSort;
 	exports.descSort = descSort;
 
-	var _checkConstructor$RE1 = __webpack_require__(6);
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
-	'use strict';
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+	var _helpers = __webpack_require__(2);
 
 	var Sort = (function () {
 	  function Sort(options) {
@@ -372,10 +570,10 @@
 	    if (!field) {
 	      throw new Error('Sort#field is required.');
 	    }
-	    if (!_checkConstructor$RE1.checkConstructor(field, String)) {
+	    if (!(0, _helpers.checkConstructor)(field, String)) {
 	      throw new Error('Sort#field must be a string.');
 	    }
-	    if (!_checkConstructor$RE1.RE1.test(field)) {
+	    if (!_helpers.RE1.test(field)) {
 	      throw new Error('Sort#field can only contain a-z, 0-9, and underscores, and must start with a lowercase letter.');
 	    }
 	    this.field = field;
@@ -442,39 +640,38 @@
 	}
 
 /***/ },
-/* 4 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-
-	var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
-
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
 	Object.defineProperty(exports, '__esModule', {
 	  value: true
 	});
+
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
 	exports.similarRequest = similarRequest;
 	exports.typeaheadRequest = typeaheadRequest;
 	exports.searchRequest = searchRequest;
 	exports.multiSearchRequest = multiSearchRequest;
 
-	var _checkConstructor$mSearchSerialize$set = __webpack_require__(6);
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
-	'use strict';
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+	var _helpers = __webpack_require__(2);
 
 	var Request = (function () {
 	  function Request(options) {
 	    _classCallCheck(this, Request);
 
 	    // todo: clean this up
-	    _checkConstructor$mSearchSerialize$set.set(this, 'start', Number(options.start));
-	    _checkConstructor$mSearchSerialize$set.set(this, 'num', Number(options.num));
-	    _checkConstructor$mSearchSerialize$set.set(this, 'sort', Request.handleSorts(options.sort));
+	    (0, _helpers.set)(this, 'start', Number(options.start));
+	    (0, _helpers.set)(this, 'num', Number(options.num));
+	    (0, _helpers.set)(this, 'sort', Request.handleSorts(options.sort));
 	  }
 
 	  _createClass(Request, null, [{
@@ -500,10 +697,10 @@
 
 	    _get(Object.getPrototypeOf(SearchRequest.prototype), 'constructor', this).call(this, options);
 	    this.q = options.q || '';
-	    _checkConstructor$mSearchSerialize$set.set(this, 'fields', SearchRequest.handleFields(options.fields));
-	    _checkConstructor$mSearchSerialize$set.set(this, 'facet', SearchRequest.handleFacetsAndFilters(options.facet));
-	    _checkConstructor$mSearchSerialize$set.set(this, 'filter', SearchRequest.handleFacetsAndFilters(options.filter));
-	    if (!_checkConstructor$mSearchSerialize$set.checkConstructor(this.q, String)) {
+	    (0, _helpers.set)(this, 'fields', SearchRequest.handleFields(options.fields));
+	    (0, _helpers.set)(this, 'facet', SearchRequest.handleFacetsAndFilters(options.facet));
+	    (0, _helpers.set)(this, 'filter', SearchRequest.handleFacetsAndFilters(options.filter));
+	    if (!(0, _helpers.checkConstructor)(this.q, String)) {
 	      throw new Error('Request#q must be a string.');
 	    }
 	  }
@@ -539,8 +736,8 @@
 	  _classCallCheck(this, QueryComponent);
 
 	  this.q = options.q || '';
-	  _checkConstructor$mSearchSerialize$set.set(this, 'filter', SearchRequest.handleFacetsAndFilters(options.filter));
-	  if (!_checkConstructor$mSearchSerialize$set.checkConstructor(this.q, String)) {
+	  (0, _helpers.set)(this, 'filter', SearchRequest.handleFacetsAndFilters(options.filter));
+	  if (!(0, _helpers.checkConstructor)(this.q, String)) {
 	    throw new Error('QueryComponent#q must be a string.');
 	  }
 	};
@@ -554,7 +751,7 @@
 	    if (qc.length >= 6) {
 	      throw new Error('A multi-search only supports up to 6 queries.');
 	    }
-	    _checkConstructor$mSearchSerialize$set.set(this, 'qc', MultiSearchRequest.handleQc(qc));
+	    (0, _helpers.set)(this, 'qc', MultiSearchRequest.handleQc(qc));
 	  }
 
 	  _inherits(MultiSearchRequest, _Request2);
@@ -563,7 +760,7 @@
 	    key: 'handleQc',
 	    value: function handleQc(qcs) {
 	      return qcs.map(function (qc) {
-	        return _checkConstructor$mSearchSerialize$set.mSearchSerialize(new QueryComponent(qc));
+	        return (0, _helpers.mSearchSerialize)(new QueryComponent(qc));
 	      });
 	    }
 	  }]);
@@ -577,7 +774,7 @@
 	  _classCallCheck(this, TypeaheadRequest);
 
 	  this.q = options.q || '';
-	  if (!_checkConstructor$mSearchSerialize$set.checkConstructor(this.q, String)) {
+	  if (!(0, _helpers.checkConstructor)(this.q, String)) {
 	    throw new Error('TypeaheadRequest#q must be a string.');
 	  }
 	};
@@ -588,8 +785,9 @@
 	  _classCallCheck(this, SimilarRequest);
 
 	  this.id = options.id;
-	  _checkConstructor$mSearchSerialize$set.set(this, 'num', options.num);
-	  _checkConstructor$mSearchSerialize$set.set(this, 'filter', SearchRequest.handleFacetsAndFilters(options.filter));
+	  (0, _helpers.set)(this, 'num', options.num);
+	  (0, _helpers.set)(this, 'filter', SearchRequest.handleFacetsAndFilters(options.filter));
+	  (0, _helpers.set)(this, 'fields', SearchRequest.handleFields(options.fields));
 	};
 
 	exports.SimilarRequest = SimilarRequest;
@@ -611,33 +809,32 @@
 	}
 
 /***/ },
-/* 5 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
-
-	var _slicedToArray = function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } };
-
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
 	Object.defineProperty(exports, '__esModule', {
 	  value: true
 	});
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
 	exports['default'] = engine;
 
-	var _request = __webpack_require__(8);
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _request2 = _interopRequireWildcard(_request);
+	function _slicedToArray(arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } }
 
-	var _RE2 = __webpack_require__(6);
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-	var _searchRequest$multiSearchRequest$typeaheadRequest$similarRequest = __webpack_require__(4);
+	var _superagent = __webpack_require__(8);
 
-	'use strict';
+	var _superagent2 = _interopRequireDefault(_superagent);
+
+	var _helpers = __webpack_require__(2);
+
+	var _request = __webpack_require__(6);
 
 	var Engine = (function () {
 	  function Engine(options) {
@@ -667,7 +864,7 @@
 	      return '' + this.company + '.' + this.environment + '.' + this.instance;
 	    },
 	    set: function (val) {
-	      var groups = _RE2.RE2.exec(val);
+	      var groups = _helpers.RE2.exec(val);
 	      if (groups) {
 	        var _groups = _slicedToArray(groups, 4);
 
@@ -693,28 +890,28 @@
 	  }, {
 	    key: 'search',
 	    value: function search(req) {
-	      return _request2['default'].get('' + this.target + '/search').query(_searchRequest$multiSearchRequest$typeaheadRequest$similarRequest.searchRequest(req));
+	      return _superagent2['default'].get('' + this.target + '/search').query((0, _request.searchRequest)(req));
 	    }
 	  }, {
 	    key: 'msearch',
 	    value: function msearch(req) {
-	      return _request2['default'].get('' + this.target + '/msearch').query(_searchRequest$multiSearchRequest$typeaheadRequest$similarRequest.multiSearchRequest(req));
+	      return _superagent2['default'].get('' + this.target + '/msearch').query((0, _request.multiSearchRequest)(req));
 	    }
 	  }, {
 	    key: 'typeahead',
 	    value: function typeahead(req) {
-	      return _request2['default'].get('' + this.target + '/typeahead').query(_searchRequest$multiSearchRequest$typeaheadRequest$similarRequest.typeaheadRequest(req));
+	      return _superagent2['default'].get('' + this.target + '/typeahead').query((0, _request.typeaheadRequest)(req));
 	    }
 	  }, {
 	    key: 'similar',
 	    value: function similar(req) {
-	      return _request2['default'].get('' + this.target + '/similar').query(_searchRequest$multiSearchRequest$typeaheadRequest$similarRequest.similarRequest(req));
+	      return _superagent2['default'].get('' + this.target + '/similar').query((0, _request.similarRequest)(req));
 	    }
 	  }, {
 	    key: 'track',
 	    value: function track(req) {
 	      var treq = trackRequest(req);
-	      return _request2['default'].get('' + this.target + '/track/' + treq.type).query(treq.query);
+	      return _superagent2['default'].get('' + this.target + '/track/' + treq.type).query(treq.query);
 	    }
 	  }]);
 
@@ -728,212 +925,6 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 6 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-	exports.checkConstructor = checkConstructor;
-	exports.mSearchSerialize = mSearchSerialize;
-	exports.set = set;
-	'use strict';
-
-	var _ = {
-	  isUndefined: function isUndefined(val) {
-	    return val === undefined;
-	  },
-	  isNull: function isNull(val) {
-	    return val === null;
-	  },
-	  isNaN: function isNaN(val) {
-	    return Number.isNaN(val);
-	  }
-	};
-
-	exports._ = _;
-	var RE1 = /^_?[a-z][0-9a-z_]{0,63}$/;
-	exports.RE1 = RE1;
-	var RE2 = /(\w+)\.(prod|staging|dev)\.(\w+)/;
-
-	exports.RE2 = RE2;
-
-	function checkConstructor(input) {
-	  for (var _len = arguments.length, constructors = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-	    constructors[_key - 1] = arguments[_key];
-	  }
-
-	  return constructors.reduce(function (result, constructor) {
-	    return result || input.constructor === constructor;
-	  }, false);
-	}
-
-	// borrowed from superagent
-	function isObject(obj) {
-	  return obj === Object(obj);
-	}
-
-	function mSearchSerialize(obj) {
-	  if (!isObject(obj)) {
-	    return obj;
-	  }
-	  var pairs = [];
-	  for (var key in obj) {
-	    if (obj[key] != null) {
-	      pairs.push(encodeURIComponent(key) + '=' + encodeURIComponent(obj[key]));
-	    }
-	  }
-	  return pairs.join('//');
-	}
-
-	function set(obj, k, v) {
-	  var isundef = _.isUndefined(v);
-	  var isnull = _.isNull(v);
-	  var isnan = _.isNaN(v);
-	  if (!isundef && !isnull && !isnan) {
-	    obj[k] = v;
-	  }
-	  return obj[k];
-	}
-
-/***/ },
-/* 7 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-
-	var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
-
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-	exports.expression = expression;
-	exports.andExpression = andExpression;
-	exports.orExpression = orExpression;
-
-	var _checkConstructor$RE1 = __webpack_require__(6);
-
-	'use strict';
-
-	var Expression = (function () {
-	  function Expression(options) {
-	    _classCallCheck(this, Expression);
-
-	    var field = options.field;
-	    var operator = options.operator;
-	    var value = options.value;
-
-	    if (!field) {
-	      throw new Error('Expression#field is required.');
-	    }
-	    if (!operator) {
-	      throw new Error('Expression#operator is required.');
-	    }
-	    if (!value) {
-	      throw new Error('Expression#value is required.');
-	    }
-	    if (!_checkConstructor$RE1.checkConstructor(field, String)) {
-	      throw new Error('Expression#field must be a string.');
-	    }
-	    if (!_checkConstructor$RE1.RE1.test(field)) {
-	      throw new Error('Expression#field can only contain a-z, 0-9, and underscores, and must start with a lowercase letter.');
-	    }
-	    if (!_checkConstructor$RE1.checkConstructor(value, String, Number)) {
-	      throw new Error('Expression#value must be a string or a number.');
-	    }
-	    this.field = field;
-	    this.operator = operator;
-	    this.value = value;
-	  }
-
-	  _createClass(Expression, [{
-	    key: 'toString',
-	    value: function toString() {
-	      var rhs = undefined,
-	          op = this.operator,
-	          val = this.value;
-	      switch (op) {
-	        case '=':
-	          rhs = '' + val;break;
-	        case '!=':
-	          rhs = '!' + val;break;
-	        case '<':
-	          rhs = '(:' + val + ')';break;
-	        case '>':
-	          rhs = '(' + val + ':)';break;
-	        case '<=':
-	          rhs = '(:' + val + ']';break;
-	        case '>=':
-	          rhs = '[' + val + ':)';break;
-	        default:
-	          throw new Error('Expression#operator must be one of the following: =, !=, <, >, <=, or >=.');
-	      }
-	      return '' + this.field + ':' + rhs;
-	    }
-	  }]);
-
-	  return Expression;
-	})();
-
-	var AndExpression = (function (_Expression) {
-	  function AndExpression(options) {
-	    _classCallCheck(this, AndExpression);
-
-	    _get(Object.getPrototypeOf(AndExpression.prototype), 'constructor', this).call(this, options);
-	  }
-
-	  _inherits(AndExpression, _Expression);
-
-	  _createClass(AndExpression, [{
-	    key: 'toString',
-	    value: function toString() {
-	      return ',' + _get(Object.getPrototypeOf(AndExpression.prototype), 'toString', this).call(this);
-	    }
-	  }]);
-
-	  return AndExpression;
-	})(Expression);
-
-	var OrExpression = (function (_Expression2) {
-	  function OrExpression(options) {
-	    _classCallCheck(this, OrExpression);
-
-	    _get(Object.getPrototypeOf(OrExpression.prototype), 'constructor', this).call(this, options);
-	  }
-
-	  _inherits(OrExpression, _Expression2);
-
-	  _createClass(OrExpression, [{
-	    key: 'toString',
-	    value: function toString() {
-	      return '|' + _get(Object.getPrototypeOf(OrExpression.prototype), 'toString', this).call(this);
-	    }
-	  }]);
-
-	  return OrExpression;
-	})(Expression);
-
-	function expression(options) {
-	  return new Expression(options);
-	}
-
-	function andExpression(options) {
-	  return new AndExpression(options);
-	}
-
-	function orExpression(options) {
-	  return new OrExpression(options);
-	}
-
-/***/ },
 /* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -941,8 +932,8 @@
 	 * Module dependencies.
 	 */
 
-	var Emitter = __webpack_require__(10);
-	var reduce = __webpack_require__(9);
+	var Emitter = __webpack_require__(9);
+	var reduce = __webpack_require__(10);
 
 	/**
 	 * Root reference for iframes.
@@ -1037,11 +1028,29 @@
 	  var pairs = [];
 	  for (var key in obj) {
 	    if (null != obj[key]) {
-	      pairs.push(encodeURIComponent(key)
-	        + '=' + encodeURIComponent(obj[key]));
+	      pushEncodedKeyValuePair(pairs, key, obj[key]);
 	    }
 	  }
 	  return pairs.join('&');
+	}
+
+	/**
+	 * Helps 'serialize' with serializing arrays.
+	 * Mutates the pairs array.
+	 *
+	 * @param {Array} pairs
+	 * @param {String} key
+	 * @param {Mixed} val
+	 */
+
+	function pushEncodedKeyValuePair(pairs, key, val) {
+	  if (Array.isArray(val)) {
+	    return val.forEach(function(v) {
+	      pushEncodedKeyValuePair(pairs, key, v);
+	    });
+	  }
+	  pairs.push(encodeURIComponent(key)
+	    + '=' + encodeURIComponent(val));
 	}
 
 	/**
@@ -2068,35 +2077,6 @@
 
 	
 	/**
-	 * Reduce `arr` with `fn`.
-	 *
-	 * @param {Array} arr
-	 * @param {Function} fn
-	 * @param {Mixed} initial
-	 *
-	 * TODO: combatible error handling?
-	 */
-
-	module.exports = function(arr, fn, initial){  
-	  var idx = 0;
-	  var len = arr.length;
-	  var curr = arguments.length == 3
-	    ? initial
-	    : arr[idx++];
-
-	  while (idx < len) {
-	    curr = fn.call(null, curr, arr[idx], ++idx, arr);
-	  }
-	  
-	  return curr;
-	};
-
-/***/ },
-/* 10 */
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	/**
 	 * Expose `Emitter`.
 	 */
 
@@ -2260,6 +2240,35 @@
 	  return !! this.listeners(event).length;
 	};
 
+
+/***/ },
+/* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	/**
+	 * Reduce `arr` with `fn`.
+	 *
+	 * @param {Array} arr
+	 * @param {Function} fn
+	 * @param {Mixed} initial
+	 *
+	 * TODO: combatible error handling?
+	 */
+
+	module.exports = function(arr, fn, initial){  
+	  var idx = 0;
+	  var len = arr.length;
+	  var curr = arguments.length == 3
+	    ? initial
+	    : arr[idx++];
+
+	  while (idx < len) {
+	    curr = fn.call(null, curr, arr[idx], ++idx, arr);
+	  }
+	  
+	  return curr;
+	};
 
 /***/ }
 /******/ ]);

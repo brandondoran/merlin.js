@@ -1,35 +1,33 @@
 'use strict';
 
-var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
-
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _cnfFilter$dnfFilter = require('./filter');
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _enumFacet$histFacet$rangeFacet = require('./facet');
+var _filter = require('./filter');
 
-var _ascSort$descSort = require('./sort');
+var _facet = require('./facet');
 
-var _searchRequest$multiSearchRequest = require('./request');
+var _sort = require('./sort');
+
+var _request = require('./request');
 
 var _engine = require('./engine');
 
-var _engine2 = _interopRequireWildcard(_engine);
-
-'use strict';
+var _engine2 = _interopRequireDefault(_engine);
 
 var Blackbird = {
-  cnfFilter: _cnfFilter$dnfFilter.cnfFilter,
-  dnfFilter: _cnfFilter$dnfFilter.dnfFilter,
-  enumFacet: _enumFacet$histFacet$rangeFacet.enumFacet,
-  histFacet: _enumFacet$histFacet$rangeFacet.histFacet,
-  rangeFacet: _enumFacet$histFacet$rangeFacet.rangeFacet,
-  ascSort: _ascSort$descSort.ascSort,
-  descSort: _ascSort$descSort.descSort,
-  searchRequest: _searchRequest$multiSearchRequest.searchRequest,
-  multiSearchRequest: _searchRequest$multiSearchRequest.multiSearchRequest,
+  cnfFilter: _filter.cnfFilter,
+  dnfFilter: _filter.dnfFilter,
+  enumFacet: _facet.enumFacet,
+  histFacet: _facet.histFacet,
+  rangeFacet: _facet.rangeFacet,
+  ascSort: _sort.ascSort,
+  descSort: _sort.descSort,
+  searchRequest: _request.searchRequest,
+  multiSearchRequest: _request.multiSearchRequest,
   engine: _engine2['default']
 };
 

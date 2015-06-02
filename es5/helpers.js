@@ -6,8 +6,6 @@ Object.defineProperty(exports, '__esModule', {
 exports.checkConstructor = checkConstructor;
 exports.mSearchSerialize = mSearchSerialize;
 exports.set = set;
-'use strict';
-
 var _ = {
   isUndefined: function isUndefined(val) {
     return val === undefined;
