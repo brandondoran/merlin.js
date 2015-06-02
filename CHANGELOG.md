@@ -1,3 +1,8 @@
+# 0.4.3
+* Added support for 'fields' for the similar search endpoint
+Fixes:
+* Swapped out superagent dependency for a fork so that merlin.js in the browser correctly handles arrays in query arguments
+
 # 0.4.2
 * Added support for visual recommendation endpoint
 
