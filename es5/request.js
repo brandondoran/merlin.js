@@ -1,33 +1,32 @@
 'use strict';
 
-var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-
-var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
-
-var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
 exports.similarRequest = similarRequest;
 exports.typeaheadRequest = typeaheadRequest;
 exports.searchRequest = searchRequest;
 exports.multiSearchRequest = multiSearchRequest;
 
-var _checkConstructor$mSearchSerialize$set = require('./helpers');
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
-'use strict';
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var _helpers = require('./helpers');
 
 var Request = (function () {
   function Request(options) {
     _classCallCheck(this, Request);
 
     // todo: clean this up
-    _checkConstructor$mSearchSerialize$set.set(this, 'start', Number(options.start));
-    _checkConstructor$mSearchSerialize$set.set(this, 'num', Number(options.num));
-    _checkConstructor$mSearchSerialize$set.set(this, 'sort', Request.handleSorts(options.sort));
+    (0, _helpers.set)(this, 'start', Number(options.start));
+    (0, _helpers.set)(this, 'num', Number(options.num));
+    (0, _helpers.set)(this, 'sort', Request.handleSorts(options.sort));
   }
 
   _createClass(Request, null, [{
@@ -53,10 +52,10 @@ var SearchRequest = (function (_Request) {
 
     _get(Object.getPrototypeOf(SearchRequest.prototype), 'constructor', this).call(this, options);
     this.q = options.q || '';
-    _checkConstructor$mSearchSerialize$set.set(this, 'fields', SearchRequest.handleFields(options.fields));
-    _checkConstructor$mSearchSerialize$set.set(this, 'facet', SearchRequest.handleFacetsAndFilters(options.facet));
-    _checkConstructor$mSearchSerialize$set.set(this, 'filter', SearchRequest.handleFacetsAndFilters(options.filter));
-    if (!_checkConstructor$mSearchSerialize$set.checkConstructor(this.q, String)) {
+    (0, _helpers.set)(this, 'fields', SearchRequest.handleFields(options.fields));
+    (0, _helpers.set)(this, 'facet', SearchRequest.handleFacetsAndFilters(options.facet));
+    (0, _helpers.set)(this, 'filter', SearchRequest.handleFacetsAndFilters(options.filter));
+    if (!(0, _helpers.checkConstructor)(this.q, String)) {
       throw new Error('Request#q must be a string.');
     }
   }
@@ -92,8 +91,8 @@ var QueryComponent = function QueryComponent(options) {
   _classCallCheck(this, QueryComponent);
 
   this.q = options.q || '';
-  _checkConstructor$mSearchSerialize$set.set(this, 'filter', SearchRequest.handleFacetsAndFilters(options.filter));
-  if (!_checkConstructor$mSearchSerialize$set.checkConstructor(this.q, String)) {
+  (0, _helpers.set)(this, 'filter', SearchRequest.handleFacetsAndFilters(options.filter));
+  if (!(0, _helpers.checkConstructor)(this.q, String)) {
     throw new Error('QueryComponent#q must be a string.');
   }
 };
@@ -107,7 +106,7 @@ var MultiSearchRequest = (function (_Request2) {
     if (qc.length >= 6) {
       throw new Error('A multi-search only supports up to 6 queries.');
     }
-    _checkConstructor$mSearchSerialize$set.set(this, 'qc', MultiSearchRequest.handleQc(qc));
+    (0, _helpers.set)(this, 'qc', MultiSearchRequest.handleQc(qc));
   }
 
   _inherits(MultiSearchRequest, _Request2);
@@ -116,7 +115,7 @@ var MultiSearchRequest = (function (_Request2) {
     key: 'handleQc',
     value: function handleQc(qcs) {
       return qcs.map(function (qc) {
-        return _checkConstructor$mSearchSerialize$set.mSearchSerialize(new QueryComponent(qc));
+        return (0, _helpers.mSearchSerialize)(new QueryComponent(qc));
       });
     }
   }]);
@@ -130,7 +129,7 @@ var TypeaheadRequest = function TypeaheadRequest(options) {
   _classCallCheck(this, TypeaheadRequest);
 
   this.q = options.q || '';
-  if (!_checkConstructor$mSearchSerialize$set.checkConstructor(this.q, String)) {
+  if (!(0, _helpers.checkConstructor)(this.q, String)) {
     throw new Error('TypeaheadRequest#q must be a string.');
   }
 };
@@ -141,8 +140,9 @@ var SimilarRequest = function SimilarRequest(options) {
   _classCallCheck(this, SimilarRequest);
 
   this.id = options.id;
-  _checkConstructor$mSearchSerialize$set.set(this, 'num', options.num);
-  _checkConstructor$mSearchSerialize$set.set(this, 'filter', SearchRequest.handleFacetsAndFilters(options.filter));
+  (0, _helpers.set)(this, 'num', options.num);
+  (0, _helpers.set)(this, 'filter', SearchRequest.handleFacetsAndFilters(options.filter));
+  (0, _helpers.set)(this, 'fields', SearchRequest.handleFields(options.fields));
 };
 
 exports.SimilarRequest = SimilarRequest;

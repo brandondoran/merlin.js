@@ -82,6 +82,7 @@ export class SimilarRequest {
     this.id = options.id;
     set(this, 'num', options.num);
     set(this, 'filter', SearchRequest.handleFacetsAndFilters(options.filter));
+    set(this, 'fields', SearchRequest.handleFields(options.fields));
   }
 }
 
