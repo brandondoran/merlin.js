@@ -49,6 +49,38 @@ describe('Blackbird', function () {
     it('HistFacet.toString() should return the correct string');
     it('HistFacet should take a start, stop, and gap');
     it('RangeFacet.toString() should return the correct string');
+    it('should accept filter exclusions in various forms', function () {
+      // .exclude({String})
+      _es52['default'].enumFacet({
+        field: 'brand_id',
+        num: 2000
+      }).exclude('sometag').toString().should.equal('field=brand_id/type=enum/num=2000/ex=sometag');
+
+      // .exclude({Array})
+      _es52['default'].enumFacet({
+        field: 'brand_id',
+        num: 2000
+      }).exclude(['some', 'tag']).toString().should.equal('field=brand_id/type=enum/num=2000/ex=some,tag');
+
+      // constructor({String})
+      _es52['default'].enumFacet({
+        field: 'brand_id',
+        num: 2000,
+        exclude: 'some,tag'
+      }).toString().should.equal('field=brand_id/type=enum/num=2000/ex=some,tag');
+
+      // constructor({Array})
+      _es52['default'].enumFacet({
+        field: 'brand_id',
+        num: 2000,
+        exclude: ['some', 'tag']
+      }).toString().should.equal('field=brand_id/type=enum/num=2000/ex=some,tag');
+    });
+    it('should throw when passed both ex and exclude in constructor', function () {
+      (function () {
+        _es52['default'].enumFacet({ ex: '1', exclude: '2' });
+      }).should['throw']();
+    });
   });
 
   // Blackbird.Sort
@@ -189,6 +221,18 @@ describe('Blackbird', function () {
           field: 'sizing_id',
           num: 100
         })];
+        engine.search({
+          q: 'dress',
+          facet: facet
+        }).end(function (err, res) {
+          _should2['default'].not.exist(err);
+          _should2['default'].exist(res);
+          Object.keys(res.body.results.facets.enums).length.should.equal(3);
+          done(err, res);
+        });
+      });
+      it('should search given facet with exclude', function (done) {
+        var facet = [];
         engine.search({
           q: 'dress',
           facet: facet

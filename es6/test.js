@@ -39,6 +39,40 @@ describe('Blackbird', () => {
     it('HistFacet.toString() should return the correct string');
     it('HistFacet should take a start, stop, and gap');
     it('RangeFacet.toString() should return the correct string');
+    it('should accept filter exclusions in various forms', () => {
+      // .exclude({String})
+      Blackbird.enumFacet({
+        field: 'brand_id',
+        num: 2000
+      }).exclude('sometag').toString()
+      .should.equal('field=brand_id/type=enum/num=2000/ex=sometag');
+
+      // .exclude({Array})
+      Blackbird.enumFacet({
+        field: 'brand_id',
+        num: 2000
+      }).exclude(['some', 'tag']).toString()
+      .should.equal('field=brand_id/type=enum/num=2000/ex=some,tag');
+
+      // constructor({String})
+      Blackbird.enumFacet({
+        field: 'brand_id',
+        num: 2000,
+        exclude: 'some,tag'
+      }).toString()
+      .should.equal('field=brand_id/type=enum/num=2000/ex=some,tag');
+
+      // constructor({Array})
+      Blackbird.enumFacet({
+        field: 'brand_id',
+        num: 2000,
+        exclude: ['some', 'tag']
+      }).toString()
+      .should.equal('field=brand_id/type=enum/num=2000/ex=some,tag');
+    });
+    it('should throw when passed both ex and exclude in constructor', () => {
+      () => { Blackbird.enumFacet({ ex: '1', exclude: '2'}); }.should.throw();
+    });
   });
 
   // Blackbird.Sort
@@ -179,6 +213,21 @@ describe('Blackbird', () => {
             field: 'sizing_id',
             num: 100
           })
+        ];
+        engine.search({
+          q: 'dress',
+          facet
+        })
+        .end((err, res) => {
+          should.not.exist(err);
+          should.exist(res);
+          Object.keys(res.body.results.facets.enums).length.should.equal(3);
+          done(err, res);
+        });
+      });
+      it('should search given facet with exclude', (done) => {
+        const facet = [
+
         ];
         engine.search({
           q: 'dress',

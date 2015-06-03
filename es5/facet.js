@@ -31,12 +31,37 @@ var Facet = (function () {
       throw new Error('Facet#field can only contain a-z, 0-9, and underscores, and must start with a lowercase letter.');
     }
     this.field = field;
+
+    if (options.exclude && options.ex) {
+      throw new Error('Facet#ex and Facet#exclude cannot both be defined');
+    }
+    this.ex = [];
+    var ex = options.exclude || options.ex;
+    if (ex) {
+      this.exclude(ex);
+    }
   }
 
   _createClass(Facet, [{
+    key: 'exclude',
+    value: function exclude(tags) {
+      if (typeof tags === 'string') {
+        tags = tags.split(',');
+      }
+      this.ex = this.ex.concat(tags);
+      return this;
+    }
+  }, {
     key: 'toString',
-    value: function toString() {
-      return 'field=' + this.field;
+    value: function toString(val) {
+      var kvs = ['field=' + this.field];
+      if (val) {
+        kvs.push(val);
+      }
+      if (this.ex.length) {
+        kvs.push('ex=' + this.ex);
+      }
+      return kvs.join('/');
     }
   }]);
 
@@ -56,7 +81,7 @@ var EnumFacet = (function (_Facet) {
   _createClass(EnumFacet, [{
     key: 'toString',
     value: function toString() {
-      return '' + _get(Object.getPrototypeOf(EnumFacet.prototype), 'toString', this).call(this) + '/type=enum/num=' + this.num;
+      return _get(Object.getPrototypeOf(EnumFacet.prototype), 'toString', this).call(this, 'type=enum/num=' + this.num);
     }
   }]);
 
@@ -83,7 +108,7 @@ var HistFacet = (function (_Facet2) {
   }, {
     key: 'toString',
     value: function toString() {
-      return '' + _get(Object.getPrototypeOf(HistFacet.prototype), 'toString', this).call(this) + '/type=hist/range=' + this.range();
+      return _get(Object.getPrototypeOf(HistFacet.prototype), 'toString', this).call(this, 'type=hist/range=' + this.range());
     }
   }]);
 
@@ -102,7 +127,7 @@ var RangeFacet = (function (_Facet3) {
   _createClass(RangeFacet, [{
     key: 'toString',
     value: function toString() {
-      return '' + _get(Object.getPrototypeOf(RangeFacet.prototype), 'toString', this).call(this) + '/type=range';
+      return _get(Object.getPrototypeOf(RangeFacet.prototype), 'toString', this).call(this, 'type=range');
     }
   }]);
 

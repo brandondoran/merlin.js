@@ -12,9 +12,32 @@ class Facet {
       throw new Error('Facet#field can only contain a-z, 0-9, and underscores, and must start with a lowercase letter.');
     }
     this.field = field;
+
+    if (options.exclude && options.ex) {
+      throw new Error('Facet#ex and Facet#exclude cannot both be defined');
+    }
+    this.ex = [];
+    const ex = options.exclude || options.ex;
+    if (ex) {
+      this.exclude(ex);
+    }
   }
-  toString() {
-    return `field=${this.field}`;
+  exclude(tags) {
+    if (typeof tags === 'string') {
+      tags = tags.split(',');
+    }
+    this.ex = this.ex.concat(tags);
+    return this;
+  }
+  toString(val) {
+    let kvs = [`field=${this.field}`];
+    if (val) {
+      kvs.push(val);
+    }
+    if (this.ex.length) {
+      kvs.push(`ex=${this.ex}`);
+    }
+    return kvs.join('/');
   }
 }
 
@@ -24,7 +47,7 @@ class EnumFacet extends Facet {
     this.num = Number(options.num) || 0;
   }
   toString() {
-    return `${super.toString()}/type=enum/num=${this.num}`;
+    return super.toString(`type=enum/num=${this.num}`);
   }
 }
 
@@ -39,7 +62,7 @@ class HistFacet extends Facet {
     return `[${this.start}:${this.end}:${this.gap}]`;
   }
   toString() {
-    return `${super.toString()}/type=hist/range=${this.range()}`;
+    return super.toString(`type=hist/range=${this.range()}`);
   }
 }
 
@@ -48,7 +71,7 @@ class RangeFacet extends Facet {
     super(options);
   }
   toString() {
-    return `${super.toString()}/type=range`;
+    return super.toString('type=range');
   }
 }
 
