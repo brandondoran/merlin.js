@@ -1,3 +1,6 @@
+# 0.5.0
+* Renamed similar to vrec (visual recommendation)
+
 # 0.4.3
 * Added support for 'fields' for the similar search endpoint
 Fixes:

@@ -28,7 +28,8 @@ var Blackbird = {
   descSort: _sort.descSort,
   searchRequest: _request.searchRequest,
   multiSearchRequest: _request.multiSearchRequest,
-  engine: _engine2['default']
+  engine: _engine2['default'],
+  version: '0.5.0'
 };
 
 var globalScope = new Function('return this')();
