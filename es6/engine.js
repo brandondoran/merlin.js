@@ -57,12 +57,12 @@ class Engine {
     .get(`${this.target}/typeahead`)
     .query(typeaheadRequest(req));
   }
-  similar(req) {
+  vrec(req) {
     return request
-    .get(`${this.target}/similar`)
+    .get(`${this.target}/vrec`)
     .query(similarRequest(req));
   }
-  track(req) {
+  feedback(req) {
     let treq = trackRequest(req);
     return request
     .get(`${this.target}/track/${treq.type}`)

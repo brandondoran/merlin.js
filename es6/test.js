@@ -187,7 +187,6 @@ describe('Blackbird', () => {
         .end((err, res) => {
           should.not.exist(err);
           should.exist(res);
-          console.log(res)
           done(err, res);
         });
       });
@@ -230,14 +229,14 @@ describe('Blackbird', () => {
       });
     });
   });
-  describe('similar', () => {
+  describe('vrec', () => {
     const engine = Blackbird.engine({
       company: 'thredup',
       environment: 'staging',
       instance: 'wrangler'
     });
     it('should similar given an id', (done) => {
-      engine.similar({
+      engine.vrec({
         id: 4511609
       })
       .end((err, res) => {

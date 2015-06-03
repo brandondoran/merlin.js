@@ -903,13 +903,13 @@
 	      return _superagent2['default'].get('' + this.target + '/typeahead').query((0, _request.typeaheadRequest)(req));
 	    }
 	  }, {
-	    key: 'similar',
-	    value: function similar(req) {
-	      return _superagent2['default'].get('' + this.target + '/similar').query((0, _request.similarRequest)(req));
+	    key: 'vrec',
+	    value: function vrec(req) {
+	      return _superagent2['default'].get('' + this.target + '/vrec').query((0, _request.similarRequest)(req));
 	    }
 	  }, {
-	    key: 'track',
-	    value: function track(req) {
+	    key: 'feedback',
+	    value: function feedback(req) {
 	      var treq = trackRequest(req);
 	      return _superagent2['default'].get('' + this.target + '/track/' + treq.type).query(treq.query);
 	    }

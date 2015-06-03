@@ -195,7 +195,6 @@ describe('Blackbird', function () {
         }).end(function (err, res) {
           _should2['default'].not.exist(err);
           _should2['default'].exist(res);
-          console.log(res);
           done(err, res);
         });
       });
@@ -233,14 +232,14 @@ describe('Blackbird', function () {
       });
     });
   });
-  describe('similar', function () {
+  describe('vrec', function () {
     var engine = _es52['default'].engine({
       company: 'thredup',
       environment: 'staging',
       instance: 'wrangler'
     });
     it('should similar given an id', function (done) {
-      engine.similar({
+      engine.vrec({
         id: 4511609
       }).end(function (err, res) {
         _should2['default'].not.exist(err);
