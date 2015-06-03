@@ -17,7 +17,7 @@ let Blackbird = {
   searchRequest,
   multiSearchRequest,
   engine,
-  version: '0.5.0'
+  VERSION: '0.5.1'
 };
 
 let globalScope = (new Function('return this'))();

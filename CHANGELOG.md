@@ -1,3 +1,6 @@
+# 0.5.1
+* Added ability to exclude filters on facets
+
 # 0.5.0
 * Renamed similar to vrec (visual recommendation)
 
