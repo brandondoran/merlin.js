@@ -221,6 +221,11 @@
 	exports.checkConstructor = checkConstructor;
 	exports.mSearchSerialize = mSearchSerialize;
 	exports.set = set;
+	// Number.isNaN polyfill
+	Number.isNaN = Number.isNaN || function (value) {
+	  return typeof value === 'number' && value !== value;
+	};
+
 	var _ = {
 	  isUndefined: function isUndefined(val) {
 	    return val === undefined;

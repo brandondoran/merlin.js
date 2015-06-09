@@ -1,5 +1,10 @@
 'use strict';
 
+// Number.isNaN polyfill
+Number.isNaN = Number.isNaN || function(value) {
+  return typeof value === 'number' && value !== value;
+};
+
 export const _ = {
   isUndefined(val) {
     return val === undefined;
