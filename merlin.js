@@ -75,7 +75,7 @@
 	  searchRequest: _request.searchRequest,
 	  multiSearchRequest: _request.multiSearchRequest,
 	  engine: _engine2['default'],
-	  VERSION: '0.5.1'
+	  VERSION: '0.5.2'
 	};
 
 	var globalScope = new Function('return this')();

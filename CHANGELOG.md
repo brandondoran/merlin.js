@@ -1,3 +1,6 @@
+# 0.5.2
+* Added a Number.isNaN polyfill
+
 # 0.5.1
 * Added ability to exclude filters on facets
 
