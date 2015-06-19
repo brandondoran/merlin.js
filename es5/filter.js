@@ -52,6 +52,14 @@ var Filter = (function () {
       return this;
     }
   }, {
+    key: 'tagString',
+    get: function () {
+      if (this._tag) {
+        return '/tag=' + this._tag;
+      }
+      return '';
+    }
+  }, {
     key: 'toString',
     value: function toString() {
       var expressions = this.expressions.reduce(function (result, exp) {
@@ -59,14 +67,6 @@ var Filter = (function () {
       }, '');
 
       return 'exp=' + expressions + '' + this.tagString;
-    }
-  }, {
-    key: 'tagString',
-    get: function () {
-      if (this._tag) {
-        return '/tag=' + this._tag;
-      }
-      return '';
     }
   }]);
 

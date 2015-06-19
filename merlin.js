@@ -75,7 +75,7 @@
 	  searchRequest: _request.searchRequest,
 	  multiSearchRequest: _request.multiSearchRequest,
 	  engine: _engine2['default'],
-	  VERSION: '0.5.2'
+	  VERSION: '0.5.3'
 	};
 
 	var globalScope = new Function('return this')();
@@ -142,6 +142,14 @@
 	      return this;
 	    }
 	  }, {
+	    key: 'tagString',
+	    get: function () {
+	      if (this._tag) {
+	        return '/tag=' + this._tag;
+	      }
+	      return '';
+	    }
+	  }, {
 	    key: 'toString',
 	    value: function toString() {
 	      var expressions = this.expressions.reduce(function (result, exp) {
@@ -149,14 +157,6 @@
 	      }, '');
 
 	      return 'exp=' + expressions + '' + this.tagString;
-	    }
-	  }, {
-	    key: 'tagString',
-	    get: function () {
-	      if (this._tag) {
-	        return '/tag=' + this._tag;
-	      }
-	      return '';
 	    }
 	  }]);
 
@@ -211,7 +211,7 @@
 
 /***/ },
 /* 2 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
@@ -524,14 +524,14 @@
 	  _inherits(HistFacet, _Facet2);
 
 	  _createClass(HistFacet, [{
-	    key: 'toString',
-	    value: function toString() {
-	      return _get(Object.getPrototypeOf(HistFacet.prototype), 'toString', this).call(this, 'type=hist/range=' + this.range());
-	    }
-	  }, {
 	    key: 'range',
 	    get: function () {
 	      return '[' + this.start + ':' + this.end + ':' + this.gap + ']';
+	    }
+	  }, {
+	    key: 'toString',
+	    value: function toString() {
+	      return _get(Object.getPrototypeOf(HistFacet.prototype), 'toString', this).call(this, 'type=hist/range=' + this.range());
 	    }
 	  }]);
 
@@ -892,32 +892,6 @@
 	  }
 
 	  _createClass(Engine, [{
-	    key: 'search',
-	    value: function search(req) {
-	      return _superagent2['default'].get('' + this.target + '/search').query((0, _request.searchRequest)(req));
-	    }
-	  }, {
-	    key: 'msearch',
-	    value: function msearch(req) {
-	      return _superagent2['default'].get('' + this.target + '/msearch').query((0, _request.multiSearchRequest)(req));
-	    }
-	  }, {
-	    key: 'typeahead',
-	    value: function typeahead(req) {
-	      return _superagent2['default'].get('' + this.target + '/typeahead').query((0, _request.typeaheadRequest)(req));
-	    }
-	  }, {
-	    key: 'vrec',
-	    value: function vrec(req) {
-	      return _superagent2['default'].get('' + this.target + '/vrec').query((0, _request.similarRequest)(req));
-	    }
-	  }, {
-	    key: 'feedback',
-	    value: function feedback(req) {
-	      var treq = trackRequest(req);
-	      return _superagent2['default'].get('' + this.target + '/track/' + treq.type).query(treq.query);
-	    }
-	  }, {
 	    key: 'fq',
 	    get: function () {
 	      return '' + this.company + '.' + this.environment + '.' + this.instance;
@@ -945,6 +919,32 @@
 	    key: 'target',
 	    get: function () {
 	      return '' + this.protocol + '://' + this.cluster + '.search.blackbird.am/' + this.fq;
+	    }
+	  }, {
+	    key: 'search',
+	    value: function search(req) {
+	      return _superagent2['default'].get('' + this.target + '/search').query((0, _request.searchRequest)(req));
+	    }
+	  }, {
+	    key: 'msearch',
+	    value: function msearch(req) {
+	      return _superagent2['default'].get('' + this.target + '/msearch').query((0, _request.multiSearchRequest)(req));
+	    }
+	  }, {
+	    key: 'typeahead',
+	    value: function typeahead(req) {
+	      return _superagent2['default'].get('' + this.target + '/typeahead').query((0, _request.typeaheadRequest)(req));
+	    }
+	  }, {
+	    key: 'vrec',
+	    value: function vrec(req) {
+	      return _superagent2['default'].get('' + this.target + '/vrec').query((0, _request.similarRequest)(req));
+	    }
+	  }, {
+	    key: 'feedback',
+	    value: function feedback(req) {
+	      var treq = trackRequest(req);
+	      return _superagent2['default'].get('' + this.target + '/track/' + treq.type).query(treq.query);
 	    }
 	  }]);
 
@@ -2106,7 +2106,7 @@
 
 /***/ },
 /* 9 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	
 	/**
@@ -2276,7 +2276,7 @@
 
 /***/ },
 /* 10 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	
 	/**

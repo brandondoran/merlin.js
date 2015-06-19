@@ -1,3 +1,6 @@
+# 0.5.3
+* Handled `Blackbird.Sort`s being handled differently in server/client settings
+
 # 0.5.2
 * Added a Number.isNaN polyfill
 
