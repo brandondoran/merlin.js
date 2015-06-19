@@ -12,6 +12,8 @@ export class Request {
   static handleSorts(input) {
     if(Array.isArray(input)) {
       return input.map((sort) => sort.toString()).join(',');
+    }else if(typeof input !== 'undefined'){
+      return input.toString();
     }
     return input;
   }

@@ -45,6 +45,32 @@ var Engine = (function () {
   }
 
   _createClass(Engine, [{
+    key: 'search',
+    value: function search(req) {
+      return _superagent2['default'].get('' + this.target + '/search').query((0, _request.searchRequest)(req));
+    }
+  }, {
+    key: 'msearch',
+    value: function msearch(req) {
+      return _superagent2['default'].get('' + this.target + '/msearch').query((0, _request.multiSearchRequest)(req));
+    }
+  }, {
+    key: 'typeahead',
+    value: function typeahead(req) {
+      return _superagent2['default'].get('' + this.target + '/typeahead').query((0, _request.typeaheadRequest)(req));
+    }
+  }, {
+    key: 'vrec',
+    value: function vrec(req) {
+      return _superagent2['default'].get('' + this.target + '/vrec').query((0, _request.similarRequest)(req));
+    }
+  }, {
+    key: 'feedback',
+    value: function feedback(req) {
+      var treq = trackRequest(req);
+      return _superagent2['default'].get('' + this.target + '/track/' + treq.type).query(treq.query);
+    }
+  }, {
     key: 'fq',
     get: function () {
       return '' + this.company + '.' + this.environment + '.' + this.instance;
@@ -72,32 +98,6 @@ var Engine = (function () {
     key: 'target',
     get: function () {
       return '' + this.protocol + '://' + this.cluster + '.search.blackbird.am/' + this.fq;
-    }
-  }, {
-    key: 'search',
-    value: function search(req) {
-      return _superagent2['default'].get('' + this.target + '/search').query((0, _request.searchRequest)(req));
-    }
-  }, {
-    key: 'msearch',
-    value: function msearch(req) {
-      return _superagent2['default'].get('' + this.target + '/msearch').query((0, _request.multiSearchRequest)(req));
-    }
-  }, {
-    key: 'typeahead',
-    value: function typeahead(req) {
-      return _superagent2['default'].get('' + this.target + '/typeahead').query((0, _request.typeaheadRequest)(req));
-    }
-  }, {
-    key: 'vrec',
-    value: function vrec(req) {
-      return _superagent2['default'].get('' + this.target + '/vrec').query((0, _request.similarRequest)(req));
-    }
-  }, {
-    key: 'feedback',
-    value: function feedback(req) {
-      var treq = trackRequest(req);
-      return _superagent2['default'].get('' + this.target + '/track/' + treq.type).query(treq.query);
     }
   }]);
 

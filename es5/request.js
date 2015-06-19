@@ -36,6 +36,8 @@ var Request = (function () {
         return input.map(function (sort) {
           return sort.toString();
         }).join(',');
+      } else if (typeof input !== 'undefined') {
+        return input.toString();
       }
       return input;
     }
