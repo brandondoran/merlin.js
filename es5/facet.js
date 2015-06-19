@@ -101,14 +101,14 @@ var HistFacet = (function (_Facet2) {
   _inherits(HistFacet, _Facet2);
 
   _createClass(HistFacet, [{
-    key: 'range',
-    get: function () {
-      return '[' + this.start + ':' + this.end + ':' + this.gap + ']';
-    }
-  }, {
     key: 'toString',
     value: function toString() {
       return _get(Object.getPrototypeOf(HistFacet.prototype), 'toString', this).call(this, 'type=hist/range=' + this.range());
+    }
+  }, {
+    key: 'range',
+    get: function () {
+      return '[' + this.start + ':' + this.end + ':' + this.gap + ']';
     }
   }]);
 
