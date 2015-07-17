@@ -1,3 +1,7 @@
+# 0.5.4
+* **Added keys to facets**
+* Updated the endpoint .feedback() hits
+
 # 0.5.3
 * Handled `Blackbird.Sort`s being handled differently in server/client settings
 
