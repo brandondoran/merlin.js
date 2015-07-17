@@ -65,7 +65,7 @@ class Engine {
   feedback(req) {
     let treq = trackRequest(req);
     return request
-    .get(`${this.target}/track/${treq.type}`)
+    .get(`${this.target}/feedback/${treq.type}`)
     .query(treq.query);
   }
 }

@@ -944,7 +944,7 @@
 	    key: 'feedback',
 	    value: function feedback(req) {
 	      var treq = trackRequest(req);
-	      return _superagent2['default'].get('' + this.target + '/track/' + treq.type).query(treq.query);
+	      return _superagent2['default'].get('' + this.target + '/feedback/' + treq.type).query(treq.query);
 	    }
 	  }]);
 
