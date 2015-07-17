@@ -1,6 +1,6 @@
 'use strict';
 
-import {checkConstructor, RE1} from './helpers';
+import {checkConstructor, set, RE1} from './helpers';
 
 class Facet {
   constructor(options) {
@@ -29,10 +29,17 @@ class Facet {
     this.ex = this.ex.concat(tags);
     return this;
   }
+  key(val) {
+    set(this, '_key', val);
+    return this;
+  }
   toString(val) {
     let kvs = [`field=${this.field}`];
     if (val) {
       kvs.push(val);
+    }
+    if (this._key) {
+      kvs.push(`key=${this._key}`);
     }
     if (this.ex.length) {
       kvs.push(`ex=${this.ex}`);

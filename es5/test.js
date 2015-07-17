@@ -81,6 +81,12 @@ describe('Blackbird', function () {
         _es52['default'].enumFacet({ ex: '1', exclude: '2' });
       }).should['throw']();
     });
+    it('should optionally accept a key', function () {
+      _es52['default'].enumFacet({
+        field: 'brand_id',
+        num: 200
+      }).key('brands200').toString().should.equal('field=brand_id/type=enum/num=200/key=brands200');
+    });
   });
 
   // Blackbird.Sort

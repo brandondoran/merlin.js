@@ -475,11 +475,20 @@
 	      return this;
 	    }
 	  }, {
+	    key: 'key',
+	    value: function key(val) {
+	      (0, _helpers.set)(this, '_key', val);
+	      return this;
+	    }
+	  }, {
 	    key: 'toString',
 	    value: function toString(val) {
 	      var kvs = ['field=' + this.field];
 	      if (val) {
 	        kvs.push(val);
+	      }
+	      if (this._key) {
+	        kvs.push('key=' + this._key);
 	      }
 	      if (this.ex.length) {
 	        kvs.push('ex=' + this.ex);

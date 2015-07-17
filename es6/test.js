@@ -73,6 +73,13 @@ describe('Blackbird', () => {
     it('should throw when passed both ex and exclude in constructor', () => {
       () => { Blackbird.enumFacet({ ex: '1', exclude: '2'}); }.should.throw();
     });
+    it('should optionally accept a key', () => {
+      Blackbird.enumFacet({
+        field: 'brand_id',
+        num: 200
+      }).key('brands200').toString()
+      .should.equal('field=brand_id/type=enum/num=200/key=brands200');
+    });
   });
 
   // Blackbird.Sort
