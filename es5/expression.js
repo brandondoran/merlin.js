@@ -54,7 +54,7 @@ var Expression = (function () {
     value: function toString() {
       var rhs = undefined,
           op = this.operator,
-          val = this.value;
+          val = (0, _helpers.mEscape)(this.value);
       switch (op) {
         case '=':
           rhs = '' + val;break;

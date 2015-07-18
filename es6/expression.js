@@ -1,6 +1,6 @@
 'use strict';
 
-import {checkConstructor, RE1} from './helpers';
+import {checkConstructor, mEscape, RE1} from './helpers';
 
 class Expression {
   constructor(options) {
@@ -28,7 +28,7 @@ class Expression {
     this.value = value;
   }
   toString() {
-    let rhs, op = this.operator, val = this.value;
+    let rhs, op = this.operator, val = mEscape(this.value);
     switch (op) {
       case '=': rhs = `${val}`; break;
       case '!=': rhs = `!${val}`; break;
