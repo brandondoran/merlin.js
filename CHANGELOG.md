@@ -1,3 +1,6 @@
+# 0.5.5
+* Updated expression.js to properly escape filter values
+
 # 0.5.4
 * **Added keys to facets**
 * Updated the endpoint .feedback() hits

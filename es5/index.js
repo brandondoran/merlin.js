@@ -29,7 +29,7 @@ var Blackbird = {
   searchRequest: _request.searchRequest,
   multiSearchRequest: _request.multiSearchRequest,
   engine: _engine2['default'],
-  VERSION: '0.5.3'
+  VERSION: '0.5.5'
 };
 
 var globalScope = new Function('return this')();

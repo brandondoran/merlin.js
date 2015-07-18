@@ -1,6 +1,6 @@
 {
   "name": "merlin.js",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "description": "A javascript library to interface with the Merlin Search API",
   "main": "./es5/index.js",
   "scripts": {
