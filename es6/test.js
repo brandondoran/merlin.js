@@ -3,6 +3,7 @@
 import should from 'should';
 import Blackbird from '../es5';
 import {SearchRequest} from '../es5/request';
+import {mEscape} from '../es5/helpers';
 
 describe('Blackbird', () => {
   // Blackbird.Filter
@@ -28,6 +29,22 @@ describe('Blackbird', () => {
     it('should allow OR chaining');
     it('should allow AND chaining');
     it('should allow tagging');
+    describe('toString', () => {
+      it('should return the correct string when value is a string', () => {
+        Blackbird.cnfFilter({
+          field: 'color',
+          operator: '=',
+          value: 'black'
+        }).toString().should.equal('exp=color:black/type=cnf');
+      });
+      it('should return the correct string when value is a number', () => {
+        Blackbird.cnfFilter({
+          field: 'price',
+          operator: '<',
+          value: 100
+        }).toString().should.equal('exp=price:(:100)/type=cnf');
+      });
+    });
   });
 
   // Blackbird.Facet
@@ -282,6 +299,28 @@ describe('Blackbird', () => {
         should.not.exist(err);
         should.exist(res);
         done(err, res);
+      });
+    });
+  });
+  describe('helpers', function() {
+    describe('mEscape', function() {
+      it('should escape !', function() {
+        mEscape('Test!').should.equal('Test\\!');
+      });
+      it('should escape ,', function() {
+        mEscape('Test,1').should.equal('Test\\,1');
+      });
+      it('should escape |', function() {
+        mEscape('Test|1').should.equal('Test\\|1');
+      });
+      it('should escape \\', function() {
+        mEscape('Test\\1').should.equal('Test\\\\1');
+      });
+      it('should escape /', function() {
+        mEscape('Test/1').should.equal('Test\\/1');
+      });
+      it('should handle numbers', function() {
+        mEscape(2).should.equal('2');
       });
     });
   });

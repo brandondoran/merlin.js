@@ -59,10 +59,14 @@ function isObject(obj) {
   return obj === Object(obj);
 }
 
+function toString(val) {
+  return val == null ? '' : (val + '');
+}
+
 function mEscape(str) {
   var escChar = '\\';
   var re = /(\!|\,|\||\\|\/)/g;
-  var escaped = str.replace(re, function (a) {
+  var escaped = toString(str).replace(re, function (a) {
     return '' + escChar + '' + a;
   });
   if (escaped.endsWith(escChar)) {

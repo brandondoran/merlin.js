@@ -12,6 +12,8 @@ var _es52 = _interopRequireDefault(_es5);
 
 var _es5Request = require('../es5/request');
 
+var _es5Helpers = require('../es5/helpers');
+
 describe('Blackbird', function () {
   // Blackbird.Filter
   describe('Filter', function () {
@@ -38,6 +40,22 @@ describe('Blackbird', function () {
     it('should allow OR chaining');
     it('should allow AND chaining');
     it('should allow tagging');
+    describe('toString', function () {
+      it('should return the correct string when value is a string', function () {
+        _es52['default'].cnfFilter({
+          field: 'color',
+          operator: '=',
+          value: 'black'
+        }).toString().should.equal('exp=color:black/type=cnf');
+      });
+      it('should return the correct string when value is a number', function () {
+        _es52['default'].cnfFilter({
+          field: 'price',
+          operator: '<',
+          value: 100
+        }).toString().should.equal('exp=price:(:100)/type=cnf');
+      });
+    });
   });
 
   // Blackbird.Facet
@@ -279,6 +297,28 @@ describe('Blackbird', function () {
         _should2['default'].not.exist(err);
         _should2['default'].exist(res);
         done(err, res);
+      });
+    });
+  });
+  describe('helpers', function () {
+    describe('mEscape', function () {
+      it('should escape !', function () {
+        (0, _es5Helpers.mEscape)('Test!').should.equal('Test\\!');
+      });
+      it('should escape ,', function () {
+        (0, _es5Helpers.mEscape)('Test,1').should.equal('Test\\,1');
+      });
+      it('should escape |', function () {
+        (0, _es5Helpers.mEscape)('Test|1').should.equal('Test\\|1');
+      });
+      it('should escape \\', function () {
+        (0, _es5Helpers.mEscape)('Test\\1').should.equal('Test\\\\1');
+      });
+      it('should escape /', function () {
+        (0, _es5Helpers.mEscape)('Test/1').should.equal('Test\\/1');
+      });
+      it('should handle numbers', function () {
+        (0, _es5Helpers.mEscape)(2).should.equal('2');
       });
     });
   });

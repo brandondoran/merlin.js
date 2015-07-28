@@ -44,10 +44,14 @@ function isObject(obj) {
   return obj === Object(obj);
 }
 
+function toString(val) {
+  return val == null ? '' : (val + '');
+}
+
 export function mEscape(str) {
   const escChar = '\\';
   const re = /(\!|\,|\||\\|\/)/g;
-  const escaped = str.replace(re, a => `${escChar}${a}`);
+  const escaped = toString(str).replace(re, a => `${escChar}${a}`);
   if (escaped.endsWith(escChar)) {
     throw new Error(`${str} contains a hanging escape-character (\\) at the end`);
   }
